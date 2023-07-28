@@ -21,7 +21,7 @@ export default function ForgotPW() {
 
   //Handle Login API Integration here
   const authenticateUser = () => {
-    window.location('')
+    window.alert("Login Successful");
   };
 
   return (
