@@ -2,6 +2,7 @@ import { useState,useEffect } from "react";
 import { signupFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 const fields = signupFields;
 let fieldsState = {};
@@ -49,9 +50,10 @@ export default function Signup() {
     createAccount();
   };
 
+  const navigate = useNavigate();
   //handle Signup API Integration here
   const createAccount = () => {
-    window.alert("SignUp Successful");
+    navigate('/chooseinterest')
   };
 
   return (
