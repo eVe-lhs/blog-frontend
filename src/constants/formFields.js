@@ -83,7 +83,7 @@ const enterCodeFields = [
     labelFor: "code",
     id: "code",
     name: "code",
-    type: "number",
+    type: "text",
     isRequired: true,
     placeholder: "XXXX",
   },

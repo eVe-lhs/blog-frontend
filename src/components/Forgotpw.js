@@ -2,6 +2,7 @@ import { useState } from "react";
 import { forgotPwFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
+import { useNavigate } from "react-router-dom";
 
 const fields = forgotPwFields;
 let fieldsState = {};
@@ -18,10 +19,10 @@ export default function ForgotPW() {
     e.preventDefault();
     authenticateUser();
   };
-
+  const navigate = useNavigate();
   //Handle Login API Integration here
   const authenticateUser = () => {
-    window.location('')
+    navigate('/confirmcode')
   };
 
   return (

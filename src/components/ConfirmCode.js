@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { forgotPwFields } from "../constants/formFields";
+import { enterCodeFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
 
-const fields = forgotPwFields;
+const fields = enterCodeFields;
 let fieldsState = {};
 fields.forEach((field) => (fieldsState[field.id] = ""));
 
-export default function ForgotPW() {
+export default function Confirmcode() {
   const [loginState, setLoginState] = useState(fieldsState);
 
   const handleChange = (e) => {

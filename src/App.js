@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
 import ForgotPw from "./pages/ForgotPw";
+import ConfirmCode from "./pages/ConfirmCode";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
           <Routes>
             <Route path="/" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgotpw" element={<ForgotPw />} />
+            <Route path="forgotpw" element={<ForgotPw />}/>
+              <Route path="confirmcode" element={<ConfirmCode />} />
           </Routes>
         </BrowserRouter>
       </div>
