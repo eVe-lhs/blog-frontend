@@ -4,7 +4,15 @@ import { motion } from "framer-motion";
 
 export default function SignupPage() {
   return (
-    <motion.div animate={{scale:1.1}}>
+    <motion.div
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{
+    type: "spring",
+    stiffness: 200,
+    damping: 20
+  }}
+>
       <Header
         heading="Create an Account"
         paragraph="Already have an account? "

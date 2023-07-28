@@ -64,4 +64,29 @@ const signupFields = [
   },
 ];
 
-export { loginFields, signupFields };
+const forgotPwFields = [
+  {
+    labelText: "Your email address to send a recovery code:",
+    labelFor: "email-address",
+    id: "email-address",
+    name: "email",
+    type: "email",
+    autoComplete: "email",
+    isRequired: true,
+    placeholder: "something@email.com",
+  },
+];
+
+const enterCodeFields = [
+  {
+    labelText: "Enter Code",
+    labelFor: "code",
+    id: "code",
+    name: "code",
+    type: "number",
+    isRequired: true,
+    placeholder: "XXXX",
+  },
+];
+
+export { loginFields, signupFields,forgotPwFields,enterCodeFields };

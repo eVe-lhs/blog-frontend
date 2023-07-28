@@ -1,8 +1,8 @@
+import ForgotPW from "../components/Forgotpw";
 import Header from "../components/Header";
-import Login from "../components/Login";
 import { motion } from "framer-motion";
 
-export default function LoginPage() {
+export default function ForgotPw() {
   return (
     <motion.div
       initial={{ scale: 0 }}
@@ -12,14 +12,15 @@ export default function LoginPage() {
         stiffness: 200,
         damping: 20,
       }}
+      className="max-w-xs mx-auto"
     >
       <Header
-        heading="Login to your account"
-        paragraph="Don't have an account yet? "
+        heading="Forgot Password?"
+        paragraph="Don't have an account yet?"
         linkName="Signup"
         linkUrl="/signup"
       />
-      <Login />
+      <ForgotPW />
     </motion.div>
   );
 }
