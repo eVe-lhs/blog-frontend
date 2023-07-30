@@ -22,7 +22,7 @@ export default function ForgotPW() {
   const navigate = useNavigate();
   //Handle Login API Integration here
   const authenticateUser = () => {
-    navigate('/confirmcode')
+    navigate('confirmcode')
   };
 
   return (

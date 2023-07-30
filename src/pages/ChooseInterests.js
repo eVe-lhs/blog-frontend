@@ -1,8 +1,52 @@
-import Header from "../components/Header";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState,useEffect } from "react";
 
 export default function ChooseInterest() {
+  let [activeTab, setActiveTab] = useState(tabs[0].id);
+  const Tabs = () => {
+    return (
+      
+        <div className="flex space-x-5 mt-2 justify-center mt-">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`${
+                activeTab === tab.id ? "" : "bg-gray-400"
+              } relative flex-auto w-20 rounded-full px-3 py-1 text-sm font-medium  outline-sky-400 transition focus-visible:outline-2`}
+              style={{
+                WebkitTapHighlightColor: "transparent",
+              }}
+            >
+              {activeTab === tab.id && (
+                <motion.span
+                  layoutId="bubble"
+                  className="absolute inset-0 z-10 bg-gray-800 mix-blend-difference"
+                  style={{ borderRadius: 9999 }}
+                  transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+   
+    );
+  };
+  const [header, setHeader] = useState()
+  const [text, setText] = useState()
+  
+  useEffect(() => {
+    if (activeTab === tabs[0].id) {
+      setHeader("Let's Dive into Your Interests");
+      setText("Select at least 2 topics from the followings:");
+    } else if (activeTab === tabs[1].id) {
+      setHeader("Update in some of your personal info");
+      setText("This let people know who you are and recongnized much easier");
+    } else{
+      setHeader("Here are some people you might want to follow");
+      setText("These people are actively sharing vast amount of knowledge in their respective areas");
+    }
+  },[header,text,activeTab])
   return (
     <motion.div
       initial={{ scale: 0 }}
@@ -12,6 +56,7 @@ export default function ChooseInterest() {
         stiffness: 200,
         damping: 20,
       }}
+      className="mt-10 w-full"
     >
       <div className="mb-10">
         <div className="flex justify-center">
@@ -21,14 +66,16 @@ export default function ChooseInterest() {
             src="https://ik.imagekit.io/pibjyepn7p9/Lilac_Navy_Simple_Line_Business_Logo_CGktk8RHK.png?ik-sdk-version=javascript-1.4.3&updatedAt=1649962071315"
           />
         </div>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-          Let's Dive into Your Interests
-        </h2>
-        <p className="text-center text-sm text-gray-600 mt-5">
-          Select at least 2 topics from the followings: 
-        </p>
+        <Tabs />
+        <div className="h-20">
+          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
+            {header}
+          </h2>
+          <p className="text-center text-sm text-gray-600 mt-5">{text}</p>
+        </div>
+        <ChooseInterests activeTab={activeTab} setActiveTab={setActiveTab} />
+        
       </div>
-      <ChooseInterests />
     </motion.div>
   );
 }
@@ -96,53 +143,172 @@ const topics = [
   },
 ];
 
-const ChooseInterests = () => {
-    const [selected, setSelected] = useState([])
-    const toggleClass = (topicId) => {
-        if (!selected.includes(topicId)) setSelected([...selected, topicId])
-        else setSelected(current => current.filter(id => {return id !== topicId}))
-        console.log(selected)
-    }
-      return (
-        <div className="mt-5 ">
-          <motion.div
-            layout
-            transition={{ duration: 0.3 }}
-            className="grid grid-flow-row gap-4 grid-cols-4 justify-center"
-          >
-                  {topics.map((topic) => (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                onClick={() => toggleClass(topic.id)}
-                transition={{
+const Interests = () => {
+  const [selected, setSelected] = useState([]);
+  const toggleClass = (topicId) => {
+    if (!selected.includes(topicId)) setSelected([...selected, topicId]);
+    else
+      setSelected((current) =>
+        current.filter((id) => {
+          return id !== topicId;
+        })
+      );
+    console.log(selected);
+  };
+  return (
+        <motion.div
+          transition={{ duration: 0.3 }}
+          className="grid grid-flow-row gap-4 grid-cols-4 justify-center h-72"
+          exit={{ opacity: 0 }}
+        >
+          {topics.map((topic) => (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
                   type: "tween",
                   stiffness: 200,
                   damping: 20,
                   delay: topic.id * 0.15,
-                }}
-                key={topic.id}
-                id={topic.id}
-                className={`rounded-lg ${
-                    selected.includes(topic.id)
-                    ? "border-red-500 border-2 text-red-500"
-                    : "border-red-300 border"
-                } py-2 fill-none text-center transition-colors duration-300 hover:bg-red-500 hover:text-white hover:cursor-pointer grid items-center justify-center `}
-              >
-                {topic.name}
-              </motion.div>
-            ))}
-          </motion.div>
+                },
+              }}
+              exit={{
+                opacity: 0,
+                y: 10,
+                transition: {
+                  type: "tween",
+                  stiffness: 200,
+                  damping: 20,
+                  delay: topic.id * 0.15,
+                },
+              }}
+              whileTap={{
+                scale: 0.95,
+                transition: {
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 10,
+                  duration: 0.2,
+                },
+              }}
+              onClick={() => toggleClass(topic.id)}
+              key={topic.id}
+              className={`rounded-lg ${selected.includes(topic.id)
+                  ? "border-primary border-2 text-primary"
+                  : "border-gray-400 border-2 text-gray-400"
+                } py-auto h-20 fill-none text-center transition-colors duration-300 hover:bg-primary hover:border-primary hover:text-white hover:cursor-pointer grid items-center justify-center `}
+            >
+              {topic.name}
+            </motion.div>
+          ))}
+        </motion.div>
+  );
+}
+
+const Personal = () => {
+  return <div className="h-72"></div>;
+}
+
+const Suggestions = () => {
+  return <div className="h-72"></div>;
+}
+
+let tabs = [
+  { id: "interests", label: "Interests" },
+  { id: "personal1", label: "Personal1" },
+  { id: "suggestions", label: "Suggestions" },
+];
+
+const ChooseInterests = ({activeTab,setActiveTab}) => {
+  // choosing interests
+  if (activeTab === tabs[0].id) {
+    return (
+      <div className="mt-5 h-96">
+        <Interests activeTab={activeTab} />
+          {activeTab === tabs[0].id ? (
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => setActiveTab(tabs[1].id)}
+              transition={{
+                delay: topics.length * 0.15 + 0.2,
+              }}
+              exit={{
+                opacity: 0,
+                transition: {
+                  duration: 1,
+                  delay:0
+              }}}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent mt-5"
+            >
+              Next
+            </motion.button>
+          ): null}
+        
+      </div>
+    );
+  } else if (activeTab === tabs[1].id) {
+    return (
+      <div className="mt-5 h-96">
+        <Personal />
+        <div className="flex flex-row gap-5">
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
+            onClick={() => setActiveTab(tabs[0].id)}
             transition={{
-              delay: topics.length * 0.15 + 0.2,
+              delay: 0.15 + 0.2,
             }}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 mt-10"
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+          >
+            Previous
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => setActiveTab(tabs[2].id)}
+            transition={{
+              delay: 0.25 + 0.2,
+            }}
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
           >
             Next
           </motion.button>
         </div>
-      );
+      </div>
+    );
+  } else{
+    return (
+      <div className="mt-5 h-96">
+        <Suggestions />
+        <div className="flex flex-row gap-5">
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => setActiveTab(tabs[1].id)}
+            transition={{
+              delay: 0.15 + 0.2,
+            }}
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+          >
+            Previous
+          </motion.button>
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => window.alert("Let's go")}
+            transition={{
+              delay: 0.25 + 0.2,
+            }}
+            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+          >
+            Let's Go
+          </motion.button>
+        </div>
+      </div>
+    );
+  }
+      
 }
