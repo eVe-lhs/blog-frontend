@@ -17,7 +17,7 @@ export default function SignupPage() {
         heading="Create an Account"
         paragraph="Already have an account? "
         linkName="Login"
-        linkUrl="/login"
+        linkUrl="/auth/login"
       />
       <Signup />
     </motion.div>

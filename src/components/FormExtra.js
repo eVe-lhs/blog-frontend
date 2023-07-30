@@ -7,7 +7,7 @@ export default function FormExtra() {
 
       <div className="text-sm">
         <Link
-          to="/forgotpw"
+          to="/auth/forgotpw"
           className="font-medium text-primary hover:text-secondary"
         >
           Forgot your password?

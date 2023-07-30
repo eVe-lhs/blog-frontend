@@ -1,490 +1,276 @@
-export default function Sidebar() {
-    return (
-      <>
-        <div>
-          <div className="pt-0 pr-0 pb-0 pl-0 mt-0 mr-0 mb-0 ml-0"></div>
-          <div className="bg-white"></div>
-          <div className="bg-white">
-            <div className="flex-col flex">
-              <div className="w-full border-b-2 border-gray-200"></div>
-              <div className="flex bg-gray-100  overflow-x-hidden">
-                <div className="bg-white lg:flex md:w-64 md:flex-col hidden">
-                  <div className="flex-col pt-5 flex overflow-y-auto">
-                    <div className="h-full flex-col justify-between px-4 flex">
-                      <div className="space-y-4">
-                        <div className="bg-top bg-cover space-y-1">
-                          <a
-                            href="#"
-                            className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                    transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                          >
-                            <span className="justify-center items-center flex">
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="items-center justify-center flex">
-                                    <svg
-                                      className="flex-shrink-0 w-5 h-5 mr-4"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewbox="0 0 24 24"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                    >
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1
-                              1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                                      />
-                                    </svg>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                            <span>Dashboard</span>
-                          </a>
-                          <a
-                            href="#"
-                            className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 block
-                    transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                          >
-                            <span className="justify-center items-center flex">
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="items-center justify-center flex">
-                                    <svg
-                                      className="mr-4"
-                                      width="24"
-                                      height="24"
-                                      viewbox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                    <path
-                                      d="M17 9L13.9558 13.5662C13.5299 14.2051 12.5728
-                              14.1455 12.2294 13.4587L11.7706 12.5413C11.4272 11.8545 10.4701 11.7949 10.0442 12.4338L7
-                              17"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                    <svg
-                                      x="3"
-                                      y="3"
-                                      width="18"
-                                      height="18"
-                                      rx="2"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                    ></svg>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                            <span>About</span>
-                          </a>
-                          <a
-                            href="#"
-                            className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                    transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                          >
-                            <span className="justify-center items-center flex">
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="items-center justify-center flex">
-                                    <svg
-                                      className="mr-4"
-                                      width="24"
-                                      height="24"
-                                      viewbox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                    <path
-                                      d="M8 10L8 16"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                    <path
-                                      d="M12 12V16"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                    <path
-                                      d="M16 8V16"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                    <svg
-                                      x="3"
-                                      y="4"
-                                      width="18"
-                                      height="16"
-                                      rx="2"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                    ></svg>
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                            <span>Hero</span>
-                          </a>
-                        </div>
-                        <div>
-                          <p className="px-4 font-semibold text-xs tracking-widest text-gray-400 uppercase">
-                            Data
-                          </p>
-                          <div className="mt-4 bg-top bg-cover space-y-1">
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 block
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="mr-4"
-                                        width="24"
-                                        height="24"
-                                        viewbox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <ellipse
-                                          cx="12"
-                                          cy="7"
-                                          rx="7"
-                                          ry="3"
-                                          stroke="#4F4F4F"
-                                          stroke-width="2"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Folders</span>
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 block
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="mr-4"
-                                        width="24"
-                                        height="24"
-                                        viewbox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      />
-                                      <path
-                                        d="M6.90112 11.8461C7.55156 9.56955 9.63235 8
-                                12 8V8C14.3676 8 16.4484 9.56954 17.0989 11.8461L17.6571 13.7998C17.8843 14.5951 18.2336
-                                15.3504 18.6924 16.0386L18.8012 16.2018C18.9408 16.4111 19.0105 16.5158 19.045
-                                16.5932C19.3105 17.1894 18.943 17.8759 18.2997 17.9857C18.2162 18 18.0904 18 17.8388
-                                18H6.16116C5.90958 18 5.78379 18 5.70027 17.9857C5.05697 17.8759 4.68952 17.1894 4.955
-                                16.5932C4.98947 16.5158 5.05924 16.4111 5.19879 16.2018L5.30758 16.0386C5.76642 15.3504
-                                6.11569 14.5951 6.34293 13.7998L6.90112 11.8461Z"
-                                        fill="#4F4F4F"
-                                      />
-                                      <path
-                                        d="M11 9L12 3"
-                                        stroke="#4F4F4F"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                      />
-                                      <path
-                                        d="M13 9L12 3"
-                                        stroke="#4F4F4F"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                      />
-                                      <path
-                                        d="M12.5 21H11.5"
-                                        stroke="#4F4F4F"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                      />
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Alerts</span>
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="flex-shrink-0 w-5 h-5 mr-4"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewbox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                      >
-                                        <path
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                          d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2
-                                2 0 00-2 2v12a2 2 0 002 2z"
-                                        />
-                                      </svg>
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Statistics</span>
-                              <span
-                                className="px-2 py-0.5 items-center font-semibold text-xs ml-auto bg-indigo-50 text-indigo-600
-                        rounded-full uppercase border border-indigo-300 inline-flex"
-                              >
-                                New
-                              </span>
-                            </a>
-                          </div>
-                        </div>
-                        <div>
-                          <p className="px-4 font-semibold text-xs tracking-widest text-gray-400 uppercase">
-                            Contact
-                          </p>
-                          <div className="mt-4 bg-top bg-cover space-y-1">
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="flex-shrink-0 w-5 h-5 mr-4"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewbox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                      />
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0
-                                002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0
-                                012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                                      />
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Forms</span>
-                              <span
-                                className="px-2 py-0.5 items-center font-semibold text-xs ml-auto bg-gray-500 text-white
-                        rounded-full uppercase border border-transparent inline-flex"
-                              >
-                                15
-                              </span>
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="mr-4"
-                                        width="24"
-                                        height="24"
-                                        viewbox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      />
-                                      <circle
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="#4F4F4F"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                      />
-                                      <path
-                                        d="M7.88124 15.7559C8.37391 16.1826
-                                9.02309 16.4909 9.72265 16.6928C10.4301 16.897 11.2142 17 12 17C12.7858 17 13.5699
-                                16.897 14.2774 16.6928C14.9769 16.4909 15.6261 16.1826 16.1188 15.7559"
-                                        stroke="#4F4F4F"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                      />
-                                      <circle
-                                        cx="9"
-                                        cy="10"
-                                        r="1.25"
-                                        fill="#4F4F4F"
-                                        stroke="#4F4F4F"
-                                        stroke-width="0.5"
-                                        stroke-linecap="round"
-                                      />
-                                      <circle
-                                        cx="15"
-                                        cy="10"
-                                        r="1.25"
-                                        fill="#4F4F4F"
-                                        stroke="#4F4F4F"
-                                        stroke-width="0.5"
-                                        stroke-linecap="round"
-                                      />
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Agents</span>
-                            </a>
-                            <a
-                              href="#"
-                              className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                      transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                            >
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="justify-center items-center flex">
-                                    <span className="items-center justify-center flex">
-                                      <svg
-                                        className="flex-shrink-0 w-5 h-5 mr-4"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewbox="0 0 24 24"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                      />
-                                      <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0
-                                0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                                      />
-                                    </span>
-                                  </span>
-                                </span>
-                              </span>
-                              <span>Customers</span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-12 pb-4">
-                        <div className="bg-top bg-cover space-y-1">
-                          <a
-                            href="#"
-                            className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                    transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                          >
-                            <span className="justify-center items-center flex">
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="items-center justify-center flex">
-                                    <svg
-                                      className="flex-shrink-0 w-5 h-5 mr-4"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      fill="none"
-                                      viewbox="0 0 24 24"
-                                      stroke="currentColor"
-                                      stroke-width="2"
-                                    />
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0
-                              002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756
-                              2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0
-                              00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0
-                              00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0
-                              00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0
-                              001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                                    />
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M15 12a3 3 0 11-6 0 3 3 0 016
-                              0z"
-                                    />
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                            <span>Settings</span>
-                          </a>
-                          <a
-                            href="#"
-                            className="font-medium text-sm items-center rounded-lg text-gray-900 px-4 py-2.5 flex
-                    transition-all duration-200 hover:bg-gray-200 group cursor-pointer"
-                          >
-                            <span className="justify-center items-center flex">
-                              <span className="justify-center items-center flex">
-                                <span className="justify-center items-center flex">
-                                  <span className="items-center justify-center flex">
-                                    <svg
-                                      className="mr-4"
-                                      width="24"
-                                      height="24"
-                                      viewbox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    />
-                                    <path
-                                      d="M8 18.9282C9.21615 19.6303 10.5957 20 12
-                              20C13.4043 20 14.7838 19.6303 16 18.9282C17.2162 18.2261 18.2261 17.2162 18.9282
-                              16C19.6303 14.7838 20 13.4043 20 12C20 10.5957 19.6303 9.21615 18.9282 8C18.2261 6.78385
-                              17.2162 5.77394 16 5.0718C14.7838 4.36965 13.4043 4 12 4C10.5957 4 9.21615 4.36965 8
-                              5.0718"
-                                      stroke="#4F4F4F"
-                                      stroke-width="2"
-                                    />
-                                    <path
-                                      d="M2 12L1.21913 11.3753L0.719375
-                              12L1.21913 12.6247L2 12ZM11 13C11.5523 13 12 12.5523 12 12C12 11.4477 11.5523 11 11
-                              11V13ZM5.21913 6.3753L1.21913 11.3753L2.78087 12.6247L6.78087 7.6247L5.21913
-                              6.3753ZM1.21913 12.6247L5.21913 17.6247L6.78087 16.3753L2.78087 11.3753L1.21913 12.6247ZM2
-                              13H11V11H2V13Z"
-                                      fill="#4F4F4F"
-                                    />
-                                  </span>
-                                </span>
-                              </span>
-                            </span>
-                            <span>Logout</span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+
+const variant = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 1,
+      ease: "easeInOut",
+      staggerChildren: 0.3,
+    },
+  },
+};
+
+const navChildVariant = {
+  hidden: {
+    opacity: 0,
+    x: -10,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+  },
+};
+
+const SideBar = ({ data, setTheme, colorTheme }) => {
+  const [open, setOpen] = useState(false);
+  const toggleSidebar = (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  };
+  // if (loading) {
+  //   return null;
+  // } else {
+  return (
+    <>
+      <div className="lg:hidden block fixed z-50 w-screen">
+        <div
+          className="m-5 float-right w-5 h-5 flex flex-col gap-5 relative"
+          onClick={toggleSidebar}
+        >
+          <motion.div
+            initial={false}
+            animate={
+              !open
+                ? {
+                    translateY: [8, 8, 0],
+                    rotate: [45, 0, 0],
+                  }
+                : { translateY: [0, 8, 8], rotate: [0, 0, 45] }
+            }
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+            }}
+            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+          />
+          <motion.div
+            initial={false}
+            animate={
+              open
+                ? {
+                    scaleX: 0,
+                    translateX: -15,
+                  }
+                : { scaleX: 1, translateX: 0 }
+            }
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut",
+            }}
+            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+          />
+          <motion.div
+            initial={false}
+            animate={
+              !open
+                ? {
+                    translateY: [-8, -8, 0],
+                    rotate: [-45, 0, 0],
+                  }
+                : { translateY: [0, -8, -8], rotate: [0, 0, -45] }
+            }
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+            }}
+            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+          />
+        </div>
+      </div>
+
+      <motion.aside
+        href="/"
+        className={`lg:w-64 md:w-1/4 w-2/3 pt-5 px-4 fixed inset-y-0 mr-5  transform z-50 lg:h-screen overflow-y-auto ${
+          !open ? "-translate-x-full" : ""
+        }   lg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
+        variants={variant}
+        initial="hidden"
+        animate="visible"
+      >
+        <motion.div
+          className="flex flex-col items-center text-center justify-center space-x-2 px-4"
+          variants={navChildVariant}
+        >
+          <div className="relative h-32 w-32 rounded-full">
+            <img
+              alt="lin htet swe"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/BMW_logo_%28gray%29.svg/2048px-BMW_logo_%28gray%29.svg.png"
+              className="rounded-full object-fill"
+            />
+          </div>
+          <div className="mt-5">
+            <p className="text-bold text-2xl font-head font-thin">
+              Lin Htet Swe
+            </p>
+            <p className="text-sm  font-light font-body">
+              A student and web-developer
+            </p>
+          </div>
+        </motion.div>
+
+        <nav className="mx-auto w-36 font-light space-y-0 mt-6 font-body">
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <div
+              href="/skills"
+              className="navigation w-full"
+              onClick={toggleSidebar}
+            >
+              <div className="flex flex-row gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
+
+                <div>Home</div>
               </div>
             </div>
-          </div>
-        </div>
-      </>
-    );
-}
+          </motion.div>
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <div
+              href="/skills"
+              className="navigation w-full"
+              onClick={toggleSidebar}
+            >
+              <div className="flex flex-row gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                  />
+                </svg>
+
+                <div>Profile</div>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <div
+              href="/skills"
+              className="navigation w-full"
+              onClick={toggleSidebar}
+            >
+              <div className="flex flex-row gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                  />
+                </svg>
+
+                <div>Bookmarks</div>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <div
+              href="/skills"
+              className="navigation w-full"
+              onClick={toggleSidebar}
+            >
+              <div className="flex flex-row gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                  />
+                </svg>
+                <div>Gallery</div>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <div
+              href="/skills"
+              className="navigation w-full"
+              onClick={toggleSidebar}
+            >
+              <div className="flex flex-row gap-5">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+
+                <div>Settings</div>
+              </div>
+            </div>
+          </motion.div>
+          <motion.div variants={navChildVariant}>
+            <div
+              href="/contact"
+              className="shadow-lg text-white font-bold rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center mt-4 px-2 w-24 py-2"
+              onClick={toggleSidebar}
+            >
+              New Post
+            </div>
+          </motion.div>
+        </nav>
+      </motion.aside>
+    </>
+  );
+};
+// };
+export default SideBar;

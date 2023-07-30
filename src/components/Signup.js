@@ -53,7 +53,7 @@ export default function Signup() {
   const navigate = useNavigate();
   //handle Signup API Integration here
   const createAccount = () => {
-    navigate('/chooseinterest')
+    navigate('/auth/chooseinterest')
   };
 
   return (

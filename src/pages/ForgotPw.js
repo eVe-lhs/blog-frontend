@@ -18,7 +18,7 @@ export default function ForgotPw() {
         heading="Forgot Password?"
         paragraph="Don't have an account yet?"
         linkName="Signup"
-        linkUrl="/signup"
+        linkUrl="/auth/signup"
       />
       <ForgotPW />
     </motion.div>

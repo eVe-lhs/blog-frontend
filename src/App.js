@@ -9,32 +9,38 @@ import Feed from "./pages/Feed";
 
 function App() {
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
         <BrowserRouter>
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forgotpw" element={<ForgotPw />} />
-            <Route path="/forgotpw/confirmcode" element={<ConfirmCode />} />
-            <Route path="chooseinterest" element={<ChooseInterest />} />
+        <Route path="/auth" element={<AuthLayout />} >
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="forgotpw" element={<ForgotPw />} />
+            <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
+          <Route path="chooseinterest" element={<ChooseInterest />} />
+          </Route>
             <Route path="/" element={<OutletLayout />}>
               <Route index element={<Feed />} />
             </Route>
           </Routes>
         </BrowserRouter>
-      </div>
-    </div>
   );
 }
 
+const AuthLayout = () => {
+  return (
+    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <Outlet />
+      </div></div>
+  )
+}
 
 const OutletLayout = () => {
   return (
-    <>
+    <div className="mx-auto">
       <Sidebar />
       <Outlet />
-    </>
+    </div>
   );
 };
 
