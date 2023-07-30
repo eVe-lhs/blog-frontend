@@ -26,7 +26,7 @@ const navChildVariant = {
   },
 };
 
-const SideBar = ({ data, setTheme, colorTheme }) => {
+const SideBar = ({ showModal,setShowModal }) => {
   const [open, setOpen] = useState(false);
   const toggleSidebar = (e) => {
     e.preventDefault();
@@ -37,9 +37,9 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
   // } else {
   return (
     <>
-      <div className="lg:hidden block fixed z-50 w-screen">
+      <div className="lg:hidden block relative z-50 w-screen">
         <div
-          className="m-5 float-right w-5 h-5 flex flex-col gap-5 relative"
+          className="right-3 top-3 w-5 h-5 z-10 flex flex-col justify-between fixed"
           onClick={toggleSidebar}
         >
           <motion.div
@@ -56,7 +56,7 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
               duration: 0.5,
               ease: "easeOut",
             }}
-            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+            className="origin-center w-full h-1/5 bg-secondary_assent dark:bg-white rounded-sm"
           />
           <motion.div
             initial={false}
@@ -65,14 +65,17 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
                 ? {
                     scaleX: 0,
                     translateX: -15,
+                    rotate: 0,
+                    translateY: 0,
                   }
-                : { scaleX: 1, translateX: 0 }
+                : { scaleX: 1, translateX: 0, translateY: 0, rotate: 0 }
             }
             transition={{
               duration: 0.5,
               ease: "easeInOut",
             }}
-            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+            className="origin-center w-full h-1/5 bg-secondary_assent dark:bg-white rounded-sm"
+            style={{}}
           />
           <motion.div
             initial={false}
@@ -88,14 +91,14 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
               duration: 0.5,
               ease: "easeOut",
             }}
-            className="origin-center w-full h-1/5 bg-black dark:bg-white rounded-sm"
+            className="origin-center w-full h-1/5 bg-secondary_assent dark:bg-white rounded-sm"
           />
         </div>
       </div>
 
       <motion.aside
         href="/"
-        className={`lg:w-64 md:w-1/4 w-2/3 pt-5 px-4 fixed inset-y-0 mr-5  transform z-50 lg:h-screen overflow-y-auto ${
+        className={`lg:w-64 md:w-1/4 w-full pt-5 px-4 fixed z-20 inset-y-0 mr-5  transform lg:h-screen overflow-y-auto ${
           !open ? "-translate-x-full" : ""
         }   lg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
         variants={variant}
@@ -106,7 +109,7 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
           className="flex flex-col items-center text-center justify-center space-x-2 px-4"
           variants={navChildVariant}
         >
-          <div className="relative h-32 w-32 rounded-full">
+          <div className="relative hidden md:block h-24 w-24 rounded-full">
             <img
               alt="lin htet swe"
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/BMW_logo_%28gray%29.svg/2048px-BMW_logo_%28gray%29.svg.png"
@@ -114,11 +117,8 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
             />
           </div>
           <div className="mt-5">
-            <p className="text-bold text-2xl font-head font-thin">
+            <p className="text-2xl font-head font-normal">
               Lin Htet Swe
-            </p>
-            <p className="text-sm  font-light font-body">
-              A student and web-developer
             </p>
           </div>
         </motion.div>
@@ -262,7 +262,7 @@ const SideBar = ({ data, setTheme, colorTheme }) => {
             <div
               href="/contact"
               className="shadow-lg text-white font-bold rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center mt-4 px-2 w-24 py-2"
-              onClick={toggleSidebar}
+              onClick={() => setShowModal(true)}
             >
               New Post
             </div>

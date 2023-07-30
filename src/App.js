@@ -6,23 +6,34 @@ import ConfirmCode from "./pages/ConfirmCode";
 import ChooseInterest from "./pages/ChooseInterests";
 import Sidebar from "./components/Sidebar";
 import Feed from "./pages/Feed";
+import { useState } from "react";
+import PoseEditorModal from "./components/PoseEditorModel";
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
   return (
-        <BrowserRouter>
-          <Routes>
-        <Route path="/auth" element={<AuthLayout />} >
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignupPage />} />
-            <Route path="forgotpw" element={<ForgotPw />} />
-            <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signup" element={<SignupPage />} />
+          <Route path="forgotpw" element={<ForgotPw />} />
+          <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
           <Route path="chooseinterest" element={<ChooseInterest />} />
-          </Route>
-            <Route path="/" element={<OutletLayout />}>
-              <Route index element={<Feed />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        </Route>
+        <Route
+          path="/"
+          element={
+            <OutletLayout showModal={showModal} setShowModal={setShowModal} />
+          }
+        >
+          <Route
+            index
+            element={<Feed showModal={showModal} setShowModal={setShowModal} />}
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
@@ -35,10 +46,11 @@ const AuthLayout = () => {
   )
 }
 
-const OutletLayout = () => {
+const OutletLayout = ({showModal,setShowModal}) => {
   return (
-    <div className="mx-auto">
-      <Sidebar />
+    <div className="mx-auto relative w-screen">
+      <PoseEditorModal showModal={showModal} setShowModal={setShowModal} />
+      <Sidebar showModal={showModal} setShowModal={setShowModal} />
       <Outlet />
     </div>
   );
