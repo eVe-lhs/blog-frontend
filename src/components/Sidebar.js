@@ -26,7 +26,11 @@ const navChildVariant = {
   },
 };
 
-const SideBar = ({ showModal,setShowModal }) => {
+const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
+  const changeThemeHandler = (e) => {
+    e.preventDefault();
+    setTheme(colorTheme);
+  };
   const [open, setOpen] = useState(false);
   const toggleSidebar = (e) => {
     e.preventDefault();
@@ -109,14 +113,14 @@ const SideBar = ({ showModal,setShowModal }) => {
           <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start space-y-2">
             <div class="flex-shrink-0">
               <img
-                class="w-24 h-24 rounded-lg"
+                class="md:w-2/3 w-24 mx-auto rounded-lg"
                 src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
                 alt=""
               />
             </div>
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
-                <p class="text-3xl font-medium text-gray-900 truncate dark:text-white">
+                <p class="text-2xl font-medium text-gray-900 truncate dark:text-white">
                   Lin Htet Swe
                 </p>
               </div>
@@ -234,15 +238,38 @@ const SideBar = ({ showModal,setShowModal }) => {
                 <div>Gallery</div>
               </div>
             </div>
-          </motion.div> 
-          <motion.div variants={navChildVariant}>
+          </motion.div>
+          <motion.div
+            className="flex flex-row gap-2"
+            variants={navChildVariant}
+          >
             <div
               href="/contact"
-              className="shadow-lg text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center md:mt-4 px-2 w-32 md:w-24 py-2"
+              className="shadow-lg mt-5 md:my-auto text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center px-2 py-2"
               onClick={() => setShowModal(true)}
             >
               New Post
-            </div>
+            </div>{" "}
+            <motion.div
+              className="py-2 mx-auto md:grid hidden items-center"
+              variants={navChildVariant}
+            >
+              {colorTheme === "dark" ? (
+                <button
+                  className="mx-auto w-10  border-2 px-2 py-2 rounded shadow-lg border-gray-800 bg-gray-900 hover:bg-gray-700 text-gray-900 hover:text-gray-700 text-center transition-all duration-200"
+                  onClick={changeThemeHandler}
+                >
+                  ''
+                </button>
+              ) : (
+                <button
+                  className="mx-auto w-10  border-2 px-2 py-2 rounded border-gray-100 bg-white text-white hover:bg-gray-100 shadow-lg text-center"
+                  onClick={changeThemeHandler}
+                >
+                  ''
+                </button>
+              )}
+            </motion.div>
           </motion.div>
         </nav>
       </motion.aside>

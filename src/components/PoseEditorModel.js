@@ -31,7 +31,7 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-gray-900 outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-3xl font-semibold">Constructing Post</h3>
@@ -48,13 +48,13 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                 <div className="relative p-6 flex-auto">
                   <div class="w-full px-3">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
                       for="title"
                     >
                       Post Title
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="title"
                       type="text"
                       placeholder="Write the title of the article"
@@ -64,13 +64,13 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                   </div>
                   <div class="w-full px-3">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
                       for="image"
                     >
                       Post Cover Image
                     </label>
                     <input
-                      class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                      class="appearance-none block w-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="image"
                       accept="image/*"
                       type="file"
@@ -89,7 +89,7 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                   </div>
                   <div class="w-full px-3">
                     <label
-                      class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                      class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
                       for="content"
                     >
                       Post Content
@@ -104,7 +104,7 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                   </div>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="flex flex-row justify-between items-center p-6 border-t border-solid border-slate-200 rounded-b">
                   <button
                     className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
@@ -112,25 +112,27 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                   >
                     Close
                   </button>
-                  <button
-                    className="text-primary border-2 border-primary rounded  background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Save to Draft
-                  </button>
-                  <button
-                    className="bg-primary text-white active:bg-secondary font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => window.alert(title+'\n'+ content)}
-                  >
-                    Publish
-                  </button>
+                  <div>
+                    <button
+                      className="text-primary border-2 border-primary rounded  background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                    >
+                      Save to Draft
+                    </button>
+                    <button
+                      className="bg-primary text-white active:bg-secondary font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => window.alert(title + "\n" + content)}
+                    >
+                      Publish
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </motion.div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black dark:bg-gray-300"></div>
         </>
       ) : null}
     </AnimatePresence>

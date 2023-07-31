@@ -60,7 +60,7 @@ const Content = ({ showModal, setShowModal }) => {
       >
         <input
           type="text"
-          className="block p-3 md:rounded-3xl w-full text-sm text-gray-900 bg-gray-50 border border-gray-300"
+          className="block p-3 md:rounded-3xl w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-300"
                 placeholder="Write your thoughts here"
                 readOnly
           onClick={() => {
@@ -82,7 +82,7 @@ const Content = ({ showModal, setShowModal }) => {
 
 const ContentCard = ({ heading, imageUrl, date,text,tags }) => {
     return (
-      <div className="w-full bg-white p-4 my-4 md:rounded-lg md:shadow-lg">
+      <div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg">
         <div className="flex flex-col gap-2">
           <img
             className="w-full rounded-md mx-auto"
@@ -292,7 +292,7 @@ const SearchBar = () => {
               Search
             </button>
             <div
-              className="md:hidden block text-primary_assent absolute right-0 bottom-0.5 font-medium text-sm p-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="md:hidden block text-primary_assent absolute right-0 bottom-0.5 font-medium text-sm p-2 dark:text-blue-500"
             >
               <svg
                 className="w-4 h-4 text-whitedark:text-gray-400"
