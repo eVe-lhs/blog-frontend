@@ -98,46 +98,54 @@ const SideBar = ({ showModal,setShowModal }) => {
 
       <motion.aside
         href="/"
-        className={`lg:w-64 md:w-1/4 w-full pt-5 px-4 fixed z-20 inset-y-0 mr-5  transform lg:h-screen overflow-y-auto ${
+        className={`lg:w-64 md:w-1/4 w-full md:pt-5 pt-10 px-4 fixed z-20 inset-y-0 mr-5 transform lg:h-screen overflow-y-auto ${
           !open ? "-translate-x-full" : ""
-        }   lg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
+        }   lg:translate-x-0  transition duration-500 ease-out md:bg-gray-200 bg-white text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
         variants={variant}
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          className="flex flex-col items-center text-center justify-center space-x-2 px-4"
-          variants={navChildVariant}
-        >
-          <div className="relative hidden md:block h-24 w-24 rounded-full">
-            <img
-              alt="lin htet swe"
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/BMW_logo_%28gray%29.svg/2048px-BMW_logo_%28gray%29.svg.png"
-              className="rounded-full object-fill"
-            />
-          </div>
-          <div className="mt-5">
-            <p className="text-2xl font-head font-normal">
-              Lin Htet Swe
-            </p>
+        <motion.div class="py-3 sm:py-4" variants={navChildVariant}>
+          <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start space-y-2">
+            <div class="flex-shrink-0">
+              <img
+                class="w-24 h-24 rounded-lg"
+                src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
+                alt=""
+              />
+            </div>
+            <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
+              <div class="flex-1 min-w-0">
+                <p class="text-3xl font-medium text-gray-900 truncate dark:text-white">
+                  Lin Htet Swe
+                </p>
+              </div>
+              <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
+                <button className="hover:border-b-2 border-primary transition duration-100">
+                  View Profile
+                </button>
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        <nav className="mx-auto w-36 font-light space-y-0 mt-6 font-body">
+        <nav
+          nav
+          className="md:mx-auto mx-8 md:w-36 font-thin space-y-0 mt-6 md:text-lg text-xl"
+        >
           <motion.div className="mx-auto" variants={navChildVariant}>
             <div
               href="/skills"
               className="navigation w-full"
               onClick={toggleSidebar}
             >
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 stroke-current text-blue-500 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -156,14 +164,14 @@ const SideBar = ({ showModal,setShowModal }) => {
               className="navigation w-full"
               onClick={toggleSidebar}
             >
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 stroke-current text-yellow-500 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -182,14 +190,14 @@ const SideBar = ({ showModal,setShowModal }) => {
               className="navigation w-full"
               onClick={toggleSidebar}
             >
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 stroke-current text-green-500 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -208,14 +216,14 @@ const SideBar = ({ showModal,setShowModal }) => {
               className="navigation w-full"
               onClick={toggleSidebar}
             >
-              <div className="flex flex-row gap-5">
+              <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 stroke-current text-red-500 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -226,19 +234,11 @@ const SideBar = ({ showModal,setShowModal }) => {
                 <div>Gallery</div>
               </div>
             </div>
-          </motion.div>
-          <motion.div className="mx-auto" variants={navChildVariant}>
-            <div
-              href="/skills"
-              className="navigation w-full"
-              onClick={toggleSidebar}
-            >
-            </div>
-          </motion.div>
+          </motion.div> 
           <motion.div variants={navChildVariant}>
             <div
               href="/contact"
-              className="shadow-lg text-white font-bold rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center mt-4 px-2 w-24 py-2"
+              className="shadow-lg text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center md:mt-4 px-2 w-32 md:w-24 py-2"
               onClick={() => setShowModal(true)}
             >
               New Post

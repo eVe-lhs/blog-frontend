@@ -54,7 +54,7 @@ const TempData = [
 const Content = ({ showModal, setShowModal }) => {
     return (
       <motion.div
-        className="md:w-5/12 w-full md:ml-96 mx-auto mt-10"
+        className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -249,7 +249,7 @@ const RightBar = () => {
 const SearchBar = () => {
     return (
       <motion.div
-        className="md:w-5/12 w-screen md:ml-96 md:mx-auto border-gray-300 border-b-2 pb-5"
+        className="md:w-5/12 w-screen mx-auto border-gray-300 border-b-2 pb-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
