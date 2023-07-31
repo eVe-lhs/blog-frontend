@@ -6,6 +6,7 @@ import ConfirmCode from "./pages/ConfirmCode";
 import ChooseInterest from "./pages/ChooseInterests";
 import Sidebar from "./components/Sidebar";
 import Feed from "./pages/Feed";
+import  Landing  from "./pages/Landing";
 import { useState } from "react";
 import PoseEditorModal from "./components/PoseEditorModel";
 
@@ -24,14 +25,14 @@ function App() {
         <Route
           path="/"
           element={
-            <OutletLayout showModal={showModal} setShowModal={setShowModal} />
+            <Landing />
           }
-        >
+        />
+        <Route path="/home" element={<OutletLayout showModal={showModal} setShowModal={setShowModal} />} >
           <Route
-            index
+             index
             element={<Feed showModal={showModal} setShowModal={setShowModal} />}
-          />
-        </Route>
+          /></Route>
       </Routes>
     </BrowserRouter>
   );

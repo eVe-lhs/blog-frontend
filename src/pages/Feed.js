@@ -214,7 +214,7 @@ const RightBar = () => {
           </h5>
         </div>
         <div class="flow-root">
-          <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <ul class="divide-y divide-gray-200 dark:divide-gray-700">
             {suggestions.map((suggestion) => (
               <li class="py-3 sm:py-4">
                 <div class="flex items-center space-x-4">
@@ -233,7 +233,7 @@ const RightBar = () => {
                       {suggestion.email}
                     </p>
                   </div>
-                  <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                  <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
                     <button>Follow</button>
                   </div>
                 </div>
