@@ -49,8 +49,8 @@ function App() {
 
 const AuthLayout = () => {
   return (
-    <div className="min-h-full h-screen flex justify-center px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full">
+    <div className="min-h-full h-screen flex justify-center items-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full ">
         <Outlet />
       </div></div>
   )

@@ -58,7 +58,7 @@ export default function ChooseInterest() {
       }}
       className="w-full h-screen"
     >
-      <div className="mb-10 mt-10">
+      <div className="mb-10 mt-16">
         <div className="flex justify-center">
           <img
             alt=""
@@ -154,10 +154,10 @@ const Interests = () => {
       );
   };
   return (
-    <div className="md:h-96 grid items-center">
+    <div className="h-3/4 grid items-center">
       <motion.div
         transition={{ duration: 0.3 }}
-        className="grid grid-flow-row md:gap-4 gap-4 md:grid-cols-4 grid-cols-3 justify-center md:h-72 md:mt-0 my-auto"
+        className="md:grid md:grid-flow-row md:gap-4 gap-3 md:grid-cols-4 flex flex-wrap justify-start md:justify-center md:h-72 md:mt-0 my-auto"
         exit={{ opacity: 0 }}
       >
         {topics.map((topic) => (
@@ -194,11 +194,11 @@ const Interests = () => {
             }}
             onClick={() => toggleClass(topic.id)}
             key={topic.id}
-            className={`md:rounded-lg rounded-xl ${
+            className={`md:rounded-lg rounded-full ${
               selected.includes(topic.id)
                 ? "border-primary border-2 text-primary"
                 : "border-gray-400 border-2 text-gray-400"
-            } md:py-auto py-2 md:text-base text-xs py-auto md:h-20 fill-none text-center transition-colors duration-300 md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer grid items-center justify-center `}
+            } md:py-auto md:w-auto min-w-fit md:px-auto px-3 py-2 md:text-base text-xs py-auto md:h-20 fill-none text-center transition-colors duration-300 md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer grid items-center justify-center `}
           >
             {topic.name}
           </motion.div>
@@ -209,11 +209,11 @@ const Interests = () => {
 }
 
 const Personal = () => {
-  return <div className="md:h-96 grid items-center "></div>;
+  return <div className="h-3/4 grid items-center "></div>;
 }
 
 const Suggestions = () => {
-  return <div className="md:h-96 grid items-center "></div>;
+  return <div className="h-3/4 grid items-center "></div>;
 }
 
 let tabs = [
