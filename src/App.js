@@ -49,8 +49,8 @@ function App() {
 
 const AuthLayout = () => {
   return (
-    <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-full h-screen flex justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
         <Outlet />
       </div></div>
   )
@@ -65,7 +65,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
   return (
     <div className="mx-auto relative w-screen">
       <PoseEditorModal showModal={showModal} setShowModal={setShowModal} />
-      <motion.div className="py-2 inset-0 z-20 fixed md:hidden grid items-center">
+      <motion.div className="py-2 z-20 fixed md:hidden grid items-center">
         {colorTheme === "dark" ? (
           <motion.button
             className="fixed grid opacity-80 items-center justify-center w-12 h-12 bottom-5 right-5 border px-2 py-2 rounded-full drop-shadow-xl shadow-xl border-gray-400 bg-gray-800 hover:bg-gray-700 text-white hover:text-gray-200 text-center"

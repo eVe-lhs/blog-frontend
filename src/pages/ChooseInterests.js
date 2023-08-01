@@ -6,7 +6,7 @@ export default function ChooseInterest() {
   const Tabs = () => {
     return (
       
-        <div className="flex space-x-5 mt-2 justify-center mt-">
+        <div className="flex space-x-5 mt-2 justify-center">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -56,9 +56,9 @@ export default function ChooseInterest() {
         stiffness: 200,
         damping: 20,
       }}
-      className="mt-10 w-full"
+      className="w-full h-screen"
     >
-      <div className="mb-10">
+      <div className="mb-10 mt-10">
         <div className="flex justify-center">
           <img
             alt=""
@@ -67,14 +67,13 @@ export default function ChooseInterest() {
           />
         </div>
         <Tabs />
-        <div className="h-20">
+        <div>
           <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900">
             {header}
           </h2>
           <p className="text-center text-sm text-gray-600 mt-5">{text}</p>
         </div>
         <ChooseInterests activeTab={activeTab} setActiveTab={setActiveTab} />
-        
       </div>
     </motion.div>
   );
@@ -153,66 +152,68 @@ const Interests = () => {
           return id !== topicId;
         })
       );
-    console.log(selected);
   };
   return (
-        <motion.div
-          transition={{ duration: 0.3 }}
-          className="grid grid-flow-row gap-4 grid-cols-4 justify-center h-72"
-          exit={{ opacity: 0 }}
-        >
-          {topics.map((topic) => (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  type: "tween",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: topic.id * 0.15,
-                },
-              }}
-              exit={{
-                opacity: 0,
-                y: 10,
-                transition: {
-                  type: "tween",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: topic.id * 0.15,
-                },
-              }}
-              whileTap={{
-                scale: 0.95,
-                transition: {
-                  type: "spring",
-                  stiffness: 250,
-                  damping: 10,
-                  duration: 0.2,
-                },
-              }}
-              onClick={() => toggleClass(topic.id)}
-              key={topic.id}
-              className={`rounded-lg ${selected.includes(topic.id)
-                  ? "border-primary border-2 text-primary"
-                  : "border-gray-400 border-2 text-gray-400"
-                } py-auto h-20 fill-none text-center transition-colors duration-300 hover:bg-primary hover:border-primary hover:text-white hover:cursor-pointer grid items-center justify-center `}
-            >
-              {topic.name}
-            </motion.div>
-          ))}
-        </motion.div>
+    <div className="md:h-96 grid items-center">
+      <motion.div
+        transition={{ duration: 0.3 }}
+        className="grid grid-flow-row md:gap-4 gap-4 md:grid-cols-4 grid-cols-3 justify-center md:h-72 md:mt-0 my-auto"
+        exit={{ opacity: 0 }}
+      >
+        {topics.map((topic) => (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: {
+                type: "tween",
+                stiffness: 200,
+                damping: 20,
+                delay: topic.id * 0.15,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              y: 10,
+              transition: {
+                type: "tween",
+                stiffness: 200,
+                damping: 20,
+                delay: topic.id * 0.15,
+              },
+            }}
+            whileTap={{
+              scale: 0.95,
+              transition: {
+                type: "spring",
+                stiffness: 250,
+                damping: 10,
+                duration: 0.2,
+              },
+            }}
+            onClick={() => toggleClass(topic.id)}
+            key={topic.id}
+            className={`md:rounded-lg rounded-xl ${
+              selected.includes(topic.id)
+                ? "border-primary border-2 text-primary"
+                : "border-gray-400 border-2 text-gray-400"
+            } md:py-auto py-2 md:text-base text-xs py-auto md:h-20 fill-none text-center transition-colors duration-300 md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer grid items-center justify-center `}
+          >
+            {topic.name}
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
 const Personal = () => {
-  return <div className="h-72"></div>;
+  return <div className="md:h-96 grid items-center "></div>;
 }
 
 const Suggestions = () => {
-  return <div className="h-72"></div>;
+  return <div className="md:h-96 grid items-center "></div>;
 }
 
 let tabs = [
@@ -225,7 +226,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
   // choosing interests
   if (activeTab === tabs[0].id) {
     return (
-      <div className="mt-5 h-96">
+      <div className="mt-5">
         <Interests activeTab={activeTab} />
           {activeTab === tabs[0].id ? (
             <motion.button
@@ -251,7 +252,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
     );
   } else if (activeTab === tabs[1].id) {
     return (
-      <div className="mt-5 h-96">
+      <div className="mt-5">
         <Personal />
         <div className="flex flex-row gap-5">
           <motion.button
@@ -281,7 +282,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
     );
   } else{
     return (
-      <div className="mt-5 h-96">
+      <div className="mt-5">
         <Suggestions />
         <div className="flex flex-row gap-5">
           <motion.button

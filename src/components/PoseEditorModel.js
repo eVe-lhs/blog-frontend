@@ -114,14 +114,14 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                   </button>
                   <div>
                     <button
-                      className="text-primary border-2 border-primary rounded  background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
+                      className="text-primary border-2 border-primary rounded  background-transparent font-bold uppercase px-2 md:px-6 py-2 text-sm outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => setShowModal(false)}
                     >
                       Save to Draft
                     </button>
                     <button
-                      className="bg-primary text-white active:bg-secondary font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-primary text-white active:bg-secondary font-bold uppercase text-sm px-2 md:px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => window.alert(title + "\n" + content)}
                     >
