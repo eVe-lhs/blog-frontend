@@ -214,7 +214,7 @@ const RightBar = () => {
           </h5>
         </div>
         <div class="flow-root">
-          <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+          <ul class="divide-y divide-gray-300 dark:divide-gray-700">
             {suggestions.map((suggestion) => (
               <li class="py-3 sm:py-4">
                 <div class="flex items-center space-x-4">
