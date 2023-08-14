@@ -6,7 +6,7 @@ export default function Feed({showModal, setShowModal}) {
     
     return (
       <>
-        <div className="md:mt-5 mt-14 relative z-0">
+        <div className="md:mt-5 mt-14 relative z-0 font-body">
           <div className="md:hidden block left-3 top-3 z-10 justify-between fixed"></div>
           <SearchBar />
           <Content showModal={showModal} setShowModal={setShowModal} />
@@ -91,7 +91,7 @@ const ContentCard = ({ heading, imageUrl, date,text,tags }) => {
           />
           <div className="flex flex-row justify-between mt-2">
             <div className="flex md:flex-row flex-col gap-2 font-bold text-lg">
-              <div>{heading}</div>
+              <div class="font-header font-extrabold">{heading}</div>
               <div className="flex flex-row gap-2 md:ml-3">
                 {tags.map((tag) => (
                   <div className="p-2 text-white font-normal bg-primary rounded-lg text-xs md:m-auto">
@@ -287,7 +287,7 @@ const SearchBar = () => {
             />
             <button
               type="submit"
-              className="md:block hidden text-white absolute right-2.5 bottom-2.5 bg-primary_assent hover:bg-secondary_assent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="md:block hidden text-white absolute right-2.5 bottom-2.5 bg-secondary_assent hover:bg-primary_assent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Search
             </button>

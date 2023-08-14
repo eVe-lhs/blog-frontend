@@ -11,6 +11,9 @@ import { useState } from "react";
 import PoseEditorModal from "./components/PoseEditorModel";
 import useDarkMode from './hooks/useDarkMode'
 import { motion } from "framer-motion";
+import ProfileView from "./pages/ProfileView";
+import Bookmarks from "./pages/Bookmarks";
+import Gallery from "./pages/Gallery";
 
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
@@ -41,6 +44,9 @@ function App() {
             index
             element={<Feed showModal={showModal} setShowModal={setShowModal} />}
           />
+          <Route path="Profile" element={<ProfileView />} />
+          <Route path="Bookmarks" element={<Bookmarks />} />
+          <Route path="Gallery" element={<Gallery/>} />
         </Route>
       </Routes>
     </BrowserRouter>
@@ -68,10 +74,10 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
       <motion.div className="py-2 z-20 fixed md:hidden grid items-center">
         {colorTheme === "dark" ? (
           <motion.button
-            className="fixed grid opacity-80 items-center justify-center w-12 h-12 bottom-5 right-5 border px-2 py-2 rounded-full drop-shadow-xl shadow-xl border-gray-400 bg-gray-800 hover:bg-gray-700 text-white hover:text-gray-200 text-center"
+            className="fixed grid items-center justify-center w-12 h-12 bottom-5 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-gray-800 hover:bg-gray-700 text-white hover:text-gray-200 text-center"
             onClick={changeThemeHandler}
             animate={{
-              scale: [1, 1.05],
+              scale: [1, 1.1],
               transition: {
                 ease: "linear",
                 duration: 0.5,
@@ -97,10 +103,10 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           </motion.button>
         ) : (
           <motion.button
-            className="fixed grid opacity-80 justify-center items-center w-12 h-12 bottom-5 right-5 border px-2 py-2 rounded-full drop-shadow-xl shadow-xl border-gray-400 bg-white text-gray-900 hover:bg-gray-100 text-center"
+            className="fixed grid justify-center items-center w-12 h-12 bottom-5 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-white text-gray-900 hover:bg-gray-100 text-center"
             onClick={changeThemeHandler}
             animate={{
-              scale: [1, 1.05],
+              scale: [1, 1.1],
               transition: {
                 ease: "linear",
                 duration: 0.5,

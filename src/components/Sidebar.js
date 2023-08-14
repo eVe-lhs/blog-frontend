@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const variant = {
   hidden: {
@@ -31,9 +32,12 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
     e.preventDefault();
     setTheme(colorTheme);
   };
+
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const toggleSidebar = (e) => {
+  const toggleSidebar = (e,path) => {
     e.preventDefault();
+    navigate(path);
     setOpen(!open);
   };
   // if (loading) {
@@ -104,7 +108,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
         href="/"
         className={`lg:w-64 md:w-1/4 w-full md:pt-5 pt-10 px-4 fixed z-20 inset-y-0 mr-5 transform lg:h-screen overflow-y-auto ${
           !open ? "-translate-x-full" : ""
-        }   lg:translate-x-0  transition duration-500 ease-out md:bg-gray-200 bg-white text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
+        }   lg:translate-x-0  transition duration-500 ease-out md:bg-gray-200 bg-white font-body text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
         variants={variant}
         initial="hidden"
         animate="visible"
@@ -125,11 +129,6 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                 </p>
               </div>
               <div class="inline-flex items-center text-base font-semibold text-white">
-                <button className="p-2 rounded-md  bg-primary hover:bg-secondary transition duration-100">
-                  View Profile
-                </button>
-              </div>
-              <div class="inline-flex items-center text-base font-semibold text-white">
                 <button className="text-xs p-2 rounded-md hover:bg-red-600 bg-red-500  cursor-pointer transition duration-100">
                   Log Out
                 </button>
@@ -143,10 +142,10 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           className="md:mx-auto mx-8 md:w-36 font-thin space-y-0 mt-6 md:text-lg text-xl"
         >
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <div
-              href="/skills"
+            <a
+              href="/home"
               className="navigation w-full"
-              onClick={toggleSidebar}
+              onClick={(e) => toggleSidebar(e, "/home")}
             >
               <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
@@ -165,13 +164,13 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div>Home</div>
               </div>
-            </div>
+            </a>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <div
-              href="/skills"
+            <a
+              href="/Profile"
               className="navigation w-full"
-              onClick={toggleSidebar}
+              onClick={(e) => toggleSidebar(e, "./Profile")}
             >
               <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
@@ -191,13 +190,13 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div>Profile</div>
               </div>
-            </div>
+            </a>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <div
-              href="/skills"
+            <a
+              href="/Bookmarks"
               className="navigation w-full"
-              onClick={toggleSidebar}
+              onClick={(e) => toggleSidebar(e, "./Bookmarks")}
             >
               <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
@@ -217,13 +216,13 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div>Bookmarks</div>
               </div>
-            </div>
+            </a>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <div
-              href="/skills"
+            <a
+              href="/Gallery"
               className="navigation w-full"
-              onClick={toggleSidebar}
+              onClick={(e) => toggleSidebar(e, "./Gallery")}
             >
               <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg
@@ -242,15 +241,14 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                 </svg>
                 <div>Gallery</div>
               </div>
-            </div>
+            </a>
           </motion.div>
           <motion.div
             className="flex flex-row gap-2"
             variants={navChildVariant}
           >
             <div
-              href="/contact"
-              className="shadow-lg mt-5 md:my-auto text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center px-2 py-2"
+              className="shadow-lg mt-5 md:my-auto text-md text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center px-2 md:px-1.5 py-1.5"
               onClick={() => setShowModal(true)}
             >
               New Post
@@ -270,7 +268,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-8 h-8"
+                    className="w-7 h-7"
                   >
                     <path
                       strokeLinecap="round"
@@ -290,7 +288,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-8 h-8"
+                    className="w-7 h-7"
                   >
                     <path
                       strokeLinecap="round"

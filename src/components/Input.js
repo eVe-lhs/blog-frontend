@@ -14,7 +14,7 @@ export default function Input({
   customClass,
 }) {
   return (
-    <div className="my-5">
+    <div className="my-5 font-body">
       <label htmlFor={labelFor} className="block mb-2">
         {labelText}
       </label>

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
-export default function ProfileView() {
+export default function Bookmarks() {
   return (
-    <div className="md:mt-5 mt-14 relative z-0 font-body">
+    <div className="md:mt-5 mt-14 relative z-0 font-body ">
       <motion.div
-        className="md:w-5/12 w-full mx-auto mt-10 bg-yellow-500"
+        className="md:w-5/12 w-full mx-auto mt-10 bg-green-500"
         initial={{ opacity: 0, y: 10 }}
         animate={{
           opacity: 1,
