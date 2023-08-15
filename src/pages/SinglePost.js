@@ -24,56 +24,71 @@ export default function SinglePost({colorTheme}) {
         return (
           <div className="relative z-0 font-body">
             <base href="/" />
-            <div className="md:w-3/5 w-full lg:ml-96">
-              <div className="md:max-w-6xl max-w-sm mx-auto mb-10 md:mt-10 mt-16 flex flex-col gap-2 px-3">
-                <div className="font-bold font-header text-4xl">
+            <motion.div
+              className="md:w-3/5 w-full lg:ml-96"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "tween",
+                  stiffness: 200,
+                  damping: 20,
+                  delay: 0.2,
+                },
+              }}
+            >
+              <div className="w-full mb-10 md:mt-10 mt-16 flex flex-col gap-2 md:px-2">
+                <div className="font-bold font-header text-3xl md:text-4xl px-3 md:px-0">
                   {post.heading}
                 </div>
-                <div class="items-center space-x-4 md:hidden flex">
+                {/* <div class="items-center space-x-4 md:hidden flex">
                   <div class="flex-1 min-w-0 flex flex-row gap-4">
                     <span className="font-light text-sm text-gray-400">
                       Published on {moment(post.date).format("MMMM Do, YYYY")}
                     </span>
                   </div>
-                </div>
+                </div> */}
                 <a class="text-lg truncate">
-                  By{" "}
-                  <span className="hover:underline hover:cursor-pointer font-bold">
+                  <span className="hover:underline hover:cursor-pointer font-base px-3 md:px-0">
                     {post.author}
+                    <span className="ml-3 font-light text-sm text-gray-400">
+                      {moment(post.date).format("DD MMMM YYYY")}
+                    </span>
                   </span>
                 </a>
 
-                <div className="flex md:flex-row justify-between mb-5">
+                <div className="flex md:flex-row justify-between mb-5 px-3 md:px-0">
                   <div>
                     <div className="flex flex-row justify-start gap-3">
                       {post.tags.map((tag, id) => (
                         <span
                           key={id}
-                          className="rounded-sm text-center text-sm bg-secondary_assent text-white p-2"
+                          className="rounded-full text-center text-sm bg-secondary_assent text-white p-2"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <div class="items-center space-x-4 md:flex hidden">
+                  {/* <div class="items-center space-x-4 md:flex hidden">
                     <div class="flex-1 min-w-0 flex flex-row gap-4">
                       <span className="font-light text-sm text-gray-400">
                         Published on {moment(post.date).format("MMMM Do, YYYY")}
                       </span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                <div>
+                <div className="">
                   <img
-                    className="object-contain w-full"
+                    className="md:object-contain object-fill left-0 w-full"
                     src={post.imageUrl}
                     alt="classroom"
                   />
                 </div>
 
                 <div
-                  className="text-base"
+                  className="text-base mt-10 pb-14 border-b border-gray-400 px-3 md:px-0"
                   data-color-mode={`${
                     colorTheme === "dark" ? "light" : "dark"
                   }`}
@@ -88,29 +103,43 @@ export default function SinglePost({colorTheme}) {
                     source={post.description}
                   />
                 </div>
+                <div className="flex flex-row md:justify-normal justify-evenly gap-5 mt-5 px-3 md:px-0">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                    />
+                  </svg>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                    />
+                  </svg>
+                </div>
               </div>
 
-              <section class="not-format">
+              <section class="not-format px-3 md:px-0">
                 <div class="flex flex-row justify-between items-center mb-6">
                   <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                    Discussion (20)
+                    Discussion
                   </h2>
-                  <div className="flex flex-row gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                      className="w-10 h-10 stroke-current text-red-500 cursor-pointer hover:scale-105"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-                      />
-                    </svg>
-                  </div>
                 </div>
                 <form class="mb-6">
                   <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
@@ -120,7 +149,7 @@ export default function SinglePost({colorTheme}) {
                     <textarea
                       id="comment"
                       rows="6"
-                      class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                      class="w-full text-sm p-4 text-gray-900 p dark:text-white dark:placeholder-gray-400 dark:bg-gray-800 border-b border-gray-400"
                       placeholder="Write a comment..."
                       required
                     ></textarea>
@@ -150,7 +179,7 @@ export default function SinglePost({colorTheme}) {
                           datetime="2022-02-08"
                           title="February 8th, 2022"
                         >
-                          Feb. 8, 2022
+                          {moment("Feb. 8, 2022").format("DD MMMM YYYY")}
                         </time>
                       </p>
                     </div>
@@ -254,7 +283,7 @@ export default function SinglePost({colorTheme}) {
                           datetime="2022-02-12"
                           title="February 12th, 2022"
                         >
-                          Feb. 12, 2022
+                          {moment("Feb. 8, 2022").format("DD MMMM YYYY")}
                         </time>
                       </p>
                     </div>
@@ -336,7 +365,7 @@ export default function SinglePost({colorTheme}) {
                   </div>
                 </article>
               </section>
-            </div>
+            </motion.div>
           </div>
         );
     }
