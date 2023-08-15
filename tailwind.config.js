@@ -16,7 +16,8 @@ module.exports = {
       },
       fontFamily: {
         header: ["Nunito", "sans-serif"],
-        body: ["Play", "sans-serif"],
+        body: ["Nunito", "sans-serif"],
+        temp: ["Play", "sans-serif"],
       },
     },
   },

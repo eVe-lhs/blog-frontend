@@ -53,21 +53,17 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
     return (
       <div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg">
         <div className="flex flex-col gap-2">
-          <img
-            className="w-full rounded-md mx-auto"
-            alt=""
-            src={imageUrl}
-          />
+          <img className="w-full rounded-md mx-auto" alt="" src={imageUrl} />
+          <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
+            {heading}
+          </span>
           <div className="flex flex-row justify-between mt-2">
-            <div className="flex md:flex-row flex-col gap-2 font-bold text-lg">
-              <div class="font-header font-extrabold">{heading}</div>
-              <div className="flex flex-row gap-2 md:ml-3">
-                {tags.map((tag) => (
-                  <div className="p-2 text-white font-normal bg-primary rounded-lg text-xs md:m-auto">
-                    #{tag}
-                  </div>
-                ))}
-              </div>
+            <div className="flex flex-row gap-2 justify-start">
+              {tags.map((tag) => (
+                <div className="p-2 text-white font-normal bg-primary rounded-lg text-xs md:m-auto">
+                  #{tag}
+                </div>
+              ))}
             </div>
             <div className="flex flex-row gap-2">
               <svg
@@ -101,7 +97,7 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
             </div>
           </div>
           <div className="text-gray-400 text-xs">{moment(date).fromNow()}</div>
-          <span className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">
+          <span class="line-clamp-4 text-ellipsis visible text-justify font-body font-normal text-sm">
             {text}
           </span>
           <div className="flex flex-row justify-between">
@@ -140,7 +136,10 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
                 <span className="text-gray-400 text-sm">12345</span>
               </div>
             </div>
-            <Link className="float-right text-sm text-primary_assent hover:underline" to={`posts/${id}`}>
+            <Link
+              className="float-right text-sm text-primary_assent hover:underline"
+              to={`posts/${id}`}
+            >
               Read More
             </Link>
           </div>

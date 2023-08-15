@@ -1,12 +1,14 @@
 export const TempData = [
   {
     id: 1,
-    heading: "Heading1",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
+    heading:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     imageUrl:
       "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
     date: "Mar 20,2023",
     tags: ["Technology", "Webdevelopment"],
+    author: "Author1",
     description: `# Lycormas at
 
 ## Rogus Paeonia radix
@@ -93,12 +95,14 @@ pectus; Charybdin sedulitas.`,
   },
   {
     id: 2,
-    heading: "Heading2",
+    heading:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.",
     imageUrl:
       "https://images.idgesg.net/images/article/2019/05/cso_best_security_software_best_ideas_best_technology_lightbulb_on_horizon_of_circuit_board_landscape_with_abstract_digital_connective_technology_atmosphere_ideas_innovation_creativity_by_peshkov_gettyimages-965785212_3x2_2400x1600-100797318-large.jpg?auto=webp&quality=85,70",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
     tags: ["Technology", "Webdevelopment"],
+    author: "Author2",
     description: `# Est felix
 
 ## Proximitas ad saxum debes his limina vocavit
@@ -163,12 +167,14 @@ quondam metalla artus, cum, contulerat indicii citra. Saepe pluvialibus manus
   },
   {
     id: 3,
-    heading: "Heading3",
+    heading:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.",
     imageUrl:
       "https://upload.wikimedia.org/wikipedia/commons/a/ad/Football_in_Bloomington%2C_Indiana%2C_1996.jpg",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
     tags: ["Technology", "Webdevelopment"],
+    author: "Author3",
     desription: `# Inani illa hospes velox ventorum mentisque lumine
 
 ## Mihi deos generis blanditiis fuit locus
@@ -224,12 +230,14 @@ crimine meorum.`,
   },
   {
     id: 4,
-    heading: "Heading4",
+    heading:
+      "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.",
     imageUrl:
       "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
     tags: ["Technology", "Webdevelopment"],
+    author: "Author4",
     description: `# Inani illa hospes velox ventorum mentisque lumine
 
 ## Mihi deos generis blanditiis fuit locus

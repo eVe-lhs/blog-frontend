@@ -10,7 +10,7 @@ import  Landing  from "./pages/Landing";
 import { useState } from "react";
 import PoseEditorModal from "./components/PoseEditorModel";
 import useDarkMode from './hooks/useDarkMode'
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import ProfileView from "./pages/ProfileView";
 import Bookmarks from "./pages/Bookmarks";
 import Gallery from "./pages/Gallery";
@@ -45,7 +45,7 @@ function App() {
             index
             element={<Feed showModal={showModal} setShowModal={setShowModal} />}
           />
-          <Route path="posts/:postId" element={<SinglePost />} />
+          <Route path="posts/:postId" element={<SinglePost colorTheme={colorTheme} />} />
           <Route path="Profile" element={<ProfileView />} />
           <Route path="Bookmarks" element={<Bookmarks />} />
           <Route path="Gallery" element={<Gallery/>} />

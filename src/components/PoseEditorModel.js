@@ -57,6 +57,7 @@ const PoseEditorModal = ({ showModal, setShowModal }) => {
                       class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                       id="title"
                       type="text"
+                      maxLength={100}
                       placeholder="Write the title of the article"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
