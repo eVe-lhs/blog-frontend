@@ -124,7 +124,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             </div>
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
-                <p class="text-2xl font-medium text-gray-900 truncate dark:text-white">
+                <p class="text-2xl font-medium text-gray-900 truncate dark:text-white font-header">
                   Lin Htet Swe
                 </p>
               </div>
@@ -259,7 +259,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             >
               {colorTheme === "dark" ? (
                 <button
-                  className="mx-auto border-2 px-1 py-1.5 rounded-lg shadow-lg  bg-gray-900 hover:bg-gray-700 text-white  text-center transition-all duration-200"
+                  className="mx-auto border-2 px-1.5 py-1.5 rounded-lg shadow-lg  bg-gray-900 hover:bg-gray-700 text-white  text-center transition-all duration-200"
                   onClick={changeThemeHandler}
                 >
                   <svg
@@ -279,7 +279,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                 </button>
               ) : (
                 <button
-                  className="mx-auto border-2 px-1 py-1.5 rounded-lg bg-white text-gray-900 hover:bg-gray-100 shadow-lg text-center"
+                  className="mx-auto border-2 px-1.5 py-1.5 rounded-lg bg-white text-gray-900 hover:bg-gray-100 shadow-lg text-center"
                   onClick={changeThemeHandler}
                 >
                   <svg

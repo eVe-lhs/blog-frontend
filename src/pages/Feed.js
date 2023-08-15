@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-
+import { TempData } from "../TempData";
+import moment from "moment/moment";
+import { Link } from "react-router-dom";
 
 
 export default function Feed({showModal, setShowModal}) {
@@ -16,40 +18,6 @@ export default function Feed({showModal, setShowModal}) {
     );
 }
 
-const TempData = [
-  {
-    heading: "Heading1",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
-    imageUrl:
-      "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
-    date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
-  },
-  {
-    heading: "Heading2",
-    imageUrl:
-      "https://images.idgesg.net/images/article/2019/05/cso_best_security_software_best_ideas_best_technology_lightbulb_on_horizon_of_circuit_board_landscape_with_abstract_digital_connective_technology_atmosphere_ideas_innovation_creativity_by_peshkov_gettyimages-965785212_3x2_2400x1600-100797318-large.jpg?auto=webp&quality=85,70",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text,This is dummy text, this is dummy text, this is dummy text, this is dummy text",
-    date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
-  },
-  {
-    heading: "Heading3",
-    imageUrl:
-      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Football_in_Bloomington%2C_Indiana%2C_1996.jpg",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
-    date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
-  },
-  {
-    heading: "Heading4",
-    imageUrl:
-      "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
-    text: "This is dummy text, this is dummy text, this is dummy text, this is dummy text",
-    date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
-  },
-];
 
 const Content = ({ showModal, setShowModal }) => {
     return (
@@ -69,18 +37,19 @@ const Content = ({ showModal, setShowModal }) => {
         />
         {TempData.map((data) => (
           <ContentCard
+            id = {data.id}
             heading={data.heading}
             imageUrl={data.imageUrl}
             date={data.date}
-                text={data.text}
-                tags={data.tags}
+            text={data.text}
+            tags={data.tags}
           />
         ))}
       </motion.div>
     );
 }
 
-const ContentCard = ({ heading, imageUrl, date,text,tags }) => {
+const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
     return (
       <div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg">
         <div className="flex flex-col gap-2">
@@ -131,7 +100,7 @@ const ContentCard = ({ heading, imageUrl, date,text,tags }) => {
               </svg>
             </div>
           </div>
-          <div className="text-gray-400 text-xs">{date}</div>
+          <div className="text-gray-400 text-xs">{moment(date).fromNow()}</div>
           <span className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">
             {text}
           </span>
@@ -171,9 +140,9 @@ const ContentCard = ({ heading, imageUrl, date,text,tags }) => {
                 <span className="text-gray-400 text-sm">12345</span>
               </div>
             </div>
-            <span className="float-right text-sm text-primary_assent hover:underline">
+            <Link className="float-right text-sm text-primary_assent hover:underline" to={`posts/${id}`}>
               Read More
-            </span>
+            </Link>
           </div>
         </div>
       </div>

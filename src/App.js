@@ -14,6 +14,7 @@ import { motion } from "framer-motion";
 import ProfileView from "./pages/ProfileView";
 import Bookmarks from "./pages/Bookmarks";
 import Gallery from "./pages/Gallery";
+import SinglePost from "./pages/SinglePost";
 
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
@@ -44,6 +45,7 @@ function App() {
             index
             element={<Feed showModal={showModal} setShowModal={setShowModal} />}
           />
+          <Route path="posts/:postId" element={<SinglePost />} />
           <Route path="Profile" element={<ProfileView />} />
           <Route path="Bookmarks" element={<Bookmarks />} />
           <Route path="Gallery" element={<Gallery/>} />
