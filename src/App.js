@@ -76,13 +76,13 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
       <motion.div className="py-2 z-20 fixed md:hidden grid items-center">
         {colorTheme === "dark" ? (
           <motion.button
-            className="fixed grid items-center justify-center w-12 h-12 bottom-5 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-gray-800 hover:bg-gray-700 text-white hover:text-gray-200 text-center"
+            className="fixed grid items-center justify-center w-12 h-12 top-1/2 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-gray-800 hover:bg-gray-700 text-white hover:text-gray-200 text-center"
             onClick={changeThemeHandler}
             animate={{
               scale: [1, 1.1],
               transition: {
                 ease: "linear",
-                duration: 0.5,
+                duration: 1,
                 repeat: Infinity,
                 repeatType: "reverse",
               },
@@ -105,13 +105,13 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           </motion.button>
         ) : (
           <motion.button
-            className="fixed grid justify-center items-center w-12 h-12 bottom-5 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-white text-gray-900 hover:bg-gray-100 text-center"
+            className="fixed grid justify-center items-center w-12 h-12 top-1/2 right-5 px-2 py-2 rounded-lg drop-shadow-xl shadow-xl  bg-white text-gray-900 hover:bg-gray-100 text-center"
             onClick={changeThemeHandler}
             animate={{
               scale: [1, 1.1],
               transition: {
                 ease: "linear",
-                duration: 0.5,
+                duration: 1,
                 repeat: Infinity,
                 repeatType: "reverse",
               },

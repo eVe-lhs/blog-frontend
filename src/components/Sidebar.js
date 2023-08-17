@@ -35,9 +35,8 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const toggleSidebar = (e,path) => {
+  const toggleSidebar = (e) => {
     e.preventDefault();
-    navigate(path);
     setOpen(!open);
   };
   // if (loading) {
@@ -46,7 +45,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
   return (
     <>
       <div className="lg:hidden block relative z-50 w-screen">
-        <div
+        {/* <div
           className="right-3 top-3 w-5 h-5 z-10 flex flex-col justify-between fixed"
           onClick={toggleSidebar}
         >
@@ -101,19 +100,60 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             }}
             className="origin-center w-full h-1/5 bg-secondary_assent dark:bg-white rounded-sm"
           />
-        </div>
+        </div> */}
       </div>
-
+      <motion.div
+        onClick={toggleSidebar}
+        className={`md:hidden block fixed px-2 py-0.5 rounded-t-xl border-x border-t drop-shadow-2xl shadow-2xl bg-gray-50 dark:bg-gray-900 justify-center transition-bottom translate-y-1 ease-linear duration-200 z-20 ${
+          open ? "bottom-1/4" : "bottom-20"
+        } left-1/2 -translate-x-1/2`}
+      >
+        <motion.svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className={`w-6 h-6 origin-center transition duration-200 ease-linear ${
+            open ? "rotate-180" : ""
+            } `}
+          animate={{ y:-3, rotate: open? 180:0 }}
+          transition={{
+            y: {
+              repeat: Infinity,
+              type: "spring",
+              mass:0.4,
+              repeatType: "reverse",
+              duration: 0.4,
+              repeatDelay: 1
+            },
+            rotate: {
+              duration: 0.2,
+              type:'tween'
+            }
+          }}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M4.5 15.75l7.5-7.5 7.5 7.5"
+          />
+        </motion.svg>
+      </motion.div>
       <motion.aside
         href="/"
-        className={`lg:w-64 md:w-1/4 w-full md:pt-5 pt-10 px-4 fixed z-20 inset-y-0 mr-5 transform lg:h-screen overflow-y-auto ${
-          !open ? "-translate-x-full" : ""
-        }   lg:translate-x-0  transition duration-500 ease-out md:bg-gray-200 bg-white font-body text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
+        className={`lg:w-64 md:w-1/4 w-full md:pt-5 px-4 fixed z-20 ease-linear bottom-0 left-0 md:inset-y-0 mr-5 transform md:h-screen md:overflow-y-auto 
+        ${
+          !open ? "h-20" : "h-1/4"
+        }   md:translate-y-0  md:transition-none transition-height md:border-t-0 md:rounded-none rounded-t-3xl duration-200 md:bg-gray-200 bg-gray-100 font-body text-gray-800 dark:bg-gray-900 dark:text-white border-t dark:shadow-white dark:drop-shadow shadow-2xl drop-shadow-2xl md:shadow-xl md:border-r border-r-gray-300`}
         variants={variant}
         initial="hidden"
         animate="visible"
       >
-        <motion.div class="py-3 sm:py-4" variants={navChildVariant}>
+        <motion.div
+          class="md:block hidden py-3 sm:py-4"
+          variants={navChildVariant}
+        >
           <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start space-y-2">
             <div class="flex-shrink-0">
               <img
@@ -139,21 +179,21 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
         <nav
           nav
-          className="md:mx-auto mx-8 md:w-36 font-thin space-y-0 mt-6 md:text-lg text-xl"
+          className="md:block flex flex-row md:gap-5 justify-evenly md:mx-auto md:w-36 font-thin md:space-y-0 md:mt-6 md:text-lg text-xs"
         >
           <motion.div className="mx-auto" variants={navChildVariant}>
             <a
               href="/home"
               className="navigation w-full"
-              onClick={(e) => toggleSidebar(e, "/home")}
+              onClick={() => navigate("/home")}
             >
-              <div className="flex flex-row gap-5 md:justify-normal justify-start">
+              <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
-                  className="w-6 h-6 stroke-current text-blue-500 hover:scale-110 cursor-pointer"
+                  className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -162,24 +202,24 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                   />
                 </svg>
 
-                <div>Home</div>
+                <div className="md:block hidden">Home</div>
               </div>
             </a>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
             <a
-              href='/Profile'
+              href="/Profile/1"
               className="navigation w-full"
-              onClick={(e) => toggleSidebar(e, "./Profile/1")}
+              onClick={(e) => navigate("/Profile/1")}
             >
-              <div className="flex flex-row gap-5 md:justify-normal justify-start">
+              <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-start items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6 stroke-current text-yellow-500 hover:scale-110 cursor-pointer"
+                  className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -188,24 +228,53 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                   />
                 </svg>
 
-                <div>Profile</div>
+                <div className="md:block hidden">Profile</div>
               </div>
             </a>
           </motion.div>
-          <motion.div className="mx-auto" variants={navChildVariant}>
+
+          <motion.div
+            className="md:hidden block mx-auto"
+            variants={navChildVariant}
+          >
             <a
               href="/Bookmarks"
               className="navigation w-full"
-              onClick={(e) => toggleSidebar(e, "./Bookmarks")}
+              onClick={() => setShowModal(true)}
             >
-              <div className="flex flex-row gap-5 md:justify-normal justify-start">
+              <div className="flex md:flex-row p-1 flex-col rounded-full bg-primary drop-shadow-2xl md:gap-5 gap-1 md:justify-normal justify-center items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6 stroke-current text-green-500 hover:scale-110 cursor-pointer"
+                  className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-50"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </div>
+            </a>
+          </motion.div>
+
+          <motion.div className="mx-auto" variants={navChildVariant}>
+            <a
+              href="/Bookmarks"
+              className="navigation w-full"
+              onClick={() => navigate("/Bookmarks")}
+            >
+              <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -214,7 +283,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                   />
                 </svg>
 
-                <div>Bookmarks</div>
+                <div className="md:block hidden">Bookmarks</div>
               </div>
             </a>
           </motion.div>
@@ -222,16 +291,16 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <a
               href="/Gallery"
               className="navigation w-full"
-              onClick={(e) => toggleSidebar(e, "./Gallery")}
+              onClick={() => navigate("/Gallery")}
             >
-              <div className="flex flex-row gap-5 md:justify-normal justify-start">
+              <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6 stroke-current text-red-500 hover:scale-110 cursor-pointer"
+                  className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -239,7 +308,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                     d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
                   />
                 </svg>
-                <div>Gallery</div>
+                <div className="md:block hidden">Gallery</div>
               </div>
             </a>
           </motion.div>
@@ -248,7 +317,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             variants={navChildVariant}
           >
             <div
-              className="shadow-lg mt-5 md:my-auto text-md text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center px-2 md:px-1.5 py-1.5"
+              className="md:block hidden shadow-lg mt-5 md:my-auto text-md text-white font-medium rounded bg-primary hover:scale-105 transition duration-200 mx-auto cursor-pointer text-center px-2 md:px-1.5 py-1.5"
               onClick={() => setShowModal(true)}
             >
               New Post

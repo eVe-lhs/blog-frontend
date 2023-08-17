@@ -19,6 +19,11 @@ module.exports = {
         body: ["Nunito", "sans-serif"],
         temp: ["Play", "sans-serif"],
       },
+      transitionProperty: {
+        height: "height",
+        spacing: "margin, padding",
+        bottom: "bottom"
+      },
     },
   },
   plugins: [],

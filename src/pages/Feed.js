@@ -51,8 +51,11 @@ const Content = ({ showModal, setShowModal }) => {
 
 const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
     return (
-      <motion.div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg" initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}>
+      <motion.div
+        className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+      >
         <div className="flex flex-col gap-2">
           <img className="w-full rounded-md mx-auto" alt="" src={imageUrl} />
           <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
@@ -87,7 +90,9 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
+                id={`dropdownBtn${id}`}
                 className="w-6 h-6 hover:scale-110 cursor-pointer"
+                data-dropdown-toggle={`dropdown${id}`}
               >
                 <path
                   strokeLinecap="round"
@@ -95,6 +100,33 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
                   d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                 />
               </svg>
+              {/* dropdown menu */}
+              <div
+                id={`dropdown${id}`}
+                class="z-10 hidden bg-white  rounded-md shadow w-44 dark:bg-gray-700"
+              >
+                <ul
+                  class="py-2 text-sm text-gray-700 divide-y divide-gray-200 dark:text-gray-200"
+                  aria-labelledby={`dropdownBtn${id}`}
+                >
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Delete
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Edit
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <div className="text-gray-400 text-xs">{moment(date).fromNow()}</div>
