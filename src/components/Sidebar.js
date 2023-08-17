@@ -168,9 +168,9 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
             <a
-              href="/Profile"
+              href='/Profile'
               className="navigation w-full"
-              onClick={(e) => toggleSidebar(e, "./Profile")}
+              onClick={(e) => toggleSidebar(e, "./Profile/1")}
             >
               <div className="flex flex-row gap-5 md:justify-normal justify-start">
                 <svg

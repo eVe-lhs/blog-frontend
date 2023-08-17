@@ -46,7 +46,7 @@ function App() {
             element={<Feed showModal={showModal} setShowModal={setShowModal} />}
           />
           <Route path="posts/:postId" element={<SinglePost colorTheme={colorTheme} />} />
-          <Route path="Profile" element={<ProfileView />} />
+          <Route path="Profile/:uid" element={<ProfileView />} />
           <Route path="Bookmarks" element={<Bookmarks />} />
           <Route path="Gallery" element={<Gallery/>} />
         </Route>
