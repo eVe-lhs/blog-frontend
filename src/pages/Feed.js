@@ -51,7 +51,8 @@ const Content = ({ showModal, setShowModal }) => {
 
 const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
     return (
-      <div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg">
+      <motion.div className="w-full bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg" initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}>
         <div className="flex flex-col gap-2">
           <img className="w-full rounded-md mx-auto" alt="" src={imageUrl} />
           <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
@@ -144,7 +145,7 @@ const ContentCard = ({ heading, imageUrl, date,text,tags ,id}) => {
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     );
 }
 
