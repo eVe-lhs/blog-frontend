@@ -145,7 +145,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
         className={`lg:w-64 md:w-1/4 w-full md:pt-5 px-4 fixed z-20 ease-linear bottom-0 left-0 md:inset-y-0 mr-5 transform md:h-screen md:overflow-y-auto 
         ${
           !open ? "h-20" : "h-1/4"
-        }   md:translate-y-0  md:transition-none transition-height md:border-t-0 md:rounded-none rounded-t-3xl duration-200 md:bg-gray-200 bg-gray-100 font-body text-gray-800 dark:bg-gray-900 dark:text-white border-t dark:shadow-white dark:drop-shadow shadow-2xl drop-shadow-2xl md:shadow-xl md:border-r border-r-gray-300`}
+        }   md:translate-y-0  md:transition-none transition-height md:border-t-0 md:rounded-none rounded-t-3xl duration-200 md:bg-gray-200 bg-gray-100 font-body text-gray-800 dark:md:bg-gray-800 dark:bg-gray-900 dark:text-white border-t shadow-2xl drop-shadow-2xl md:shadow-xl md:border-r border-r-gray-300`}
         variants={variant}
         initial="hidden"
         animate="visible"
@@ -182,8 +182,8 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           className="md:block flex flex-row md:gap-5 justify-evenly md:mx-auto md:w-36 font-thin md:space-y-0 md:mt-6 md:text-lg text-xs"
         >
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <a
-              href="/home"
+            <div
+             
               className="navigation w-full"
               onClick={() => navigate("/home")}
             >
@@ -204,13 +204,13 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div className="md:block hidden">Home</div>
               </div>
-            </a>
+            </div>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <a
-              href="/Profile/1"
+            <div
+              
               className="navigation w-full"
-              onClick={(e) => navigate("/Profile/1")}
+              onClick={(e) => navigate("Profile/1")}
             >
               <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-start items-center">
                 <svg
@@ -230,15 +230,15 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div className="md:block hidden">Profile</div>
               </div>
-            </a>
+            </div>
           </motion.div>
 
           <motion.div
             className="md:hidden block mx-auto"
             variants={navChildVariant}
           >
-            <a
-              href="/Bookmarks"
+            <div
+              href="Bookmarks"
               className="navigation w-full"
               onClick={() => setShowModal(true)}
             >
@@ -258,14 +258,13 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                   />
                 </svg>
               </div>
-            </a>
+            </div>
           </motion.div>
 
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <a
-              href="/Bookmarks"
+            <div
               className="navigation w-full"
-              onClick={() => navigate("/Bookmarks")}
+              onClick={() => navigate("Bookmarks")}
             >
               <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
                 <svg
@@ -285,13 +284,12 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
                 <div className="md:block hidden">Bookmarks</div>
               </div>
-            </a>
+            </div>
           </motion.div>
           <motion.div className="mx-auto" variants={navChildVariant}>
-            <a
-              href="/Gallery"
+            <div
               className="navigation w-full"
-              onClick={() => navigate("/Gallery")}
+              onClick={() => navigate("Gallery")}
             >
               <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
                 <svg
@@ -310,7 +308,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                 </svg>
                 <div className="md:block hidden">Gallery</div>
               </div>
-            </a>
+            </div>
           </motion.div>
           <motion.div
             className="flex flex-row gap-2"

@@ -71,7 +71,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
     setTheme(colorTheme);
   };
   return (
-    <div className="mx-auto relative w-screen">
+    <div className="mx-auto relative w-screen md:pb-0 pb-32">
       <PoseEditorModal showModal={showModal} setShowModal={setShowModal} />
       <motion.div className="py-2 z-20 fixed md:hidden grid items-center">
         {colorTheme === "dark" ? (
