@@ -8,7 +8,7 @@ export default function ProfileView({setShowModal,setModalData}) {
   const [activeTab, setActiveTab] = useState("articles");
   const name = "Lin Htet Swe"
   return (
-    <div className="relative z-0 font-body">
+    <div className="relative md:mt-0 mt-20 z-0 font-body">
       <motion.div
         className="md:w-3/5 w-full lg:ml-96 md:mt-10 "
         initial={{ opacity: 0, y: 10 }}
@@ -25,7 +25,7 @@ export default function ProfileView({setShowModal,setModalData}) {
       >
         <div className="md:w-full max-h-96 w-screen relative mb-10">
           <img
-            className="object-cover w-full md:h-80 h-40 object-center rounded-b-xl"
+            className="object-cover w-full md:h-80 h-52 object-center rounded-b-xl md:rounded-t-none rounded-t-xl"
             src="https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWx8ZW58MHx8MHx8fDA%3D&w=1000&q=80"
           />
           <div class="flex flex-col md:flex-row gap-2">
@@ -71,7 +71,12 @@ export default function ProfileView({setShowModal,setModalData}) {
         </div>
         <div className="mt-20">
           <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          <TabContents activeTab={activeTab} setShowModal={setShowModal} setModalData={setModalData} name={name} />
+          <TabContents
+            activeTab={activeTab}
+            setShowModal={setShowModal}
+            setModalData={setModalData}
+            name={name}
+          />
         </div>
       </motion.div>
     </div>

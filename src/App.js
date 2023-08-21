@@ -77,7 +77,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme,modalData 
     <>
       <img
         src="/logo.png"
-        className="md:hidden block fixed object-contain top-3 left-1/2 -translate-x-1/2 w-24 md:w-32 drop-shadow-lg dark:shadow-white"
+        className="md:hidden block fixed object-contain top-3 left-1/2 -translate-x-1/2 w-24 md:w-32 drop-shadow-lg z-50 dark:shadow-white"
       />
       <div className="mx-auto relative w-screen md:pb-0 pb-32">
         <PoseEditorModal

@@ -292,7 +292,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-6 h-6"
+                    className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
                   >
                     <path
                       strokeLinecap="round"
@@ -376,7 +376,10 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start mt-10">
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
-                <img src="/logo.png" className="object-contain w-32 drop-shadow-lg dark:shadow-white" />
+                <img
+                  src="/logo.png"
+                  className="object-contain w-32 drop-shadow-lg dark:shadow-white"
+                />
               </div>
             </div>
           </div>
