@@ -4,7 +4,7 @@ import { ContentCard } from "../components/ContentCard";
 import { TempData } from "../TempData";
 import { SmallProfile } from "../components/SmallProfile";
 import { DraftPosts } from "../components/DraftPosts";
-export default function ProfileView() {
+export default function ProfileView({setShowModal,setModalData}) {
   const [activeTab, setActiveTab] = useState("articles");
   return (
     <div className="relative z-0 font-body">
@@ -70,7 +70,7 @@ export default function ProfileView() {
         </div>
         <div className="mt-20">
           <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          <TabContents activeTab={activeTab} />
+          <TabContents activeTab={activeTab} setShowModal={setShowModal} setModalData={setModalData} />
         </div>
       </motion.div>
     </div>
@@ -140,7 +140,7 @@ const Tabs = ({activeTab,setActiveTab}) => {
 
 }
 
-const TabContents = ({activeTab}) => {
+const TabContents = ({activeTab,setShowModal,setModalData}) => {
   if (activeTab === 'articles') {
     {
       return (
@@ -171,7 +171,7 @@ const TabContents = ({activeTab}) => {
       </div>
     )
   else
-    return <DraftPosts />
+    return <DraftPosts setShowModal={setShowModal} setModalData={setModalData} />
 }
 
 

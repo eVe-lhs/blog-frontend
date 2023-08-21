@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,profile }) => {
+export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,profile,setModalData}) => {
   return (
     <motion.div
       className={`${profile?'md:w-3/4' : 'w-full'} mx-auto bg-white dark:bg-gray-800 p-4 my-4 md:rounded-lg md:shadow-lg`}
@@ -39,7 +39,7 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
             </svg>
             {!profile ? (
               <>
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -54,9 +54,9 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
                     strokeLinejoin="round"
                     d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                   />
-                </svg>
+                </svg> */}
                 {/* dropdown menu */}
-                <div
+                {/* <div
                   id={`dropdown${id}`}
                   class="z-10 hidden bg-white  rounded-md shadow w-44 dark:bg-gray-700"
                 >
@@ -66,22 +66,24 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
                   >
                     <li>
                       <a
-                        href="#"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={() => alert(`delete post:${id}`)}
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
                       >
                         Delete
                       </a>
                     </li>
                     <li>
                       <a
-                        href="#"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
+                        onClick={() => {
+                          alert(`edit post: ${id}`)
+                        }}
                       >
                         Edit
                       </a>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </>
             ) : (
               <></>
@@ -130,7 +132,7 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
           </div>
           <Link
             className="float-right text-sm text-primary_assent hover:underline"
-            to={`posts/${id}`}
+            to={`/home/posts/${id}`}
           >
             Read More
           </Link>

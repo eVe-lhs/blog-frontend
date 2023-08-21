@@ -19,6 +19,7 @@ import SinglePost from "./pages/SinglePost";
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
   const [showModal, setShowModal] = useState(false);
+  const [modalData, setModalData] = useState();
   return (
     <BrowserRouter>
       <Routes>
@@ -38,15 +39,16 @@ function App() {
               colorTheme={colorTheme}
               showModal={showModal}
               setShowModal={setShowModal}
+              modalData={modalData}
             />
           }
         >
           <Route
             index
-            element={<Feed showModal={showModal} setShowModal={setShowModal} />}
+            element={<Feed showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />}
           />
           <Route path="posts/:postId" element={<SinglePost colorTheme={colorTheme} />} />
-          <Route path="Profile/:uid" element={<ProfileView />} />
+          <Route path="Profile/:uid" element={<ProfileView setShowModal={setShowModal} setModalData={setModalData} />} />
           <Route path="Bookmarks" element={<Bookmarks />} />
           <Route path="Gallery" element={<Gallery/>} />
         </Route>
@@ -64,7 +66,7 @@ const AuthLayout = () => {
   )
 }
 
-const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
+const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme,modalData }) => {
   
   const changeThemeHandler = (e) => {
     e.preventDefault();
@@ -72,7 +74,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme }) => {
   };
   return (
     <div className="mx-auto relative w-screen md:pb-0 pb-32">
-      <PoseEditorModal showModal={showModal} setShowModal={setShowModal} />
+      <PoseEditorModal showModal={showModal} setShowModal={setShowModal} modalData={modalData} colorTheme={colorTheme} />
       <motion.div className="py-2 z-20 fixed md:hidden grid items-center">
         {colorTheme === "dark" ? (
           <motion.button

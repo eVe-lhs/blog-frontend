@@ -4,14 +4,14 @@ import moment from "moment/moment";
 import { Link } from "react-router-dom";
 import { ContentCard } from "../components/ContentCard";
 
-export default function Feed({showModal, setShowModal}) {
+export default function Feed({showModal, setShowModal,setModalData}) {
     
     return (
       <>
         <div className="md:mt-5 mt-14 relative z-0 font-body">
           <div className="md:hidden block left-3 top-3 z-10 justify-between fixed"></div>
           <SearchBar />
-          <Content showModal={showModal} setShowModal={setShowModal} />
+          <Content showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />
           <RightBar />
         </div>
       </>
@@ -19,14 +19,14 @@ export default function Feed({showModal, setShowModal}) {
 }
 
 
-const Content = ({ showModal, setShowModal }) => {
+const Content = ({ showModal, setShowModal,setModalData }) => {
     return (
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <input
+        {/* <input
           type="text"
           className="block p-3 md:rounded-3xl w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-300"
                 placeholder="Write your thoughts here"
@@ -34,7 +34,7 @@ const Content = ({ showModal, setShowModal }) => {
           onClick={() => {
             setShowModal(true)
           }}
-        />
+        /> */}
         {TempData.map((data) => (
           <ContentCard
             id = {data.id}
@@ -44,6 +44,9 @@ const Content = ({ showModal, setShowModal }) => {
             text={data.text}
             tags={data.tags}
             author={data.author}
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setModalData={setModalData}
           />
         ))}
       </motion.div>
@@ -121,7 +124,7 @@ const RightBar = () => {
 const SearchBar = () => {
     return (
       <motion.div
-        className="md:w-5/12 w-screen mx-auto border-gray-300 border-b-2 pb-5"
+        className="md:w-5/12 w-screen px-1 mx-auto border-gray-300 border-b-2 pb-5"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
@@ -153,7 +156,7 @@ const SearchBar = () => {
             <input
               type="search"
               id="default-search"
-              className="block w-full md:py-4 py-2 px-4 md:pl-10 text-sm text-gray-900 border border-gray-300 md:rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="block w-full py-4 px-4 md:pl-10 text-sm text-gray-900 border border-gray-300 md:rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Search Mockups, Logos..."
               required
             />
@@ -164,7 +167,7 @@ const SearchBar = () => {
               Search
             </button>
             <div
-              className="md:hidden block text-primary_assent absolute right-0 bottom-0.5 font-medium text-sm p-2 dark:text-blue-500"
+              className="md:hidden block text-primary_assent absolute right-0 bottom-2.5 font-medium text-sm p-2 dark:text-blue-500"
             >
               <svg
                 className="w-4 h-4 text-whitedark:text-gray-400"

@@ -3,11 +3,9 @@ import moment from "moment";
 const DraftTemp = [
   {
     id: 1,
-    heading:
-      "",
+    heading: "",
     text: "",
-    imageUrl:
-      "",
+    imageUrl: "",
     date: "Mar 20,2023",
     tags: [],
     author: "Author1",
@@ -16,8 +14,7 @@ const DraftTemp = [
     id: 2,
     heading:
       "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live.",
-    imageUrl:
-      "",
+    imageUrl: "",
     text: "",
     date: "Mar 20,2023",
     tags: [],
@@ -25,13 +22,12 @@ const DraftTemp = [
   },
   {
     id: 3,
-    heading:
-      "",
+    heading: "",
     imageUrl:
       "https://upload.wikimedia.org/wikipedia/commons/a/ad/Football_in_Bloomington%2C_Indiana%2C_1996.jpg",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: ["Celebrity", "Politics"],
     author: "Author3",
   },
   {
@@ -42,13 +38,64 @@ const DraftTemp = [
       "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
     text: "",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: ["Computer Science", "Animals"],
     author: "Author4",
-    
+    description: `# Inani illa hospes velox ventorum mentisque lumine
+
+## Mihi deos generis blanditiis fuit locus
+
+Lorem markdownum terga. Aequore plenaque iniqui ut canoro gurgite mors nec
+arcebatque, Dolona. Vigilans felicissima sinistra oneratos. Tuos haesit postera
+quodque sitim resurgebant tibi vocem?
+
+Ea mediamque sacro, non unum, ipsa, viscera nec omnis, excussit. Nati iuncta,
+cum nova uterque fixit iuncisque priori! Vidit in sed quam conponere quorum,
+calamo primo ursaque seque custodemque Diam, [quod](http://favilla.com/)
+tenetur. Aquarum sagittas modo Stymphalides annos, misisset ipse, illis
+relinquet terras, terraeque, moriens incenduntque laeto.
+
+> Esse rudem aestusque verborum inmodico in quoque vacuus; cur. Fumat *tot
+> pascua pectora* et pomaque, in dentibus orbis herbis et omnes et inter.
+> Appellare Antiphates quidem caespite.
+
+## Aer matre eras intrata dextra ut mediis
+
+Deum est ponto si ductum, se, nec Palati figuras; moenia ait mercede. Flammas
+scitanti, spectare effodit tamen aries. Namque appellare mundus.
+
+> Queat ferunt moenia. Sed natus [torvo](http://hymenaee-mittunt.net/), humus
+> sociorum placabat in fixit.
+
+A dictis vulneribus, ille dolori astris succedat. Dimisit agri, lacrimaeque quae
+iuverat postera cum cum obstrepuere viret: [crescit](http://undas.com/): nox
+*quid*.
+
+    if (hardBingOsd(association_menu_bot.ftp_pci_tag.typeface(221745,
+            sdsl_path_bank), flatHorse)) {
+        printLeft = rjLogic;
+    } else {
+        system_syntax(alertJumper.commerceKeywordsNetiquette(
+                perlCertificateSnow), 2, prebinding);
+        basicSync.controller = fddi_fi;
+    }
+    wavelength = intellectual_eide;
+    if (protector - cyberspaceGifSd + font_emulation_mac(10)) {
+        export_iteration_compatible(graymail, suffix + trashUser, 3);
+    }
+    if (socialByteDirectory(modem + 4) / halftone(windowGifMatrix)) {
+        gisType -= remote_ata_nanometer;
+        mtuAvatarDongle += led_website.compatible_services(814402, 4, 2) +
+                aiff_word_xp;
+    }
+
+Frustra evolvit! Est gurges gracili **hoc** est mora agitasse in acrior Phoebus
+dabat, et et ferro. Ulla colla crimen vellet; tepido dignior haec nec auctorem!
+**Es amplexu procorum** mente. Tantum isse poenam, fetus ignota facientibus
+crimine meorum.`,
   },
 ];
 
-export const DraftPosts = () => {
+export const DraftPosts = ({setShowModal,setModalData}) => {
   return (
     <div class="flow-root w-4/5 md:w-3/4 mx-auto">
       <ul class="divide-y divide-gray-300 dark:divide-gray-700">
@@ -72,7 +119,12 @@ export const DraftPosts = () => {
                 
               </div>
               <div class="inline-flex items-center text-sm font-semibold">
-                <button className="py-2 px-4 bg-primary rounded-md text-gray-50">
+                <button className="py-2 px-4 bg-primary rounded-md text-gray-50" onClick={async () => {
+                  await setModalData(post)
+                  // console.log(post)
+                  setShowModal(true)
+                }
+                }>
                   Edit
                 </button>
               </div>

@@ -197,7 +197,7 @@ const Interests = () => {
             className={`md:rounded-lg rounded-full ${
               selected.includes(topic.id)
                 ? "border-primary border-2 text-primary"
-                : "border-gray-400 border-2 text-gray-400"
+                : "dark:border-white dark:text-white border-gray-400 border-2 text-gray-400 "
             } md:py-auto md:w-auto min-w-fit md:px-auto px-3 py-2 md:text-base text-xs py-auto md:h-20 fill-none text-center transition-colors duration-300 md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer grid items-center justify-center `}
           >
             {topic.name}
