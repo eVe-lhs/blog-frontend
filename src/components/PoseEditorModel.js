@@ -198,7 +198,7 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                           </div>
                         )}
                       </div>
-                      <div class="w-full px-3">
+                      <div class="md:hidden block w-full px-3">
                         <label
                           class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
                           htmlFor="content"
@@ -206,7 +206,7 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                           Post Content
                         </label>
                         <MDEditor
-                          className="overflow-hidden shadow bg-gray-200 dark:text-white dark:bg-gray-800 border-black htmlForm-textarea mt-1 block  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                          className="overflow-x-auto shadow bg-gray-200 dark:text-white dark:bg-gray-800 border-black mt-1 block  border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           placeholder="Textarea"
                           value={content}
                           onChange={setContent}
@@ -239,12 +239,26 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                         onClick={() => {
                           // setShowModal(false)
                           setShowPreview(true);
-
                         }}
                       >
                         Preview Post before upload
                       </button>
                     </div>
+                  </div>
+                  <div class="md:block hidden w-full ml-8 mb-5">
+                    <label
+                      class="block uppercase text-center tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
+                      htmlFor="content"
+                    >
+                      Post Content
+                    </label>
+                    <MDEditor
+                      className="overflow-x-auto shadow mx-auto bg-gray-200 dark:text-white dark:bg-gray-800 border-black mt-1 block  border rounded max-w-3xl py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      placeholder="Textarea"
+                      value={content}
+                      onChange={setContent}
+                      required
+                    />
                   </div>
                   {/*footer*/}
                   <div className="flex flex-row justify-between items-center p-6 border-t border-solid border-slate-200 rounded-b">
@@ -294,7 +308,20 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
           </>
         ) : null}
       </AnimatePresence>
-     {showPreview ? <PreviewPost colorTheme={colorTheme} heading={title} author={author} date={date} tags={tags} imageUrl={imgUrl} description={content} setShowPreview={setShowPreview} />:<></>} 
+      {showPreview ? (
+        <PreviewPost
+          colorTheme={colorTheme}
+          heading={title}
+          author={author}
+          date={date}
+          tags={tags}
+          imageUrl={imgUrl}
+          description={content}
+          setShowPreview={setShowPreview}
+        />
+      ) : (
+        <></>
+      )}
     </>
   );
 };
