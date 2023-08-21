@@ -373,7 +373,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           class="md:block hidden py-3 sm:py-4"
           variants={navChildVariant}
         >
-          <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start mt-10">
+          <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start mt-16">
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
                 <img

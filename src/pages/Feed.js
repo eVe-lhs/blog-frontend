@@ -3,13 +3,13 @@ import { TempData } from "../TempData";
 import moment from "moment/moment";
 import { Link } from "react-router-dom";
 import { ContentCard } from "../components/ContentCard";
+import { useState } from "react";
 
 export default function Feed({showModal, setShowModal,setModalData}) {
     
     return (
       <>
         <div className="md:mt-5 mt-20 relative z-0 font-body">
-          <div className="md:hidden block left-3 top-3 z-10 justify-between fixed"></div>
           <SearchBar />
           <Content showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />
           <RightBar />
@@ -19,7 +19,8 @@ export default function Feed({showModal, setShowModal,setModalData}) {
 }
 
 
-const Content = ({ showModal, setShowModal,setModalData }) => {
+const Content = ({ showModal, setShowModal, setModalData }) => {
+  const [openSort,setOpenSort] = useState(false)
     return (
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
@@ -35,9 +36,74 @@ const Content = ({ showModal, setShowModal,setModalData }) => {
             setShowModal(true)
           }}
         /> */}
+        <div className="w-full flex justify-end">
+          <button
+            class="text-gray-400  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center "
+            type="button"
+            onClick={() => setOpenSort(!openSort)}
+          >
+            Sort
+            <svg
+              class="w-2.5 h-2.5 ml-2.5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 6"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+          <div
+            class={`${openSort? 'block fixed translate-y-10' : 'hidden'} z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+          >
+            <ul
+              class="py-2 text-sm text-gray-700 dark:text-gray-200"
+              aria-labelledby="sortButton"
+            >
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Likes
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Comments
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Most Recent
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  None
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
         {TempData.map((data) => (
           <ContentCard
-            id = {data.id}
+            id={data.id}
             heading={data.heading}
             imageUrl={data.imageUrl}
             date={data.date}
