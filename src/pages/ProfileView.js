@@ -6,6 +6,7 @@ import { SmallProfile } from "../components/SmallProfile";
 import { DraftPosts } from "../components/DraftPosts";
 export default function ProfileView({setShowModal,setModalData}) {
   const [activeTab, setActiveTab] = useState("articles");
+  const name = "Lin Htet Swe"
   return (
     <div className="relative z-0 font-body">
       <motion.div
@@ -35,7 +36,7 @@ export default function ProfileView({setShowModal,setModalData}) {
             />
             <div className="mx-auto text-lg font-header font-bold md:ml-0 -mt-20 md:mt-2 flex flex-col">
               <div className="md:text-left text-center flex flex-row gap-4 md:justify-normal justify-center">
-                <div>Lin Htet Swe</div>
+                <div>{name}</div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -70,7 +71,7 @@ export default function ProfileView({setShowModal,setModalData}) {
         </div>
         <div className="mt-20">
           <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-          <TabContents activeTab={activeTab} setShowModal={setShowModal} setModalData={setModalData} />
+          <TabContents activeTab={activeTab} setShowModal={setShowModal} setModalData={setModalData} name={name} />
         </div>
       </motion.div>
     </div>
@@ -154,6 +155,7 @@ const TabContents = ({activeTab,setShowModal,setModalData}) => {
           tags={data.tags}
           author={data.author}
           profile={true}
+          self = {true}
         />
       )))
     }

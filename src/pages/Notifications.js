@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export default function Gallery() {
+export default function Notifications() {
   return (
     <div className="md:mt-5 mt-14 relative z-0 font-body ">
       <motion.div

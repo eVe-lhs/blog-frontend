@@ -174,7 +174,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
 
         <nav
           nav
-          className="md:block flex flex-col md:mx-auto md:w-36 font-thin md:space-y-0 md:mt-6 md:text-lg text-xs"
+          className="md:block flex flex-col md:mx-auto md:w-40 font-thin md:space-y-0 md:mt-6 md:text-lg text-xs"
         >
           <div className="md:block flex flex-row md:gap-5 justify-evenly">
             <motion.div className="mx-auto" variants={navChildVariant}>
@@ -283,7 +283,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <motion.div className="mx-auto" variants={navChildVariant}>
               <div
                 className="navigation w-full"
-                onClick={() => navigate("Gallery")}
+                onClick={() => navigate("Notifications")}
               >
                 <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-center items-center">
                   <svg
@@ -292,15 +292,16 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="md:w-6 md:h-6 w-8 h-8 stroke-current text-gray-800 dark:text-gray-50 hover:scale-110 cursor-pointer"
+                    className="w-6 h-6"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
                     />
                   </svg>
-                  <div className="md:block hidden">Gallery</div>
+
+                  <div className="md:block hidden">Notifications</div>
                 </div>
               </div>
             </motion.div>
@@ -368,6 +369,18 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             </button>
           </div>
         </nav>
+        <motion.div
+          class="md:block hidden py-3 sm:py-4"
+          variants={navChildVariant}
+        >
+          <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start mt-10">
+            <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
+              <div class="flex-1 min-w-0">
+                <img src="/logo.png" className="object-contain w-32 drop-shadow-lg dark:shadow-white" />
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </motion.aside>
     </>
   );

@@ -8,7 +8,7 @@ export default function Feed({showModal, setShowModal,setModalData}) {
     
     return (
       <>
-        <div className="md:mt-5 mt-14 relative z-0 font-body">
+        <div className="md:mt-5 mt-20 relative z-0 font-body">
           <div className="md:hidden block left-3 top-3 z-10 justify-between fixed"></div>
           <SearchBar />
           <Content showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />
