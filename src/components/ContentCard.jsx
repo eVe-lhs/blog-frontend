@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import { Link } from "react-router-dom";
 
-export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,profile,setModalData,self}) => {
+export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,profile,setModalData,self,bookmarked}) => {
   return (
     <motion.div
       className={`${
@@ -60,11 +60,11 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                 
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer"
+                  className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${bookmarked? 'fill-current' : 'fill-none'}`}
                 >
                   <path
                     strokeLinecap="round"
