@@ -50,3 +50,24 @@ code {
     @apply m-0 my-2 pt-3 font-medium inline-block after:mt-2 after:block after:border-b-4 after:border-primary after:scale-x-0 after:transition-transform after:duration-200 after:ease-in-out hover:after:scale-x-100 cursor-pointer;
   }
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+  
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

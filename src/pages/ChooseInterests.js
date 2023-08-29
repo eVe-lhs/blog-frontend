@@ -6,7 +6,7 @@ export default function ChooseInterest() {
   const Tabs = () => {
     return (
       
-        <div className="flex space-x-5 mt-2 justify-center">
+        <div className="flex space-x-5 mt-5 justify-center">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -40,8 +40,8 @@ export default function ChooseInterest() {
       setHeader("Let's Dive into Your Interests");
       setText("Select at least 2 topics from the followings:");
     } else if (activeTab === tabs[1].id) {
-      setHeader("Update in some of your personal info");
-      setText("This let people know who you are and recongnized much easier");
+      setHeader("Update your info");
+      setText("A short description of who you are, your interest and so on");
     } else{
       setHeader("Here are some people you might want to follow");
       setText("These people are actively sharing vast amount of knowledge in their respective areas");
@@ -63,7 +63,7 @@ export default function ChooseInterest() {
           <img
             alt=""
             className="h-14 w-14"
-            src="https://ik.imagekit.io/pibjyepn7p9/Lilac_Navy_Simple_Line_Business_Logo_CGktk8RHK.png?ik-sdk-version=javascript-1.4.3&updatedAt=1649962071315"
+            src="/favicon.ico"
           />
         </div>
         <Tabs />
@@ -209,11 +209,87 @@ const Interests = () => {
 }
 
 const Personal = () => {
-  return <div className="h-3/4 grid items-center "></div>;
+  const [bio,setBio] = useState('')
+  return (
+    <div className="h-3/4 grid items-center ">
+      <input
+        class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="title"
+        type="text"
+        maxLength={20}
+        placeholder={"Write your bio"}
+        value={bio}
+        onChange={(e) => setBio(e.target.value)}
+      />
+    </div>
+  );
 }
 
 const Suggestions = () => {
-  return <div className="h-3/4 grid items-center "></div>;
+  const suggestions = [
+    {
+      name: "John",
+      email: "john@email.com",
+      imageUrl: "",
+    },
+    {
+      name: "ken",
+      email: "ken@email.com",
+      imageUrl: "",
+    },
+    {
+      name: "anwar",
+      email: "anwar@email.com",
+      imageUrl: "",
+    },
+    {
+      name: "John",
+      email: "john@email.com",
+      imageUrl: "",
+    },
+    {
+      name: "John",
+      email: "john@email.com",
+      imageUrl: "",
+    },
+    {
+      name: "John",
+      email: "john@email.com",
+      imageUrl: "",
+    },
+  ];
+  return (
+    <div className="h-3/4 grid items-center ">
+      <div class="flow-root overflow-y-auto h-64 p-2">
+        <ul class="divide-y divide-gray-300 dark:divide-gray-700">
+          {suggestions.map((suggestion) => (
+            <li class="py-3 sm:py-4">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <img
+                    class="w-16 h-16 rounded-lg"
+                    src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {suggestion.name}
+                  </p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    {suggestion.email}
+                  </p>
+                </div>
+                <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
+                  <button>Follow</button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 let tabs = [
@@ -228,26 +304,26 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
     return (
       <div className="mt-5">
         <Interests activeTab={activeTab} />
-          {activeTab === tabs[0].id ? (
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={() => setActiveTab(tabs[1].id)}
-              transition={{
-                delay: topics.length * 0.15 + 0.2,
-              }}
-              exit={{
-                opacity: 0,
-                transition: {
-                  duration: 1,
-                  delay:0
-              }}}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent mt-5"
-            >
-              Next
-            </motion.button>
-          ): null}
-        
+        {activeTab === tabs[0].id ? (
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            onClick={() => setActiveTab(tabs[1].id)}
+            transition={{
+              delay: topics.length * 0.15 + 0.2,
+            }}
+            exit={{
+              opacity: 0,
+              transition: {
+                duration: 1,
+                delay: 0,
+              },
+            }}
+            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary  hover:bg-emerald-500 focus:outline-none  "
+          >
+            Next
+          </motion.button>
+        ) : null}
       </div>
     );
   } else if (activeTab === tabs[1].id) {
@@ -262,7 +338,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
             transition={{
               delay: 0.15 + 0.2,
             }}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Previous
           </motion.button>
@@ -273,7 +349,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
             transition={{
               delay: 0.25 + 0.2,
             }}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Next
           </motion.button>
@@ -292,7 +368,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
             transition={{
               delay: 0.15 + 0.2,
             }}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Previous
           </motion.button>
@@ -303,7 +379,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
             transition={{
               delay: 0.25 + 0.2,
             }}
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary_assent hover:bg-secondary_assent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary_assent"
+            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Let's Go
           </motion.button>

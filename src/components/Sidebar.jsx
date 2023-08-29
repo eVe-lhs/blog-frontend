@@ -32,7 +32,9 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
     e.preventDefault();
     setTheme(colorTheme);
   };
-
+  
+  const [activeTab,setActiveTab] = useState('home')
+  
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const toggleSidebar = (e) => {

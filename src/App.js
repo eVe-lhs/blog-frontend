@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { useContext } from "react";
+
+
 import SignupPage from "./pages/Signup";
 import LoginPage from "./pages/Login";
 import ForgotPw from "./pages/ForgotPw";
@@ -16,6 +19,7 @@ import Bookmarks from "./pages/Bookmarks";
 import Gallery from "./pages/Notifications";
 import SinglePost from "./pages/SinglePost";
 import Notifications from "./pages/Notifications";
+import { EditProfile } from "./pages/EditProfile";
 
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
@@ -49,7 +53,10 @@ function App() {
             element={<Feed showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />}
           />
           <Route path="posts/:postId" element={<SinglePost colorTheme={colorTheme} />} />
-          <Route path="Profile/:uid" element={<ProfileView setShowModal={setShowModal} setModalData={setModalData} />} />
+          <Route path="Profile/:uid">
+            <Route index element={<ProfileView setShowModal={setShowModal} setModalData={setModalData} />} />
+            <Route path="edit" element={<EditProfile />} />
+            </Route>
           <Route path="Bookmarks" element={<Bookmarks />} />
           <Route path="Notifications" element={<Notifications/>} />
         </Route>

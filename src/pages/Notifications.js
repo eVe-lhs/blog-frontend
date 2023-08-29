@@ -72,7 +72,7 @@ const TempNoti = [
 export default function Notifications() {
   const [notiTab, setNotiTab] = useState('all')
   return (
-    <div className="md:mt-5 mt-14 relative z-0 font-body ">
+    <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0, y: 10 }}
@@ -87,8 +87,8 @@ export default function Notifications() {
           },
         }}
       >
-        <div className="text-3xl font-bold font-body">Notifications</div>
-        <div className="flex flex-row gap-10 text-lg font-body mt-10">
+        <div className="text-3xl font-bold font-body md:px-0 md:mt-0 mt-5 px-4">Notifications</div>
+        <div className="flex flex-row md:gap-10 gap-4 text-lg font-body mt-10 md:px-0 px-4">
           <div
             className={`${notiTab === "all" && "underline"} cursor-pointer`}
             onClick={() => setNotiTab("all")}
@@ -116,7 +116,7 @@ export default function Notifications() {
             Likes
           </div>
         </div>
-        <div className="mt-5 w-full flex flex-col gap-4">
+        <div className="mt-5 w-full flex flex-col gap-4 md:px-0 px-2">
           {TempNoti.map((notification) => (
             <NotificationCard
               type={notification.type}
@@ -151,7 +151,7 @@ const NotificationCard = ({ type, user, profileImg, postImg }) => {
             </span>
           </div>
         </div>
-        <img src={postImg} className="w-12"/>
+        <img src={postImg} className="h-12 w-12"/>
       </div>
     </div>
   );

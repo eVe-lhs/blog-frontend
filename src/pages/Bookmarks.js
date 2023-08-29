@@ -4,9 +4,11 @@ import { useState } from "react";
 import { ContentCard } from "../components/ContentCard";
 
 export default function Bookmarks() {
-  const [collection,setCollection] = useState('All Saved Items')
+  const [collection, setCollection] = useState('All Saved Items')
+  const [addNewClicked, setAddNewClicked] = useState(false)
+  const [collectionName,setCollectionName] = useState('')
   return (
-    <div className="md:mt-5 mt-14 relative z-0 font-body ">
+    <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0, y: 10 }}
@@ -21,7 +23,86 @@ export default function Bookmarks() {
           },
         }}
       >
-        <div className="text-black font-bold w-full text-xl mb-10 ml-2">Currently selected collection: {collection}</div>
+        <div className="text-black font-bold md:text-xl text-lg mb-10 ml-2">
+          Currently selected collection: {collection}
+        </div>
+
+        {/* the select box for mobile view */}
+        <div className="md:hidden block px-4">
+          <label for="underline_select" class="sr-only">
+            Select a collection
+          </label>
+          <select
+            id="underline_select"
+            class="block font-body py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+            onChange={(e) => setCollection(e.target.value)}
+          >
+            <option selected value="All saved item">
+              All
+            </option>
+            <option value="Politics">Politics</option>
+            <option value="Science">Science</option>
+            <option value="AI">AI</option>
+          </select>
+          {!addNewClicked ? (
+            <motion.div
+              className="flex flex-row gap-5 justify-start mt-5 w-full mx-auto  rounded-lg py-2 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setAddNewClicked(true)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12 4.5v15m7.5-7.5h-15"
+                />
+              </svg>
+
+              <span className="cursor-pointer hover:underline">
+                Add a New Collection
+              </span>
+            </motion.div>
+          ) : (
+            <motion.div
+              className="flex flex-col gap-1 justify-start mt-5 px-3 w-full mx-auto  rounded-lg py-2 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <input
+                class="text-sm appearance-none w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-400 rounded-lg py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="title"
+                type="text"
+                maxLength={20}
+                placeholder="Write something"
+                value={collectionName}
+                onChange={(e) => setCollectionName(e.target.value)}
+              />{" "}
+              <div className="flex flex-row w-full justify-evenly">
+                <div
+                  className="text-gray-700 dark:text-gray-400 cursor-pointer hover:underline"
+                  onClick={() => {
+                    setAddNewClicked(false);
+                  }}
+                >
+                  Cancel
+                </div>
+                <div className="text-gray-700 dark:text-gray-400 cursor-pointer hover:underline">
+                  Add
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
         {TempData.map((data) => (
           <ContentCard
             id={data.id}
