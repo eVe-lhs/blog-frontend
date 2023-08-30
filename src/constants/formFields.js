@@ -23,14 +23,14 @@ const loginFields = [
 
 const signupFields = [
   {
-    labelText: "Full Name",
+    labelText: "Username",
     labelFor: "username",
     id: "username",
     name: "username",
     type: "text",
     autoComplete: "username",
     isRequired: true,
-    placeholder: "Johny Depp",
+    placeholder: "abc_1234",
   },
   {
     labelText: "Email address",

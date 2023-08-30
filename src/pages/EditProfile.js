@@ -2,15 +2,17 @@ import { useState,useEffect, useRef } from "react";
 
 export const EditProfile = () => {
     const currentUser = {
-        username: "Lin Htet Swe",
+      username: "linhtetswe",
+      name:"Lin Htet Swe",
         email:'linhtetswe@email.com',
       bio: "This is the bio",
       profilePicture:
         "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg",
       coverPicture:
         "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWx8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-    };
-    const [name, setName] = useState(currentUser.username)
+  };
+  const [username,setUsername] = useState(currentUser.username)
+    const [name, setName] = useState(currentUser.name)
     const [bio, setBio] = useState(currentUser.bio)
     const [selectedProfileImage, setSelectedProfileImage] = useState(currentUser.profilePicture);
     const [coverPicture, setCoverPicture] = useState(currentUser.coverPicture)
@@ -47,6 +49,23 @@ export const EditProfile = () => {
         <div className="w-full mt-5 flex md:flex-row flex-col gap-2">
           <div className="p-5 flex-1 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
             <h1 className="font-bold font-body text-lg">General Settings</h1>
+            <div class="w-full mt-5">
+              <label
+                class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
+                htmlFor="title"
+              >
+                Username (Name to be displayed)
+              </label>
+              <input
+                class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="title"
+                type="text"
+                maxLength={20}
+                placeholder={"Write the username"}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
             <div class="w-full mt-5">
               <label
                 class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"

@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import moment from "moment";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,profile,setModalData,self,bookmarked}) => {
+export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, profile, setModalData, self, bookmarked }) => {
+  const [openBookmarks, setOpenbookmarks] = useState(false)
   return (
     <motion.div
       className={`${
@@ -58,20 +60,103 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id,author,pro
               </>
             ) : (
               <>
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
-                 
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${bookmarked? 'fill-current' : 'fill-none'}`}
+                  className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${
+                    bookmarked ? "fill-current" : "fill-none"
+                  }`}
+                  onClick={() => setOpenbookmarks(!openBookmarks)}
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
                   />
-                </svg>
+                </svg> */}
+                {/* <select
+                  id="underline_select"
+                  class="block font-body py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                  // onChange={(e) => setCollection(e.target.value)}
+                >
+                  <option selected></option>
+                  <option value="Politics">Politics</option>
+                  <option value="Science">Science</option>
+                  <option value="AI">AI</option>
+                </select> */}
+
+                <div class="flex">
+                  <button
+                    // id={`bookmarkBtn${id}`}
+                    // data-dropdown-toggle={`dropdownBookmarks${id}`}
+                    // class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
+                    type="button"
+                    onClick={() => setOpenbookmarks(!openBookmarks)}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${
+                        bookmarked ? "fill-current" : "fill-none"
+                      }`}
+                      // onClick={() => setOpenbookmarks(!openBookmarks)}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    id={`dropdownBookmarks${id}`}
+                    class={` z-10 ${
+                      openBookmarks ? "block" : "hidden"
+                    } bg-white divide-y divide-gray-100 rounded-lg shadow border w-44 dark:bg-gray-700`}
+                  >
+                    <ul
+                      class="text-sm text-gray-700 dark:text-gray-200 divide-y h-36 overflow-y-auto"
+                      aria-labelledby="states-button"
+                    >
+                      <li>
+                        <button
+                          type="button"
+                          class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <div class="inline-flex items-center">Politics</div>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <div class="inline-flex items-center">Politics</div>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <div class="inline-flex items-center">AI</div>
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          class="inline-flex w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
+                        >
+                          <div class="inline-flex items-center">Science</div>
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </>
             )}
             {!profile ? (

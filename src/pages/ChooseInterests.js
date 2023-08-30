@@ -1,11 +1,11 @@
 import { motion } from "framer-motion";
-import { useState,useEffect } from "react";
+import { useState, useEffect,useRef } from "react"
+import { useNavigate } from "react-router-dom";
 
 export default function ChooseInterest() {
   let [activeTab, setActiveTab] = useState(tabs[0].id);
   const Tabs = () => {
     return (
-      
         <div className="flex space-x-5 mt-5 justify-center">
           {tabs.map((tab) => (
             <button
@@ -41,7 +41,7 @@ export default function ChooseInterest() {
       setText("Select at least 2 topics from the followings:");
     } else if (activeTab === tabs[1].id) {
       setHeader("Update your info");
-      setText("A short description of who you are, your interest and so on");
+      setText("Describe yourself for other users to know who you are");
     } else{
       setHeader("Here are some people you might want to follow");
       setText("These people are actively sharing vast amount of knowledge in their respective areas");
@@ -142,19 +142,19 @@ const topics = [
   },
 ];
 
-const Interests = () => {
-  const [selected, setSelected] = useState([]);
+const Interests = ({selectedInterest,setSelectedInterest}) => {
+  // const [selected, setSelected] = useState([]);
   const toggleClass = (topicId) => {
-    if (!selected.includes(topicId)) setSelected([...selected, topicId]);
+    if (!selectedInterest.includes(topicId)) setSelectedInterest([...selectedInterest, topicId]);
     else
-      setSelected((current) =>
+      setSelectedInterest((current) =>
         current.filter((id) => {
           return id !== topicId;
         })
       );
   };
   return (
-    <div className="h-3/4 grid items-center">
+    <div className="h-3/4 grid items-center ">
       <motion.div
         transition={{ duration: 0.3 }}
         className="md:grid md:grid-flow-row md:gap-4 gap-3 md:grid-cols-4 flex flex-wrap justify-start md:justify-center md:h-72 md:mt-0 my-auto"
@@ -195,7 +195,7 @@ const Interests = () => {
             onClick={() => toggleClass(topic.id)}
             key={topic.id}
             className={`md:rounded-lg rounded-full ${
-              selected.includes(topic.id)
+              selectedInterest.includes(topic.id)
                 ? "border-primary border-2 text-primary"
                 : "dark:border-white dark:text-white border-gray-400 border-2 text-gray-400 "
             } md:py-auto md:w-auto min-w-fit md:px-auto px-3 py-2 md:text-base text-xs py-auto md:h-20 fill-none text-center transition-colors duration-300 md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer grid items-center justify-center `}
@@ -208,19 +208,113 @@ const Interests = () => {
   );
 }
 
-const Personal = () => {
-  const [bio,setBio] = useState('')
+const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setSelectedProfileImage,setCoverImage}) => {
+  // const [bio, setBio] = useState('')
+  // const [name,setName] = useState('')
+  const profileImg = useRef(null)
+  const coverImg = useRef(null)
+  // const [selectedProfileImage, setSelectedProfileImage] = useState(null)
+  // const [coverImage, setCoverImage] = useState(null)
+  const profileImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedProfileImage(e.target.files[0]);
+    }
+  };
+  const coverImageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setCoverImage(e.target.files[0]);
+    }
+  };
   return (
     <div className="h-3/4 grid items-center ">
+      <label
+        class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
+        htmlFor="fname"
+      >
+        Full Name
+      </label>
       <input
         class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-        id="title"
+        id="fname"
+        type="text"
+        maxLength={20}
+        placeholder={"Write your full name"}
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <label
+        class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
+        htmlFor="bio"
+      >
+        A short bio about yourself
+      </label>
+      <input
+        class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="bio"
         type="text"
         maxLength={20}
         placeholder={"Write your bio"}
         value={bio}
         onChange={(e) => setBio(e.target.value)}
       />
+      <div class="w-full mt-5">
+        <label
+          class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
+          htmlFor="image"
+        >
+          Profile Picture
+        </label>
+        <input
+          class="hidden"
+          id="profileImageChange"
+          ref={profileImg}
+          accept="image/*"
+          type="file"
+          onChange={profileImageChange}
+        />
+        <div className="mt-3 gap-5 flex flex-row justify-start mb-2 items-center">
+          <img
+            src={selectedProfileImage ? URL.createObjectURL(selectedProfileImage) : "/no_image.jpg"}
+            className="w-32 h-32 rounded-lg object-center object-cover"
+            alt="Profile Image"
+          />
+          <input
+            className="bg-primary h-10 px-5 text-white dark:text-black rounded-lg shadow cursor-pointer"
+            type="button"
+            value="Change"
+            onClick={(event) => profileImg.current.click()}
+          />
+        </div>
+      </div>
+      <div class="w-full mt-5">
+        <label
+          class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
+          htmlFor="image"
+        >
+          Cover Picture
+        </label>
+        <input
+          class="hidden"
+          id="profileImageChange"
+          ref={coverImg}
+          accept="image/*"
+          type="file"
+          onChange={coverImageChange}
+        />
+        <div className="mt-3 gap-5 flex flex-col justify-start mb-2 items-center">
+          <img
+            src={coverImage ? URL.createObjectURL(coverImage) : "/no_cover_img.jpg"}
+            className="h-64 w-full rounded-lg object-center object-cover"
+            alt="Cover Image"
+          />
+          <input
+            className="bg-primary h-10 px-5 text-white dark:text-black rounded-lg shadow cursor-pointer"
+            type="button"
+            value="Change"
+            onClick={(event) => coverImg.current.click()}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -298,17 +392,27 @@ let tabs = [
   { id: "suggestions", label: "Suggestions" },
 ];
 
-const ChooseInterests = ({activeTab,setActiveTab}) => {
+const ChooseInterests = ({ activeTab, setActiveTab }) => {
+  const navigate = useNavigate();
+  const [selectedInterest, setSelectedInterest] = useState([])
+   const [bio, setBio] = useState("");
+  const [name, setName] = useState("");
+  const [selectedProfileImage, setSelectedProfileImage] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   // choosing interests
   if (activeTab === tabs[0].id) {
     return (
       <div className="mt-5">
-        <Interests activeTab={activeTab} />
+        <Interests
+          activeTab={activeTab}
+          selectedInterest={selectedInterest}
+          setSelectedInterest={setSelectedInterest}
+        />
         {activeTab === tabs[0].id ? (
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            onClick={() => setActiveTab(tabs[1].id)}
+            onClick={() => selectedInterest.length>=2 ? setActiveTab(tabs[1].id) : null}
             transition={{
               delay: topics.length * 0.15 + 0.2,
             }}
@@ -319,7 +423,11 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
                 delay: 0,
               },
             }}
-            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary  hover:bg-emerald-500 focus:outline-none  "
+            className={`mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary focus:outline-none  ${
+              selectedInterest.length < 2
+                ? "cursor-default bg-gray-600"
+                : "hover:bg-emerald-500 cursor-pointer"
+            }`}
           >
             Next
           </motion.button>
@@ -329,7 +437,7 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
   } else if (activeTab === tabs[1].id) {
     return (
       <div className="mt-5">
-        <Personal />
+        <Personal bio={bio} name={name} selectedProfileImage={selectedProfileImage} coverImage={coverImage} setBio={setBio} setName={setName} setSelectedProfileImage={setSelectedProfileImage} setCoverImage={setCoverImage}/>
         <div className="flex flex-row gap-5">
           <motion.button
             initial={{ opacity: 0 }}
@@ -338,18 +446,26 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
             transition={{
               delay: 0.15 + 0.2,
             }}
-            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
+            className="mb-10 mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Previous
           </motion.button>
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            onClick={() => setActiveTab(tabs[2].id)}
+            onClick={async () => {
+              alert(`The profile has been updated:
+              Fullname : ${name}
+              Bio: ${bio}
+              profileImg: ${selectedProfileImage}
+              coverImg: ${coverImage}
+              Interests: ${selectedInterest.map(interest => topics.find(item => item.id===interest).name)}`)
+              setActiveTab(tabs[2].id)
+            }}
             transition={{
               delay: 0.25 + 0.2,
             }}
-            className="mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
+            className="mb-10 mt-5 group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary hover:bg-emerald-500 focus:outline-none  "
           >
             Next
           </motion.button>
@@ -375,7 +491,10 @@ const ChooseInterests = ({activeTab,setActiveTab}) => {
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            onClick={() => window.alert("Let's go")}
+            onClick={() => {
+              window.alert("Let's go")
+              navigate('/home')
+            }}
             transition={{
               delay: 0.25 + 0.2,
             }}
