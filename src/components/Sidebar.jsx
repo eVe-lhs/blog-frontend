@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
 const variant = {
   hidden: {
@@ -32,7 +33,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
     e.preventDefault();
     setTheme(colorTheme);
   };
-  
+   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [activeTab,setActiveTab] = useState('home')
   
   const navigate = useNavigate();
@@ -40,6 +41,19 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
   const toggleSidebar = (e) => {
     e.preventDefault();
     setOpen(!open);
+  };
+
+  const logoutHandler = () => {
+    if (window.confirm("Are you sure you want to Log out?")) {
+      const logout = async () => {
+         const { data } = await axios.post(
+           `${process.env.REACT_APP_BASE_URL}/logout`,
+        );
+      };
+      localStorage.removeItem("token");
+      logout().catch((err) => console.log(err));
+      window.location.reload();
+    }
   };
   // if (loading) {
   //   return null;
@@ -167,7 +181,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
                 <p class="text-2xl font-medium text-gray-900 truncate dark:text-white font-header">
-                  Lin Htet Swe
+                  {currentUser? currentUser.username: '[Username]'}
                 </p>
               </div>
             </div>
@@ -366,7 +380,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             </motion.div>
           </motion.div>
           <div class="md:inline-flex block items-center text-base font-semibold text-white w-full">
-            <button className="text-base w-full py-2 rounded-md hover:bg-red-600 bg-red-500  cursor-pointer transition duration-100">
+            <button className="text-base w-full py-2 rounded-md hover:bg-red-600 bg-red-500  cursor-pointer transition duration-100" onClick={logoutHandler}>
               Log Out
             </button>
           </div>
@@ -389,6 +403,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
       </motion.aside>
     </>
   );
+  
 };
 // };
 export default SideBar;

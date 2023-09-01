@@ -1,8 +1,12 @@
 import Header from "../components/Header";
 import Login from "../components/Login";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export default function LoginPage() {
+  useEffect(() => {
+    document.title = "Leaflet | Login";
+  }, []);
   return (
     <motion.div
       initial={{ scale: 0 }}

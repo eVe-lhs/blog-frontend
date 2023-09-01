@@ -1,12 +1,19 @@
 import { motion } from "framer-motion";
 import { TempData } from "../TempData";
 import moment from "moment/moment";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ContentCard } from "../components/ContentCard";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../App";
 
 export default function Feed({showModal, setShowModal,setModalData}) {
-    
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+    useEffect(() => {
+      if (!currentUser) {
+        navigate("/auth/login");
+      }
+    }, [currentUser]);
     return (
       <>
         <div className="md:mt-5 mt-20 relative z-0 font-body">

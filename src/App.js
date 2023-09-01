@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, createContext, useEffect } from "react";
+import axios from "axios";
 
 
 import SignupPage from "./pages/Signup";
@@ -21,46 +22,90 @@ import SinglePost from "./pages/SinglePost";
 import Notifications from "./pages/Notifications";
 import { EditProfile } from "./pages/EditProfile";
 
+export const UserContext = createContext();
+
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
+  const [currentUser, setCurrentUser] = useState();
+useEffect(() => {
+  const fetchData = async () => {
+    const jwt = localStorage.getItem('token')
+    if(jwt){const { data } = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/currentuser`,
+      { access_token: jwt },
+      {
+        // withCredentials: true,
+        headers: {
+          'Authorization' : 'Bearer ' + jwt
+        }
+      },
+      // {
+      //   headers: {
+      //     "Authorization": `Bearer ${jwt}`,
+      //   },
+      // }
+    );
+    setCurrentUser(data);}
+  };
+  fetchData().catch((err) => console.log(err));
+}, []);
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/auth" element={<AuthLayout />}>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signup" element={<SignupPage />} />
-          <Route path="forgotpw" element={<ForgotPw />} />
-          <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
-          <Route path="chooseinterest" element={<ChooseInterest />} />
-        </Route>
-        <Route path="/" element={<Landing />} />
-        <Route
-          path="/home"
-          element={
-            <OutletLayout
-              setTheme={setTheme}
-              colorTheme={colorTheme}
-              showModal={showModal}
-              setShowModal={setShowModal}
-              modalData={modalData}
-            />
-          }
-        >
+      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <Routes>
+          <Route path="/auth" element={<AuthLayout />}>
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signup" element={<SignupPage />} />
+            <Route path="forgotpw" element={<ForgotPw />} />
+            <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
+            <Route path="chooseinterest" element={<ChooseInterest />} />
+          </Route>
+          <Route path="/" element={<Landing />} />
           <Route
-            index
-            element={<Feed showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />}
-          />
-          <Route path="posts/:postId" element={<SinglePost colorTheme={colorTheme} />} />
-          <Route path="Profile/:uid">
-            <Route index element={<ProfileView setShowModal={setShowModal} setModalData={setModalData} />} />
-            <Route path="edit" element={<EditProfile />} />
+            path="/home"
+            element={
+              <OutletLayout
+                setTheme={setTheme}
+                colorTheme={colorTheme}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                modalData={modalData}
+              />
+            }
+          >
+            <Route
+              index
+              element={
+                <Feed
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  setModalData={setModalData}
+                />
+              }
+            />
+            <Route
+              path="posts/:postId"
+              element={<SinglePost colorTheme={colorTheme} />}
+            />
+            <Route path="Profile/:uid">
+              <Route
+                index
+                element={
+                  <ProfileView
+                    setShowModal={setShowModal}
+                    setModalData={setModalData}
+                  />
+                }
+              />
+              <Route path="edit" element={<EditProfile />} />
             </Route>
-          <Route path="Bookmarks" element={<Bookmarks />} />
-          <Route path="Notifications" element={<Notifications/>} />
-        </Route>
-      </Routes>
+            <Route path="Bookmarks" element={<Bookmarks />} />
+            <Route path="Notifications" element={<Notifications />} />
+          </Route>
+        </Routes>
+      </UserContext.Provider>
     </BrowserRouter>
   );
 }
