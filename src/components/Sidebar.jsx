@@ -174,7 +174,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <div class="flex-shrink-0">
               <img
                 class="md:w-2/3 w-24 mx-auto rounded-lg"
-                src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
+                src={currentUser? currentUser.profile_info.profile_picture: '/no_image.jpg'}
                 alt=""
               />
             </div>
@@ -220,7 +220,7 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <motion.div className="mx-auto" variants={navChildVariant}>
               <div
                 className="navigation w-full"
-                onClick={(e) => navigate("Profile/1")}
+                onClick={(e) => navigate(`Profile/${currentUser?currentUser.id:''}`)}
               >
                 <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-start items-center">
                   <svg

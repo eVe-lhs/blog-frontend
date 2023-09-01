@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
-import { useState, useEffect,useRef } from "react"
+import { useState, useEffect,useRef, useContext } from "react"
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+import axios from "axios";
+
 
 export default function ChooseInterest() {
   let [activeTab, setActiveTab] = useState(tabs[0].id);
+  
   const Tabs = () => {
     return (
         <div className="flex space-x-5 mt-5 justify-center">
@@ -213,6 +217,7 @@ const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setS
   // const [name,setName] = useState('')
   const profileImg = useRef(null)
   const coverImg = useRef(null)
+  
   // const [selectedProfileImage, setSelectedProfileImage] = useState(null)
   // const [coverImage, setCoverImage] = useState(null)
   const profileImageChange = (e) => {
@@ -395,10 +400,51 @@ let tabs = [
 const ChooseInterests = ({ activeTab, setActiveTab }) => {
   const navigate = useNavigate();
   const [selectedInterest, setSelectedInterest] = useState([])
-   const [bio, setBio] = useState("");
+  const [bio, setBio] = useState("");
   const [name, setName] = useState("");
   const [selectedProfileImage, setSelectedProfileImage] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
+  const { currentUser } = useContext(UserContext);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append("bio", bio);
+  //     formData.append("username", name);
+  //     formData.append("profile_img", selectedProfileImage);
+  //     formData.append("cover_img", coverImage);
+  //     formData.append("interests", selectedInterest)
+  //     const { data } = await axios.post(
+  //       `${process.env.REACT_APP_BASE_URL}/profile/${currentUser.id}`,
+  //       formData
+  //     );
+  //     alert(data.message);
+  //     setActiveTab(tabs[2].id);
+  //   } catch (err) {
+  //     alert(err.response.data.error);
+  //   }
+  // };
+
+  const handleUpdateInfo = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("bio", bio);
+      formData.append("name", name);
+      formData.append("profile_img", selectedProfileImage);
+      formData.append("cover_img", coverImage);
+      formData.append("interests", JSON.stringify(selectedInterest));
+      // alert(JSON.stringify(selectedInterest));
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/profile/${currentUser.id}`,
+        formData
+      );
+      alert(data.message);
+      setActiveTab(tabs[2].id);
+    } catch (err) {
+      alert(err.response.data.error);
+    }
+  }
   // choosing interests
   if (activeTab === tabs[0].id) {
     return (
@@ -453,15 +499,15 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
           <motion.button
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            onClick={async () => {
-              alert(`The profile has been updated:
-              Fullname : ${name}
-              Bio: ${bio}
-              profileImg: ${selectedProfileImage}
-              coverImg: ${coverImage}
-              Interests: ${selectedInterest.map(interest => topics.find(item => item.id===interest).name)}`)
-              setActiveTab(tabs[2].id)
-            }}
+            onClick={
+              handleUpdateInfo
+              // alert(`The profile has been updated:
+              // Fullname : ${name}
+              // Bio: ${bio}
+              // profileImg: ${selectedProfileImage}
+              // coverImg: ${coverImage}
+              // Interests: ${selectedInterest.map(interest => topics.find(item => item.id===interest).name)}`)
+            }
             transition={{
               delay: 0.25 + 0.2,
             }}

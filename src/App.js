@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import { useContext, createContext, useEffect } from "react";
 import axios from "axios";
 
@@ -119,7 +119,14 @@ const AuthLayout = () => {
   )
 }
 
-const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme,modalData }) => {
+const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData }) => {
+   const { currentUser, setCurrentUser } = useContext(UserContext);
+   const navigate = useNavigate();
+   useEffect(() => {
+     if (!currentUser) {
+       navigate("/auth/login");
+     }
+   }, [currentUser]);
   
   const changeThemeHandler = (e) => {
     e.preventDefault();

@@ -1,8 +1,10 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useContext } from "react";
 import { signupFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
+import axios from "axios";
 
 const fields = signupFields;
 let fieldsState = {};
@@ -17,6 +19,8 @@ export default function Signup() {
   const [passwordMatch, setPasswordMatch] = useState(false)
   const [passwordStrength, setPasswordStrength] = useState(false)
   const [signupState, setSignupState] = useState(fieldsState);
+  const navigate = useNavigate();
+  const { setCurrentUser } = useContext(UserContext)
   useEffect(() => {
 
       if (goodPassword.test(signupState["password"]) === true) {
@@ -44,17 +48,54 @@ export default function Signup() {
   }
     
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(signupState);
-    createAccount();
+  const register = async (e) => {
+    
+    // console.log(loginState)
+    try {
+      const userData = {
+        username: signupState["username"],
+        password: signupState["password"],
+        email:signupState["email"]
+      };
+      const {data} = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/register`,
+        userData,
+        // { withCredentials: true }
+      );
+      alert(data.message)
+      const login_data  = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/login`,
+        {
+          username: signupState["username"],
+          password: signupState["password"],
+        }
+        // { withCredentials: true }
+      );
+      localStorage.setItem('token', login_data.data.access_token)
+      setTimeout(() => {
+        alert("The session has expired.Please log in again");
+        localStorage.removeItem('token')
+        window.location.reload();
+      }, 1 * 60 * 60 * 1000);
+      await setCurrentUser(login_data.data.user)
+      navigate('/auth/chooseinterest')
+    } catch (err) {
+      if(err.response)
+        alert(err.response.data.message);
+      else
+        console.log(err)
+    }
   };
 
-  const navigate = useNavigate();
-  //handle Signup API Integration here
-  const createAccount = () => {
-    navigate('/auth/chooseinterest')
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    register()
   };
+
+  //handle Signup API Integration here
+  // const createAccount = () => {
+  //   navigate('/auth/chooseinterest')
+  // };
 
   return (
     <form className="mt-8 space-y-6" onSubmit={handleSubmit}>

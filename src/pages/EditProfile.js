@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { motion } from "framer-motion";
+import { UserContext } from "../App";
+import axios from "axios";
 
 const topics = [
   {
@@ -90,14 +92,14 @@ const Interests = ({ selectedTags, setTags }) => {
   return (
     <div className="p-3 grid items-center">
       <label
-        class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
+        class="block uppercase font-body text-lg tracking-wide dark:text-white text-gray-700 font-bold mb-2"
         htmlFor="content"
       >
-        Your Interests 
+        Your Interests
       </label>
       <motion.div
         transition={{ duration: 0.3 }}
-        className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto"
+        className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto p-5 flex-1 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md"
         exit={{ opacity: 0 }}
       >
         {topics.map((topic) => (
@@ -147,36 +149,103 @@ const Interests = ({ selectedTags, setTags }) => {
           </motion.div>
         ))}
       </motion.div>
-      <div className="mt-10 w-full py-4 rounded-lg shadow bg-blue-400 text-center font-bold font-body text-white cursor-pointer">
-                Submit Changes
-              </div>
     </div>
   );
 };
 
 export const EditProfile = () => {
-  
-    const currentUser = {
-      username: "linhtetswe",
-      name:"Lin Htet Swe",
-        email:'linhtetswe@email.com',
-      bio: "This is the bio",
-      profilePicture:
-        "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg",
-      coverPicture:
-        "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWx8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-      Interests: [1,2,3]
-  };
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  //   const currentUser = {
+  //     username: "linhtetswe",
+  //     name:"Lin Htet Swe",
+  //       email:'linhtetswe@email.com',
+  //     bio: "This is the bio",
+  //     profilePicture:
+  //       "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg",
+  //     coverPicture:
+  //       "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWx8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
+  //     Interests: [1,2,3]
+  // };
   // const [interests, setInterests] = useState(currentUser.Interests);
-  const [username,setUsername] = useState(currentUser.username)
-    const [name, setName] = useState(currentUser.name)
-    const [bio, setBio] = useState(currentUser.bio)
-    const [selectedProfileImage, setSelectedProfileImage] = useState(currentUser.profilePicture);
-    const [coverPicture, setCoverPicture] = useState(currentUser.coverPicture)
-    const [email,setEmail] = useState(currentUser.email)
+  const [username,setUsername] = useState(currentUser?.username)
+    const [name, setName] = useState(currentUser?.profile_info.name)
+    const [bio, setBio] = useState(currentUser?.profile_info.bio)
+    const [selectedProfileImage, setSelectedProfileImage] = useState(currentUser?.profile_info.profile_picture);
+    const [coverPicture, setCoverPicture] = useState(
+      currentUser?.profile_info.cover_photo
+  );
+  const [profileFile, setProfileFile] = useState('')
+  const [coverFile,setCoverFile] = useState('')
+    const [email,setEmail] = useState(currentUser?.email)
     const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [interests, setIntersts] = useState(currentUser?.interests)
+  // console.log(currentUser)
+
+  const handleUpdateInfo = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("bio", bio);
+      formData.append("name", name);
+      formData.append("profile_img", profileFile);
+      formData.append("cover_img", coverFile);
+      formData.append("interests", JSON.stringify(interests));
+      // alert(JSON.stringify(selectedInterest));
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/profile/${currentUser.id}`,
+        formData
+      );
+      alert(data.message);
+      window.location.reload();
+    } catch (err) {
+      alert(err.response.data.error);
+    }
+  };
+  let goodPassword = new RegExp(
+    "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
+  );
+  const [passwordMatch, setPasswordMatch] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState(false);
+  useEffect(() => {
+    if (goodPassword.test(newPassword) === true ){
+      setPasswordStrength(true);
+    } else if (goodPassword.test(newPassword) === false ){
+      setPasswordMatch(false);
+    }
+    if (newPassword !== confirmPassword) {
+      document.getElementById("newpassword").classList.add("border-red-500");
+      document
+        .getElementById("confirmpassword")
+        .classList.add("border-red-500");
+      setPasswordMatch(false);
+    } else if (newPassword === confirmPassword) {
+      document.getElementById("newpassword").classList.remove("border-red-500");
+      document
+        .getElementById("confirmpassword")
+        .classList.remove("border-red-500");
+      setPasswordMatch(true);
+    }
+  }, [newPassword,confirmPassword, passwordStrength]);
+  const handleAuth = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("newPassword", newPassword);
+      formData.append("currentPassword",currentPassword)
+      formData.append("email", email);
+      // alert(JSON.stringify(selectedInterest));
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/profile/${currentUser.id}/changePassword`,
+        formData
+      );
+      alert(data.message);
+      setNewPassword('')
+      setCurrentPassword('')
+      setConfirmPassword('')
+    } catch (err) {
+      alert(err.response.data.error);
+    }
+  };
 
     const profileImg = useRef(null)
     const coverImg = useRef(null)
@@ -193,11 +262,13 @@ export const EditProfile = () => {
      const profileImageChange = (e) => {
        if (e.target.files && e.target.files.length > 0) {
          setSelectedProfileImage(URL.createObjectURL(e.target.files[0]));
+         setProfileFile(e.target.files[0])
        }
     };
     const coverPictureChange = (e) => {
         if (e.target.files && e.target.files.length > 0) {
           setCoverPicture(URL.createObjectURL(e.target.files[0]));
+          setCoverFile(e.target.files[0])
         }
     }
     return (
@@ -315,16 +386,18 @@ export const EditProfile = () => {
                 />
               </div>
             </div>
-            <div className="mt-10 w-full py-4 rounded-lg shadow bg-blue-400 text-center font-bold font-body text-white cursor-pointer">
+            <div
+              onClick={handleUpdateInfo}
+              className="mt-10 w-full py-4 rounded-lg shadow bg-blue-400 text-center font-bold font-body text-white cursor-pointer"
+            >
               Submit Changes
             </div>
           </div>
-          <div className="p-5 flex-1 flex-col bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
-            <div className="p-5 flex-1 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
-              <h1 className="font-bold font-body text-lg">Interests</h1>
-              <Interests selectedTags={currentUser.Interests} />
+          <div className="flex flex-col gap-4 ">
+            <div className="p-5 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
+              <Interests selectedTags={interests} />
             </div>
-            <div>
+            <div className="p-5 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
               <h1 className="font-bold font-body text-lg">
                 Authentication Settings
               </h1>{" "}
@@ -353,7 +426,7 @@ export const EditProfile = () => {
                 </label>
                 <input
                   class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="title"
+                  id="currentpassword"
                   type="password"
                   value={currentPassword}
                   onChange={(e) => setCurrentPassword(e.target.value)}
@@ -368,7 +441,7 @@ export const EditProfile = () => {
                 </label>
                 <input
                   class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="title"
+                  id="newpassword"
                   type="password"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
@@ -383,14 +456,39 @@ export const EditProfile = () => {
                 </label>
                 <input
                   class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                  id="title"
+                  id="confirmpassword"
                   type="password"
                   maxLength={20}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                 />
               </div>
-              <div className="mt-10 w-full py-4 rounded-lg shadow bg-blue-400 text-center font-bold font-body text-white cursor-pointer">
+              {newPassword === "" ? (
+                <></>
+              ) : passwordStrength ? (
+                <></>
+              ) : (
+                <div className="mt-2 text-red-500">
+                  Password must contain at least 8 letters: <br/> at least a capital
+                  letter, a small letter and a symbol.
+                </div>
+              )}
+              {confirmPassword === "" ? (
+                <></>
+              ) : passwordMatch ? (
+                <div className="mt-2 text-green-500">
+                  Passwords are OK &#9989;
+                </div>
+              ) : (
+                <div className="mt-2 text-red-500">Passwords Do Not Match</div>
+              )}
+              <div className={`${passwordMatch && passwordStrength ? 'bg-blue-500' : 'bg-gray-400'} mt-10 w-full py-4 rounded-lg shadow  text-center font-bold font-body text-white cursor-pointer`}
+                onClick={() => {
+                  if (passwordMatch && passwordStrength)
+                    handleAuth()
+                  else
+                    alert("Fix the problems first")
+              }}>
                 Submit Changes
               </div>
             </div>
