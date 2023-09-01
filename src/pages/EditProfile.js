@@ -325,7 +325,7 @@ export const EditProfile = () => {
                 maxLength={100}
                 placeholder="Write the bio"
                 value={bio}
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setBio(e.target.value)}
               />
             </div>
             <div class="w-full mt-5">
