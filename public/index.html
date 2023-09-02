@@ -43,3 +43,18 @@
     -->
   </body>
 </html>
+<script>
+  window.addEventListener('scroll', navScroll);
+//adding scroll event listner
+
+function navScroll() {
+  if(document.getElementById("logobar")!== null){if (window.scrollY > 100) {
+    // Replace all classes from element after 50px of scroll
+    document.getElementById("logobar").classList.add( 'shadow-lg', 'bg-gray-300','dark:bg-gray-700', 'bg-opacity-90')
+
+  } else {
+    document.getElementById("logobar").classList.remove( 'shadow-lg', 'bg-gray-300','dark:bg-gray-700', 'bg-opacity-90')
+  }}
+  
+}
+</script>

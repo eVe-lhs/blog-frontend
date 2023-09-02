@@ -14,7 +14,7 @@ import  Landing  from "./pages/Landing";
 import { useState } from "react";
 import PoseEditorModal from "./components/PoseEditorModel";
 import useDarkMode from './hooks/useDarkMode'
-import { color, motion } from "framer-motion";
+import { color, motion, useScroll } from "framer-motion";
 import ProfileView from "./pages/ProfileView";
 import Bookmarks from "./pages/Bookmarks";
 import Gallery from "./pages/Notifications";
@@ -132,25 +132,28 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
     e.preventDefault();
     setTheme(colorTheme);
   };
-  const [scroll,setScroll] = useState(0)
-  const [opacity,setOpacity] = useState(0)
+  const { scrollYProgress } = useScroll();
+  const [scroll, setScroll] = useState(false);
+
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("scroll", () =>
-        handleScroll
-      );
-    }
-  }, []);
-  const handleScroll = (e) => setScroll(e.currentTarget.ScrollTop)
+    if (scrollYProgress > 30)
+      setScroll(true)
+    else
+      setScroll(false)
+  },[scrollYProgress])
+  console.log(scroll)
     
   return (
     <>
-      <div className={`md:hidden w-screen bg-opacity-${opacity} py-2 block fixed top-0 drop-shadow-lg z-50 dark:shadow-white bg-gray-300`} id="logobar">
+      <motion.div
+        className={`md:hidden w-screen py-2 block fixed top-0 z-50 transition-all duration-300`}
+        id="logobar"
+      >
         <img
           src="/logo.png"
           className="mx-auto w-24  drop-shadow-lg dark:shadow-white"
         />
-      </div>
+      </motion.div>
       <div className="mx-auto relative w-screen md:pb-0 pb-32">
         <PoseEditorModal
           showModal={showModal}
