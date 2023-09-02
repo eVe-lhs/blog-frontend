@@ -132,12 +132,25 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
     e.preventDefault();
     setTheme(colorTheme);
   };
+  const [scroll,setScroll] = useState(0)
+  const [opacity,setOpacity] = useState(0)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () =>
+        handleScroll
+      );
+    }
+  }, []);
+  const handleScroll = (e) => setScroll(e.currentTarget.ScrollTop)
+    
   return (
     <>
-      <img
-        src="/logo.png"
-        className="md:hidden block fixed object-contain top-3 left-1/2 -translate-x-1/2 w-24 md:w-32 drop-shadow-lg z-50 dark:shadow-white"
-      />
+      <div className={`md:hidden w-screen bg-opacity-${opacity} py-2 block fixed top-0 drop-shadow-lg z-50 dark:shadow-white bg-gray-300`} id="logobar">
+        <img
+          src="/logo.png"
+          className="mx-auto w-24  drop-shadow-lg dark:shadow-white"
+        />
+      </div>
       <div className="mx-auto relative w-screen md:pb-0 pb-32">
         <PoseEditorModal
           showModal={showModal}
