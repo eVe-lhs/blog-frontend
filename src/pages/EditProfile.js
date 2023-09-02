@@ -2,69 +2,8 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { motion } from "framer-motion";
 import { UserContext } from "../App";
 import axios from "axios";
+import { topics } from "../constants/Interests";
 
-const topics = [
-  {
-    id: 1,
-    name: "Science",
-    active: "false",
-  },
-  {
-    id: 2,
-    name: "Sports",
-    active: "false",
-  },
-  {
-    id: 3,
-    name: "Music",
-    active: "false",
-  },
-  {
-    id: 4,
-    name: "Movies",
-    active: "false",
-  },
-  {
-    id: 5,
-    name: "Computer Science",
-    active: "false",
-  },
-  {
-    id: 6,
-    name: "AI",
-    active: "false",
-  },
-  {
-    id: 7,
-    name: "Agriculture",
-    active: "false",
-  },
-  {
-    id: 8,
-    name: "Medical Science",
-    active: "false",
-  },
-  {
-    id: 9,
-    name: "Celebrity",
-    active: "false",
-  },
-  {
-    id: 10,
-    name: "Politics",
-    active: "false",
-  },
-  {
-    id: 11,
-    name: "Animals",
-    active: "false",
-  },
-  {
-    id: 12,
-    name: "Natural Disasters",
-    active: "false",
-  },
-];
 
 const Interests = ({ selectedTags, setTags }) => {
   const [selected, setSelected] = useState([]);
@@ -273,7 +212,7 @@ export const EditProfile = () => {
     }
     return (
       <div className="md:w-3/5 w-full lg:ml-96 md:mt-10 mt-20 md:p-0 p-1">
-        <h1 className="font-bold font-body text-xl">User Settings</h1>
+        <h1 className="font-bold font-body text-xl md:text-left text-center">User Settings</h1>
         <div className="w-full mt-5 flex md:flex-row flex-col gap-2">
           <div className="p-5 flex-1 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
             <h1 className="font-bold font-body text-lg">General Settings</h1>

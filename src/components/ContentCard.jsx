@@ -213,9 +213,9 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, p
           </div>
         </div>
         <div className="text-gray-400 text-xs">{moment(date).fromNow()}</div>
-        <span class="line-clamp-4 text-ellipsis visible text-justify font-body font-normal text-sm">
+        {/* <span class="line-clamp-4 text-ellipsis visible text-justify font-body font-normal text-sm">
           {text}
-        </span>
+        </span> */}
         <div className="flex flex-row justify-between">
           <div className="flex flex-row gap-3">
             <div className="flex flex-row gap-1">
