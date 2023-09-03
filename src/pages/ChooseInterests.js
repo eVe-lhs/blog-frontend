@@ -410,6 +410,7 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
   const [selectedProfileImage, setSelectedProfileImage] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const { currentUser } = useContext(UserContext);
+  const {colorTheme} = useContext(ThemeContext)
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -432,7 +433,7 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
   // };
 
   const handleUpdateInfo = async () => {
-    const {colorTheme} = useContext(ThemeContext)
+
     try {
       const formData = new FormData();
       formData.append("bio", bio);

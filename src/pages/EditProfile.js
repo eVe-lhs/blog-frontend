@@ -136,7 +136,24 @@ export const EditProfile = () => {
         formData
       );
       alert(data.message);
-      window.location.reload();
+      const fetchData = async () => {
+        const jwt = localStorage.getItem("token");
+        if (jwt) {
+          const { data } = await axios.post(
+            `${process.env.REACT_APP_BASE_URL}/currentuser`,
+            { access_token: jwt },
+            {
+              // withCredentials: true,
+              headers: {
+                Authorization: "Bearer " + jwt,
+              },
+            }
+          );
+          setCurrentUser(data);
+        }
+      };
+      fetchData().catch((err) => console.log(err));
+      // window.location.reload();
     } catch (err) {
       alert(err.response.data.error);
     }
@@ -188,16 +205,6 @@ export const EditProfile = () => {
 
     const profileImg = useRef(null)
     const coverImg = useRef(null)
-
-    // useEffect(() => {
-    //    setImgUrl(
-    //      selectedProfileImage
-    //        ? URL.createObjectURL(selectedProfileImage)
-    //        : modalData?.imageUrl
-    //    );
-    //  }, [selectedImage, modalData, showModal]);
-     // console.log(imgDom)
-     // This function will be triggered when the file field change
      const profileImageChange = (e) => {
        if (e.target.files && e.target.files.length > 0) {
          setSelectedProfileImage(URL.createObjectURL(e.target.files[0]));
@@ -209,10 +216,19 @@ export const EditProfile = () => {
           setCoverPicture(URL.createObjectURL(e.target.files[0]));
           setCoverFile(e.target.files[0])
         }
-    }
+  }
+  if (!currentUser) {
+    return (
+      <div>
+        Loading
+      </div>
+    )
+  }
     return (
       <div className="md:w-3/5 w-full lg:ml-96 md:mt-10 mt-20 md:p-0 p-1">
-        <h1 className="font-bold font-body text-xl md:text-left text-center">User Settings</h1>
+        <h1 className="font-bold font-body text-xl md:text-left text-center">
+          User Settings
+        </h1>
         <div className="w-full mt-5 flex md:flex-row flex-col gap-2">
           <div className="p-5 flex-1 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
             <h1 className="font-bold font-body text-lg">General Settings</h1>
@@ -284,7 +300,11 @@ export const EditProfile = () => {
               />
               <div className="mt-3 gap-5 flex flex-row justify-start mb-2 items-center">
                 <img
-                  src={selectedProfileImage}
+                  src={
+                    selectedProfileImage !== ""
+                      ? selectedProfileImage
+                      : "/no_image.jpg"
+                  }
                   className="w-32 h-32 rounded-lg"
                   alt="Thumb"
                 />
@@ -313,7 +333,11 @@ export const EditProfile = () => {
               />
               <div className="mt-3 gap-5 flex flex-col justify-start mb-2 items-center">
                 <img
-                  src={coverPicture}
+                  src={
+                    coverPicture !== ""
+                      ? coverPicture
+                      : "/no_cover_img.jpg"
+                  }
                   className="w-full rounded-lg"
                   alt="Thumb"
                 />
@@ -408,8 +432,8 @@ export const EditProfile = () => {
                 <></>
               ) : (
                 <div className="mt-2 text-red-500">
-                  Password must contain at least 8 letters: <br/> at least a capital
-                  letter, a small letter and a symbol.
+                  Password must contain at least 8 letters: <br /> at least a
+                  capital letter, a small letter and a symbol.
                 </div>
               )}
               {confirmPassword === "" ? (
@@ -421,13 +445,17 @@ export const EditProfile = () => {
               ) : (
                 <div className="mt-2 text-red-500">Passwords Do Not Match</div>
               )}
-              <div className={`${passwordMatch && passwordStrength ? 'bg-blue-500' : 'bg-gray-400'} mt-10 w-full py-4 rounded-lg shadow  text-center font-bold font-body text-white cursor-pointer`}
+              <div
+                className={`${
+                  passwordMatch && passwordStrength
+                    ? "bg-blue-500"
+                    : "bg-gray-400"
+                } mt-10 w-full py-4 rounded-lg shadow  text-center font-bold font-body text-white cursor-pointer`}
                 onClick={() => {
-                  if (passwordMatch && passwordStrength)
-                    handleAuth()
-                  else
-                    alert("Fix the problems first")
-              }}>
+                  if (passwordMatch && passwordStrength) handleAuth();
+                  else alert("Fix the problems first");
+                }}
+              >
                 Submit Changes
               </div>
             </div>
