@@ -129,7 +129,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
      if (!currentUser && !localStorage.getItem('token')) {
        navigate("/auth/login");
      }
-   }, []);
+   }, [currentUser]);
   
   const changeThemeHandler = (e) => {
     e.preventDefault();
