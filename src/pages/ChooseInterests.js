@@ -3,6 +3,8 @@ import { useState, useEffect,useRef, useContext } from "react"
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
+import { topics } from "../constants/Interests";
+import { toast } from "react-toastify";
 
 
 export default function ChooseInterest() {
@@ -83,68 +85,6 @@ export default function ChooseInterest() {
   );
 }
 
-const topics = [
-  {
-    id: 1,
-    name: "Science",
-    active: "false",
-  },
-  {
-    id: 2,
-    name: "Sports",
-    active: "false",
-  },
-  {
-    id: 3,
-    name: "Music",
-    active: "false",
-  },
-  {
-    id: 4,
-    name: "Movies",
-    active: "false",
-  },
-  {
-    id: 5,
-    name: "Computer Science",
-    active: "false",
-  },
-  {
-    id: 6,
-    name: "AI",
-    active: "false",
-  },
-  {
-    id: 7,
-    name: "Agriculture",
-    active: "false",
-  },
-  {
-    id: 8,
-    name: "Medical Science",
-    active: "false",
-  },
-  {
-    id: 9,
-    name: "Celebrity",
-    active: "false",
-  },
-  {
-    id: 10,
-    name: "Politics",
-    active: "false",
-  },
-  {
-    id: 11,
-    name: "Animals",
-    active: "false",
-  },
-  {
-    id: 12,
-    name: "Natural Disasters",
-    active: "false",
-  },
-];
 
 const Interests = ({selectedInterest,setSelectedInterest}) => {
   // const [selected, setSelected] = useState([]);
@@ -279,7 +219,7 @@ const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setS
         />
         <div className="mt-3 gap-5 flex flex-row justify-start mb-2 items-center">
           <img
-            src={selectedProfileImage ? URL.createObjectURL(selectedProfileImage) : "/no_image.jpg"}
+            src={selectedProfileImage !== '' ? URL.createObjectURL(selectedProfileImage) : "/no_image.jpg"}
             className="w-32 h-32 rounded-lg object-center object-cover"
             alt="Profile Image"
           />
@@ -308,7 +248,7 @@ const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setS
         />
         <div className="mt-3 gap-5 flex flex-col justify-start mb-2 items-center">
           <img
-            src={coverImage ? URL.createObjectURL(coverImage) : "/no_cover_img.jpg"}
+            src={coverImage !== '' ? URL.createObjectURL(coverImage) : "/no_cover_img.jpg"}
             className="h-64 w-full rounded-lg object-center object-cover"
             alt="Cover Image"
           />
@@ -325,62 +265,47 @@ const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setS
 }
 
 const Suggestions = () => {
-  const suggestions = [
-    {
-      name: "John",
-      email: "john@email.com",
-      imageUrl: "",
-    },
-    {
-      name: "ken",
-      email: "ken@email.com",
-      imageUrl: "",
-    },
-    {
-      name: "anwar",
-      email: "anwar@email.com",
-      imageUrl: "",
-    },
-    {
-      name: "John",
-      email: "john@email.com",
-      imageUrl: "",
-    },
-    {
-      name: "John",
-      email: "john@email.com",
-      imageUrl: "",
-    },
-    {
-      name: "John",
-      email: "john@email.com",
-      imageUrl: "",
-    },
-  ];
+  const [suggestions, setSuggestions] = useState()
+  useEffect(() => {
+     const fetchData = async () => {
+         const { data } = await axios.get(
+           `${process.env.REACT_APP_BASE_URL}/suggestedUsers`,
+         );
+         setSuggestions(data);
+       }
+     fetchData().catch((err) => console.log(err));
+  }, [])
+  // console.log(suggestions)
+  const handleFollow = () => {
+    
+  }
   return (
     <div className="h-3/4 grid items-center ">
-      <div class="flow-root overflow-y-auto h-64 p-2">
+      <div class="flow-root overflow-y-auto h-80 p-2">
         <ul class="divide-y divide-gray-300 dark:divide-gray-700">
-          {suggestions.map((suggestion) => (
+          {suggestions?.map((suggestion) => (
             <li class="py-3 sm:py-4">
               <div class="flex items-center space-x-4">
                 <div class="flex-shrink-0">
                   <img
-                    class="w-16 h-16 rounded-lg"
-                    src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
+                    class="w-16 h-16 object-cover object-center rounded-lg"
+                    src={suggestion?.profile_info.profile_picture === '' ? '/no_image.jpg' : suggestion.profile_info.profile_picture}
                     alt=""
                   />
                 </div>
                 <div class="flex-1 min-w-0">
                   <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    {suggestion.name}
+                    {suggestion.username}
                   </p>
                   <p class="text-sm text-gray-500 truncate dark:text-gray-400">
                     {suggestion.email}
                   </p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                   Followers: {suggestion.followers.length}
+                  </p>
                 </div>
                 <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
-                  <button>Follow</button>
+                  <button onClick = {handleFollow}>Follow</button>
                 </div>
               </div>
             </li>
@@ -402,8 +327,8 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
   const [selectedInterest, setSelectedInterest] = useState([])
   const [bio, setBio] = useState("");
   const [name, setName] = useState("");
-  const [selectedProfileImage, setSelectedProfileImage] = useState(null);
-  const [coverImage, setCoverImage] = useState(null);
+  const [selectedProfileImage, setSelectedProfileImage] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const { currentUser } = useContext(UserContext);
 
   // const handleSubmit = async (e) => {
@@ -538,7 +463,7 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             onClick={() => {
-              window.alert("Let's go")
+              toast(" Let's Go !!!!!!!")
               navigate('/home')
             }}
             transition={{

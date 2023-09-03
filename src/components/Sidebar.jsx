@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { ThemeContext, UserContext } from "../App";
+import { toast } from "react-toastify";
 
 const variant = {
   hidden: {
@@ -28,11 +29,13 @@ const navChildVariant = {
   },
 };
 
-const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
+const SideBar = ({ showModal, setShowModal,
+}) => {
   const changeThemeHandler = (e) => {
     e.preventDefault();
     setTheme(colorTheme);
   };
+  const {colorTheme,setTheme} = useContext(ThemeContext)
    const { currentUser, setCurrentUser } = useContext(UserContext);
   const [activeTab,setActiveTab] = useState('home')
   
@@ -50,6 +53,12 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
            `${process.env.REACT_APP_BASE_URL}/logout`,
         );
       };
+      toast.success('User logged out', {
+        position: "top-center",
+        hideProgressBar:false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
       localStorage.removeItem("token");
       logout().catch((err) => console.log(err));
       window.location.reload();
@@ -173,15 +182,19 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
           <div class="flex md:flex-col flex-row md:items-center md:mx-auto mx-8 items-start space-y-2">
             <div class="flex-shrink-0">
               <img
-                class="md:w-2/3 w-24 mx-auto rounded-lg"
-                src={currentUser? currentUser.profile_info.profile_picture: '/no_image.jpg'}
+                class="md:w-32 md:h-32 mx-auto rounded-lg object-center object-cover"
+                src={
+                  currentUser?.profile_info.profile_picture === ''
+                    ? currentUser.profile_info.profile_picture
+                    : "/no_image.jpg"
+                }
                 alt=""
               />
             </div>
             <div className="flex flex-col gap-2 md:mx-0 ml-5 md:items-center">
               <div class="flex-1 min-w-0">
                 <p class="text-2xl font-medium text-gray-900 truncate dark:text-white font-header">
-                  {currentUser? currentUser.username: '[Username]'}
+                  {currentUser ? currentUser.username : "[Username]"}
                 </p>
               </div>
             </div>
@@ -220,7 +233,9 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             <motion.div className="mx-auto" variants={navChildVariant}>
               <div
                 className="navigation w-full"
-                onClick={(e) => navigate(`Profile/${currentUser?currentUser.id:''}`)}
+                onClick={(e) =>
+                  navigate(`Profile/${currentUser ? currentUser.id : ""}`)
+                }
               >
                 <div className="flex md:flex-row p-1 flex-col md:gap-5 gap-1 md:justify-normal justify-start items-center">
                   <svg
@@ -380,7 +395,10 @@ const SideBar = ({ showModal, setShowModal, colorTheme, setTheme }) => {
             </motion.div>
           </motion.div>
           <div class="md:inline-flex block items-center text-base font-semibold text-white w-full">
-            <button className="text-base w-full py-2 rounded-md hover:bg-red-600 bg-red-500  cursor-pointer transition duration-100" onClick={logoutHandler}>
+            <button
+              className="text-base w-full py-2 rounded-md hover:bg-red-600 bg-red-500  cursor-pointer transition duration-100"
+              onClick={logoutHandler}
+            >
               Log Out
             </button>
           </div>

@@ -1,11 +1,14 @@
-import { useState,useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 import { loginFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import axios from "axios";
 import FormExtra from "./FormExtra";
 import Input from "./Input";
-import { UserContext } from "../App";
-import { useNavigate } from "react-router-dom";
+import { ThemeContext, UserContext } from "../App";
+
 // import { verify } from "jsonwebtoken";
 
 const fields = loginFields;
@@ -16,6 +19,7 @@ export default function Login() {
   const navigate = useNavigate()
   const [loginState, setLoginState] = useState(fieldsState);
   const { currentUser, setCurrentUser } = useContext(UserContext)
+  const {colorTheme,setTheme} = useContext(ThemeContext)
   
   useEffect(() => {
     if (currentUser) {
@@ -34,21 +38,38 @@ export default function Login() {
         username: loginState.username,
         password: loginState.password,
       };
-      const {data} = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/login`,
-        userData,
-        // { withCredentials: true }
-      );
+      const { data } =await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/login`,
+          userData
+          // { withCredentials: true }
+        )
+       
       localStorage.setItem('token', data.access_token)
       setTimeout(() => {
-        alert("The session has expired.Please log in again");
+        toast.info("Session Time out, Please Login Again", {
+          position: "top-center",
+          autoClose:5000,
+          hideProgressBar: false,
+          theme: colorTheme === "dark" ? "light" : "dark",
+        });
         localStorage.removeItem('token')
         window.location.reload();
       }, 1 * 60 * 60 * 1000);
       await setCurrentUser(data.user)
-      alert(data.message)
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
     } catch (err) {
-      alert(err.response.data.error);
+      toast.error(err.response.data.error, {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover:true,
+        hideProgressBar: true,
+        theme: colorTheme === "dark" ? "dark" : "light",
+      });
     }
   };
 

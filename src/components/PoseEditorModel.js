@@ -128,7 +128,7 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
               }}
               className="justify-center items-center flex overflow-x-hidden fixed inset-0 z-50 outline-none focus:outline-none md:h-auto"
             >
-              <div className="relative my-6 mx-auto md:w-2/3 w-full md:h-auto">
+              <div className="relative my-6 mx-auto md:w-4/5 w-full md:h-auto">
                 {/*content*/}
 
                 <div className="md:flex border-0  relative flex flex-col w-full bg-white dark:bg-gray-900 outline-none focus:outline-none">
@@ -215,23 +215,6 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                       </div>
                     </div>
                     <div className="flex flex-col p-6">
-                      <div class="w-full px-3">
-                        <label
-                          class="block uppercase tracking-wide text-gray-700 dark:text-white text-xs font-bold mb-2"
-                          htmlFor="title"
-                        >
-                          Post Description
-                        </label>
-                        <input
-                          class="appearance-none block w-full bg-gray-200 dark:text-white dark:bg-gray-800 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                          id="title"
-                          type="text"
-                          maxLength={100}
-                          placeholder="Write the title of the article"
-                          value={description}
-                          onChange={(e) => setDescription(e.target.value)}
-                        />
-                      </div>
                       <Interests selectedTags={tags} setTags={setTags} />
                       <button
                         className="text-secondary_assent mt-5 hover:underline underline-offset-2 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -245,15 +228,15 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                       </button>
                     </div>
                   </div>
-                  <div class="md:block hidden w-full ml-8 mb-5">
+                  <div class="md:block hidden w-full mb-5">
                     <label
-                      class="block uppercase text-center tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
+                      class="block uppercase ml-8 tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
                       htmlFor="content"
                     >
                       Post Content
                     </label>
                     <MDEditor
-                      className="overflow-x-auto shadow mx-auto bg-gray-200 dark:text-white dark:bg-gray-800 border-black mt-1 block  border rounded max-w-3xl py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                      className="overflow-x-auto shadow mx-8  bg-gray-200 dark:text-white dark:bg-gray-800 border-black mt-1 block  border rounded md:max-w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                       placeholder="Textarea"
                       value={content}
                       onChange={setContent}

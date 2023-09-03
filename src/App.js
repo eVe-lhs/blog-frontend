@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import { useContext, createContext, useEffect } from "react";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css'
 
 
 import SignupPage from "./pages/Signup";
@@ -23,6 +25,7 @@ import Notifications from "./pages/Notifications";
 import { EditProfile } from "./pages/EditProfile";
 
 export const UserContext = createContext();
+export const ThemeContext = createContext()
 
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
@@ -53,58 +56,61 @@ useEffect(() => {
 }, []);
   return (
     <BrowserRouter>
+      <ToastContainer position="top-center" theme={`${colorTheme ==='dark'?'light':'dark'}`} />
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
-        <Routes>
-          <Route path="/auth" element={<AuthLayout />}>
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signup" element={<SignupPage />} />
-            <Route path="forgotpw" element={<ForgotPw />} />
-            <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
-            <Route path="chooseinterest" element={<ChooseInterest />} />
-          </Route>
-          <Route path="/" element={<Landing />} />
-          <Route
-            path="/home"
-            element={
-              <OutletLayout
-                setTheme={setTheme}
-                colorTheme={colorTheme}
-                showModal={showModal}
-                setShowModal={setShowModal}
-                modalData={modalData}
-              />
-            }
-          >
+        <ThemeContext.Provider value={{ setTheme, colorTheme }}>
+          <Routes>
+            <Route path="/auth" element={<AuthLayout />}>
+              <Route path="login" element={<LoginPage />} />
+              <Route path="signup" element={<SignupPage />} />
+              <Route path="forgotpw" element={<ForgotPw />} />
+              <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
+              <Route path="chooseinterest" element={<ChooseInterest />} />
+            </Route>
+            <Route path="/" element={<Landing />} />
             <Route
-              index
+              path="/home"
               element={
-                <Feed
+                <OutletLayout
+                  setTheme={setTheme}
+                  colorTheme={colorTheme}
                   showModal={showModal}
                   setShowModal={setShowModal}
-                  setModalData={setModalData}
+                  modalData={modalData}
                 />
               }
-            />
-            <Route
-              path="posts/:postId"
-              element={<SinglePost colorTheme={colorTheme} />}
-            />
-            <Route path="Profile/:uid">
+            >
               <Route
                 index
                 element={
-                  <ProfileView
+                  <Feed
+                    showModal={showModal}
                     setShowModal={setShowModal}
                     setModalData={setModalData}
                   />
                 }
               />
-              <Route path="edit" element={<EditProfile />} />
+              <Route
+                path="posts/:postId"
+                element={<SinglePost colorTheme={colorTheme} />}
+              />
+              <Route path="Profile/:uid">
+                <Route
+                  index
+                  element={
+                    <ProfileView
+                      setShowModal={setShowModal}
+                      setModalData={setModalData}
+                    />
+                  }
+                />
+                <Route path="edit" element={<EditProfile />} />
+              </Route>
+              <Route path="Bookmarks" element={<Bookmarks />} />
+              <Route path="Notifications" element={<Notifications />} />
             </Route>
-            <Route path="Bookmarks" element={<Bookmarks />} />
-            <Route path="Notifications" element={<Notifications />} />
-          </Route>
-        </Routes>
+          </Routes>
+        </ThemeContext.Provider>
       </UserContext.Provider>
     </BrowserRouter>
   );

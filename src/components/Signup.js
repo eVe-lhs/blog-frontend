@@ -124,12 +124,30 @@ export default function Signup() {
             a small letter and a symbol.
           </div>
         )}
-        {signupState["confirm-password"] === "" ? ( <></> ):passwordMatch ? (
+        {signupState["confirm-password"] === "" ? (
+          <></>
+        ) : passwordMatch ? (
           <div className="mt-2 text-green-500">Passwords are OK &#9989;</div>
         ) : (
           <div className="mt-2 text-red-500">Passwords Do Not Match</div>
         )}
-        <FormAction handleSubmit={handleSubmit} text="Next" />
+
+        {/* Action Button */}
+      
+        {passwordMatch && passwordStrength ? (
+          <div className="mt-2 text-green-500">
+            <FormAction handleSubmit={handleSubmit} text="Next" />
+          </div>
+        ) : (
+          <div className="mt-2 text-red-500">
+                <button
+                  
+              className="cursor-default font-body group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-gray-600 mt-10"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );
