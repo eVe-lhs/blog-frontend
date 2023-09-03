@@ -152,17 +152,17 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
     margin: "auto auto",
     transform: "translate(-50%,-50%)",
   };
-  if (currentUser === '')
-    return (
-      <BounceLoader
-        color={"#59B2A2"}
-        loading={true}
-        cssOverride={override}
-        size={100}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    );
+  // if (currentUser === '')
+  //   return (
+  //     <BounceLoader
+  //       color={"#59B2A2"}
+  //       loading={true}
+  //       cssOverride={override}
+  //       size={100}
+  //       aria-label="Loading Spinner"
+  //       data-testid="loader"
+  //     />
+  //   );
     
   return (
     <>
