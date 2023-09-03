@@ -23,6 +23,7 @@ import Gallery from "./pages/Notifications";
 import SinglePost from "./pages/SinglePost";
 import Notifications from "./pages/Notifications";
 import { EditProfile } from "./pages/EditProfile";
+import { BounceLoader } from "react-spinners";
 
 export const UserContext = createContext();
 export const ThemeContext = createContext()
@@ -31,7 +32,7 @@ function App() {
   const [setTheme, colorTheme] = useDarkMode();
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState('');
 useEffect(() => {
   const fetchData = async () => {
     const jwt = localStorage.getItem('token')
@@ -44,11 +45,6 @@ useEffect(() => {
           'Authorization' : 'Bearer ' + jwt
         }
       },
-      // {
-      //   headers: {
-      //     "Authorization": `Bearer ${jwt}`,
-      //   },
-      // }
     );
     setCurrentUser(data);}
   };
@@ -109,6 +105,7 @@ useEffect(() => {
               <Route path="Bookmarks" element={<Bookmarks />} />
               <Route path="Notifications" element={<Notifications />} />
             </Route>
+            {/* <Route path="*" element={<div>No Route</div>} /> */}
           </Routes>
         </ThemeContext.Provider>
       </UserContext.Provider>
@@ -129,10 +126,10 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
    const { currentUser, setCurrentUser } = useContext(UserContext);
    const navigate = useNavigate();
    useEffect(() => {
-     if (!currentUser) {
+     if (!currentUser && !localStorage.getItem('token')) {
        navigate("/auth/login");
      }
-   }, [currentUser]);
+   }, []);
   
   const changeThemeHandler = (e) => {
     e.preventDefault();
@@ -146,8 +143,26 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
       setScroll(true)
     else
       setScroll(false)
-  },[scrollYProgress])
-  console.log(scroll)
+  }, [scrollYProgress])
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
+  if (currentUser === '')
+    return (
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
     
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext, UserContext } from "../App";
@@ -31,6 +31,7 @@ const navChildVariant = {
 
 const SideBar = ({ showModal, setShowModal,
 }) => {
+  
   const changeThemeHandler = (e) => {
     e.preventDefault();
     setTheme(colorTheme);
@@ -39,7 +40,13 @@ const SideBar = ({ showModal, setShowModal,
    const { currentUser, setCurrentUser } = useContext(UserContext);
   const [activeTab,setActiveTab] = useState('home')
   
-  const navigate = useNavigate();
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/auth/login");
+    }
+  }, [currentUser]);
   const [open, setOpen] = useState(false);
   const toggleSidebar = (e) => {
     e.preventDefault();
@@ -67,6 +74,8 @@ const SideBar = ({ showModal, setShowModal,
   // if (loading) {
   //   return null;
   // } else {
+  if (currentUser === "") return <div>Loading</div>;
+  else
   return (
     <>
       <div className="lg:hidden block relative z-50 w-screen">
@@ -184,7 +193,7 @@ const SideBar = ({ showModal, setShowModal,
               <img
                 class="md:w-32 md:h-32 mx-auto rounded-lg object-center object-cover"
                 src={
-                  currentUser?.profile_info.profile_picture === ''
+                  currentUser?.profile_info.profile_picture !== ''
                     ? currentUser.profile_info.profile_picture
                     : "/no_image.jpg"
                 }

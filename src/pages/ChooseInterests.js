@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useState, useEffect,useRef, useContext } from "react"
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { ThemeContext, UserContext } from "../App";
 import axios from "axios";
 import { topics } from "../constants/Interests";
 import { toast } from "react-toastify";
@@ -266,18 +266,80 @@ const Personal = ({bio,name,selectedProfileImage,coverImage, setBio,setName,setS
 
 const Suggestions = () => {
   const [suggestions, setSuggestions] = useState()
+  const { currentUser, setCurrentUser } = useContext(UserContext)
+  const { colorTheme } = useContext(ThemeContext) 
   useEffect(() => {
-     const fetchData = async () => {
-         const { data } = await axios.get(
-           `${process.env.REACT_APP_BASE_URL}/suggestedUsers`,
-         );
-         setSuggestions(data);
-       }
-     fetchData().catch((err) => console.log(err));
-  }, [])
-  // console.log(suggestions)
-  const handleFollow = () => {
     
+      const fetchData = async () => {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/suggestedUsers`,
+        );
+        setSuggestions(data);
+      }
+      fetchData().catch((err) => console.log(err));
+    
+  }, [currentUser])
+  // console.log(suggestions)
+  const handleFollow = async (suggestionId) => {
+    const username = currentUser?.username
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/follow/${suggestionId}`,
+        {
+          username: username,
+        }
+      );
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
+      await setCurrentUser({ ...currentUser, followings:[...currentUser.followings,suggestionId] });
+      
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+        theme: colorTheme === "dark" ? "dark" : "light",
+      });
+    }
+    
+  }
+  const handleUnfollow = async (suggestionId) => {
+    const username = currentUser?.username;
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/unfollow/${suggestionId}`,
+        {
+          username: username,
+        }
+      );
+      await setCurrentUser({
+        ...currentUser,
+        followings: [...currentUser.followings, !suggestionId],
+      });
+      console.log(currentUser);
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        position: "top-center",
+        autoClose: 5000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+        theme: colorTheme === "dark" ? "dark" : "light",
+      });
+    }
+  };
+  if (!suggestions) {
+    return <div>Loading</div>
   }
   return (
     <div className="h-3/4 grid items-center ">
@@ -289,7 +351,11 @@ const Suggestions = () => {
                 <div class="flex-shrink-0">
                   <img
                     class="w-16 h-16 object-cover object-center rounded-lg"
-                    src={suggestion?.profile_info.profile_picture === '' ? '/no_image.jpg' : suggestion.profile_info.profile_picture}
+                    src={
+                      suggestion?.profile_info.profile_picture === ""
+                        ? "/no_image.jpg"
+                        : suggestion.profile_info.profile_picture
+                    }
                     alt=""
                   />
                 </div>
@@ -301,11 +367,25 @@ const Suggestions = () => {
                     {suggestion.email}
                   </p>
                   <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                   Followers: {suggestion.followers.length}
+                    Followers: {suggestion.followers.length}
                   </p>
                 </div>
-                <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
-                  <button onClick = {handleFollow}>Follow</button>
+                <div
+                  class={`inline-flex items-center text-base font-semibold ${
+                    !currentUser?.followings.includes(suggestion.id)
+                      ? "text-primary"
+                      : "text-gray-400"
+                  } `}
+                >
+                    {!currentUser?.followings.includes(suggestion.id) ? (
+                      <button onClick={() => handleFollow(suggestion.id)}>
+                        Follow
+                      </button>
+                    ) : (
+                      <button onClick={() => handleUnfollow(suggestion.id)}>
+                        Unfollow
+                      </button>
+                    )}
                 </div>
               </div>
             </li>
@@ -352,6 +432,7 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
   // };
 
   const handleUpdateInfo = async () => {
+    const {colorTheme} = useContext(ThemeContext)
     try {
       const formData = new FormData();
       formData.append("bio", bio);
@@ -364,10 +445,20 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
         `${process.env.REACT_APP_BASE_URL}/profile/${currentUser.id}`,
         formData
       );
-      alert(data.message);
+      toast.success(data.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
       setActiveTab(tabs[2].id);
     } catch (err) {
-      alert(err.response.data.error);
+      toast.error(err.response.data.error, {
+        position: "top-center",
+        hideProgressBar:false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
     }
   }
   // choosing interests
@@ -426,12 +517,6 @@ const ChooseInterests = ({ activeTab, setActiveTab }) => {
             animate={{ opacity: 1 }}
             onClick={
               handleUpdateInfo
-              // alert(`The profile has been updated:
-              // Fullname : ${name}
-              // Bio: ${bio}
-              // profileImg: ${selectedProfileImage}
-              // coverImg: ${coverImage}
-              // Interests: ${selectedInterest.map(interest => topics.find(item => item.id===interest).name)}`)
             }
             transition={{
               delay: 0.25 + 0.2,
