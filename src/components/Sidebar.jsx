@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { ThemeContext, UserContext } from "../App";
 import { toast } from "react-toastify";
+import { BounceLoader } from "react-spinners";
+
 
 const variant = {
   hidden: {
@@ -41,12 +43,6 @@ const SideBar = ({ showModal, setShowModal,
   const [activeTab,setActiveTab] = useState('home')
   
   const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!currentUser) {
-      navigate("/auth/login");
-    }
-  }, [currentUser]);
   const [open, setOpen] = useState(false);
   const toggleSidebar = (e) => {
     e.preventDefault();
@@ -74,7 +70,26 @@ const SideBar = ({ showModal, setShowModal,
   // if (loading) {
   //   return null;
   // } else {
-  if (currentUser === "") return <div>Loading</div>;
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
+  if (currentUser === "") return (
+    <div>
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </div>
+  );
   else
   return (
     <>

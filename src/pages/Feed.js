@@ -8,18 +8,36 @@ import { ThemeContext, UserContext } from "../App";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { BounceLoader } from "react-spinners";
-
+const override = {
+  display: "block",
+  position: "fixed",
+  top: "50%",
+  left: "50%",
+  margin: "auto auto",
+  transform: "translate(-50%,-50%)",
+};
 export default function Feed({ showModal, setShowModal, setModalData }) {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
-    if (currentUser === '') {
+    if (!localStorage.getItem('token')) {
       navigate("/auth/login");
     }
-  }, [currentUser]);
+  }, [localStorage.getItem('token')]);
   
   if (currentUser === '')
-    return <div>Loading</div>
+    return (
+      <div>
+        <BounceLoader
+          color={"#59B2A2"}
+          loading={true}
+          cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      </div>
+    );
   else {
     return (
       <>
@@ -205,14 +223,6 @@ const RightBar = () => {
         theme: colorTheme === "dark" ? "dark" : "light",
       });
     }
-  };
-  const override = {
-    display: "block",
-    position: "fixed",
-    top: "50%",
-    left: "50%",
-    margin: "auto auto",
-    transform: "translate(-50%,-50%)",
   };
     return (
       <div

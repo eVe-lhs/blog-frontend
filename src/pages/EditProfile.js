@@ -3,10 +3,9 @@ import { motion } from "framer-motion";
 import { UserContext } from "../App";
 import axios from "axios";
 import { topics } from "../constants/Interests";
+import { BounceLoader } from "react-spinners";
 
-
-const Interests = ({ selectedTags, setTags }) => {
-  const [selected, setSelected] = useState([]);
+const Interests = ({ selectedTags, setInterests}) => {
   let selectedIds = [];
   selectedTags?.map((selectedTag) => {
     selectedIds.push(
@@ -14,15 +13,14 @@ const Interests = ({ selectedTags, setTags }) => {
     );
   });
   useEffect(() => {
-    setSelected(selectedIds);
+    setInterests(selectedIds);
   }, [selectedTags]);
   // console.log(selected)
   const toggleClass = (topicId, topicName) => {
-    // setTags([...selectedTags, topicName]);
-    if (!selected.includes(topicId)) {
-      setSelected([...selected, topicId]);
-    } else
-      setSelected((current) =>
+    if (!selectedTags.includes(topicId)) {
+      setInterests([...selectedTags, topicId]);
+    } else if(selectedTags.length > 2)
+      setInterests((current) =>
         current.filter((id) => {
           return id !== topicId;
         })
@@ -34,7 +32,7 @@ const Interests = ({ selectedTags, setTags }) => {
         class="block uppercase font-body text-lg tracking-wide dark:text-white text-gray-700 font-bold mb-2"
         htmlFor="content"
       >
-        Your Interests
+        Your Interests (Chooses at least 2)
       </label>
       <motion.div
         transition={{ duration: 0.3 }}
@@ -65,7 +63,7 @@ const Interests = ({ selectedTags, setTags }) => {
               },
             }}
             whileTap={{
-              scale: selected.length < 3 ? 0.95 : 1,
+              scale: 0.9,
               transition: {
                 type: "spring",
                 stiffness: 250,
@@ -76,7 +74,7 @@ const Interests = ({ selectedTags, setTags }) => {
             onClick={() => toggleClass(topic.id, topic.name)}
             key={topic.id}
             className={`md:rounded-lg rounded-full ${
-              selected.includes(topic.id)
+              selectedTags?.includes(topic.id)
                 ? "border-primary border-2 text-primary"
                 : "border-gray-400 border-2 text-gray-400"
             }
@@ -93,33 +91,20 @@ const Interests = ({ selectedTags, setTags }) => {
 };
 
 export const EditProfile = () => {
+  
   const { currentUser, setCurrentUser } = useContext(UserContext);
-  //   const currentUser = {
-  //     username: "linhtetswe",
-  //     name:"Lin Htet Swe",
-  //       email:'linhtetswe@email.com',
-  //     bio: "This is the bio",
-  //     profilePicture:
-  //       "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg",
-  //     coverPicture:
-  //       "https://images.unsplash.com/photo-1526512340740-9217d0159da9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dmVydGljYWx8ZW58MHx8MHx8fDA%3D&w=1000&q=80",
-  //     Interests: [1,2,3]
-  // };
-  // const [interests, setInterests] = useState(currentUser.Interests);
-  const [username,setUsername] = useState(currentUser?.username)
-    const [name, setName] = useState(currentUser?.profile_info.name)
-    const [bio, setBio] = useState(currentUser?.profile_info.bio)
-    const [selectedProfileImage, setSelectedProfileImage] = useState(currentUser?.profile_info.profile_picture);
-    const [coverPicture, setCoverPicture] = useState(
-      currentUser?.profile_info.cover_photo
-  );
+  const [username,setUsername] = useState()
+  const [name, setName] = useState()
+  const [bio, setBio] = useState()
+  const [selectedProfileImage, setSelectedProfileImage] = useState();
+  const [coverPicture, setCoverPicture] = useState();
   const [profileFile, setProfileFile] = useState('')
   const [coverFile,setCoverFile] = useState('')
-    const [email,setEmail] = useState(currentUser?.email)
-    const [currentPassword, setCurrentPassword] = useState('')
-    const [newPassword, setNewPassword] = useState("");
+  const [email,setEmail] = useState(currentUser?.email)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [interests, setIntersts] = useState(currentUser?.interests)
+  const [interests, setInterests] = useState()
   // console.log(currentUser)
 
   const handleUpdateInfo = async () => {
@@ -164,25 +149,38 @@ export const EditProfile = () => {
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(false);
   useEffect(() => {
-    if (goodPassword.test(newPassword) === true ){
-      setPasswordStrength(true);
-    } else if (goodPassword.test(newPassword) === false ){
-      setPasswordMatch(false);
+    if (currentUser !== '') {
+      if (goodPassword.test(newPassword) === true) {
+        setPasswordStrength(true);
+      } else if (goodPassword.test(newPassword) === false) {
+        setPasswordMatch(false);
+      }
+      if (newPassword !== confirmPassword) {
+        document.getElementById("newpassword").classList.add("border-red-500");
+        document
+          .getElementById("confirmpassword")
+          .classList.add("border-red-500");
+        setPasswordMatch(false);
+      } else if (newPassword === confirmPassword) {
+        document.getElementById("newpassword").classList.remove("border-red-500");
+        document
+          .getElementById("confirmpassword")
+          .classList.remove("border-red-500");
+        setPasswordMatch(true);
+      }
     }
-    if (newPassword !== confirmPassword) {
-      document.getElementById("newpassword").classList.add("border-red-500");
-      document
-        .getElementById("confirmpassword")
-        .classList.add("border-red-500");
-      setPasswordMatch(false);
-    } else if (newPassword === confirmPassword) {
-      document.getElementById("newpassword").classList.remove("border-red-500");
-      document
-        .getElementById("confirmpassword")
-        .classList.remove("border-red-500");
-      setPasswordMatch(true);
+  }, [newPassword, confirmPassword, passwordStrength]);
+  useEffect(() => {
+    if (currentUser !== '') {
+      setUsername(currentUser?.username)
+      setName(currentUser?.profile_info?.name)
+      setBio(currentUser?.profile_info?.bio)
+      setSelectedProfileImage(currentUser?.profile_info?.profile_picture)
+      setCoverPicture(currentUser?.profile_info?.cover_photo)
+      setEmail(currentUser?.email)
+      setInterests(currentUser?.interests)
     }
-  }, [newPassword,confirmPassword, passwordStrength]);
+  },[currentUser])
   const handleAuth = async () => {
     try {
       const formData = new FormData();
@@ -217,13 +215,29 @@ export const EditProfile = () => {
           setCoverFile(e.target.files[0])
         }
   }
-  if (!currentUser) {
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "50%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  }; 
+  if (currentUser === '') {
     return (
       <div>
-        Loading
+        <BounceLoader
+          color={"#59B2A2"}
+          loading={true}
+          cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
       </div>
-    )
+    );
   }
+  
     return (
       <div className="md:w-3/5 w-full lg:ml-96 md:mt-10 mt-20 md:p-0 p-1">
         <h1 className="font-bold font-body text-xl md:text-left text-center">
@@ -358,7 +372,7 @@ export const EditProfile = () => {
           </div>
           <div className="flex flex-col gap-4 ">
             <div className="p-5 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
-              <Interests selectedTags={interests} />
+              <Interests selectedTags={interests} setInterests={setInterests} />
             </div>
             <div className="p-5 bg-gray-50 dark:bg-gray-800 shadow-md rounded-md">
               <h1 className="font-bold font-body text-lg">

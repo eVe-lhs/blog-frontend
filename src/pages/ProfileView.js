@@ -360,7 +360,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     };
     fetchFollowerData().catch((err) => console.log(err))
     fetchFollowingData().catch((err) => console.log(err));
-  }, [currentUser, uid,userId])
+  }, [ uid,userId])
 
   const override = {
     display: "block",

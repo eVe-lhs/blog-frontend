@@ -36,7 +36,8 @@ function App() {
 useEffect(() => {
   const fetchData = async () => {
     const jwt = localStorage.getItem('token')
-    if(jwt){const { data } = await axios.post(
+    if (jwt) {
+      const { data } = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/currentuser`,
       { access_token: jwt },
       {
@@ -46,10 +47,13 @@ useEffect(() => {
         }
       },
     );
-    setCurrentUser(data);}
+      setCurrentUser(data);
+    } if (!localStorage.getItem('token')) {
+       navigate("/auth/login");
+     }
   };
-  fetchData().catch((err) => console.log(err));
-}, []);
+  fetchData().catch((err) => localStorage.removeItem('token'));
+}, [localStorage.getItem('token')]);
   return (
     <BrowserRouter>
       <ToastContainer position="top-center" theme={`${colorTheme ==='dark'?'light':'dark'}`} />
@@ -123,14 +127,13 @@ const AuthLayout = () => {
 }
 
 const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData }) => {
-   const { currentUser, setCurrentUser } = useContext(UserContext);
-   const navigate = useNavigate();
-   useEffect(() => {
-     if (!currentUser && !localStorage.getItem('token')) {
-       navigate("/auth/login");
-     }
-   }, [currentUser]);
-  
+  //  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/auth/login");
+    }
+  }, [localStorage.getItem("token")]);
   const changeThemeHandler = (e) => {
     e.preventDefault();
     setTheme(colorTheme);
