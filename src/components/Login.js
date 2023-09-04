@@ -45,15 +45,20 @@ export default function Login() {
         )
        
       localStorage.setItem('token', data.access_token)
-      setTimeout(() => {
-        toast.info("Session Time out, Please Login Again", {
-          position: "top-center",
-          autoClose:5000,
-          hideProgressBar: false,
-          theme: colorTheme === "dark" ? "light" : "dark",
-        });
-        localStorage.removeItem('token')
-        window.location.reload();
+      setTimeout(() => {const logout = async () => {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/logout`
+        );
+      };
+      toast.success("Session Timed Out", {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: true,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
+      localStorage.removeItem("token");
+      logout().catch((err) => console.log(err));
+      window.location.reload();
       }, 1 * 60 * 60 * 1000);
       await setCurrentUser(data.user)
       toast.success(data.message, {

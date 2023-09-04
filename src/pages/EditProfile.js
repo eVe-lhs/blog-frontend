@@ -32,7 +32,7 @@ const Interests = ({ selectedTags, setInterests}) => {
         class="block uppercase font-body text-lg tracking-wide dark:text-white text-gray-700 font-bold mb-2"
         htmlFor="content"
       >
-        Your Interests (Chooses at least 2)
+        Your Interests (Choose at least 2)
       </label>
       <motion.div
         transition={{ duration: 0.3 }}

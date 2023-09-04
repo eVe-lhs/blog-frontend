@@ -27,6 +27,7 @@ import { BounceLoader } from "react-spinners";
 
 export const UserContext = createContext();
 export const ThemeContext = createContext()
+export const ModelDataContext = createContext()
 
 function App() {
   const [setTheme, colorTheme] = useDarkMode();
@@ -52,65 +53,75 @@ useEffect(() => {
        navigate("/auth/login");
      }
   };
-  fetchData().catch((err) => localStorage.removeItem('token'));
+  fetchData().catch((err) => {
+    localStorage.removeItem('token')
+    // window.location.reload()
+  });
 }, [localStorage.getItem('token')]);
   return (
     <BrowserRouter>
-      <ToastContainer position="top-center" theme={`${colorTheme ==='dark'?'light':'dark'}`} />
+      <ToastContainer
+        position="top-center"
+        theme={`${colorTheme === "dark" ? "light" : "dark"}`}
+      />
       <UserContext.Provider value={{ currentUser, setCurrentUser }}>
         <ThemeContext.Provider value={{ setTheme, colorTheme }}>
-          <Routes>
-            <Route path="/auth" element={<AuthLayout />}>
-              <Route path="login" element={<LoginPage />} />
-              <Route path="signup" element={<SignupPage />} />
-              <Route path="forgotpw" element={<ForgotPw />} />
-              <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
-              <Route path="chooseinterest" element={<ChooseInterest />} />
-            </Route>
-            <Route path="/" element={<Landing />} />
-            <Route
-              path="/home"
-              element={
-                <OutletLayout
-                  setTheme={setTheme}
-                  colorTheme={colorTheme}
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  modalData={modalData}
-                />
-              }
-            >
+          <ModelDataContext.Provider value={{ modalData, setModalData }}>
+            <Routes>
+              <Route path="/auth" element={<AuthLayout />}>
+                <Route path="login" element={<LoginPage />} />
+                <Route path="signup" element={<SignupPage />} />
+                <Route path="forgotpw" element={<ForgotPw />} />
+                <Route path="forgotpw/confirmcode" element={<ConfirmCode />} />
+                <Route path="chooseinterest" element={<ChooseInterest />} />
+              </Route>
+
+              <Route path="/" element={<Landing />} />
               <Route
-                index
+                path="/home"
                 element={
-                  <Feed
+                  <OutletLayout
+                    setTheme={setTheme}
+                    colorTheme={colorTheme}
                     showModal={showModal}
                     setShowModal={setShowModal}
-                    setModalData={setModalData}
+                    modalData={modalData}
                   />
                 }
-              />
-              <Route
-                path="posts/:postId"
-                element={<SinglePost colorTheme={colorTheme} />}
-              />
-              <Route path="Profile/:uid">
+              >
                 <Route
                   index
                   element={
-                    <ProfileView
+                    <Feed
+                      showModal={showModal}
                       setShowModal={setShowModal}
                       setModalData={setModalData}
                     />
                   }
                 />
-                <Route path="edit" element={<EditProfile />} />
+                <Route
+                  path="posts/:postId"
+                  element={<SinglePost colorTheme={colorTheme} />}
+                />
+                <Route path="Profile/:uid">
+                  <Route
+                    index
+                    element={
+                      <ProfileView
+                        setShowModal={setShowModal}
+                        setModalData={setModalData}
+                      />
+                    }
+                  />
+                  <Route path="edit" element={<EditProfile />} />
+                </Route>
+                <Route path="Bookmarks" element={<Bookmarks />} />
+                <Route path="Notifications" element={<Notifications />} />
               </Route>
-              <Route path="Bookmarks" element={<Bookmarks />} />
-              <Route path="Notifications" element={<Notifications />} />
-            </Route>
-            {/* <Route path="*" element={<div>No Route</div>} /> */}
-          </Routes>
+
+              {/* <Route path="*" element={<div>No Route</div>} /> */}
+            </Routes>
+          </ModelDataContext.Provider>
         </ThemeContext.Provider>
       </UserContext.Provider>
     </BrowserRouter>

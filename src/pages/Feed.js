@@ -53,23 +53,55 @@ export default function Feed({ showModal, setShowModal, setModalData }) {
 
 
 const Content = ({ showModal, setShowModal, setModalData }) => {
-  const [openSort,setOpenSort] = useState(false)
+  const [openSort, setOpenSort] = useState(true)
+  const [sortCondition, setSortCondition] = useState("-date_of_creation")
+  const [sortText, setSortText] = useState('Most Recent')
+  const [posts, setPosts] = useState()
+  const {currentUser} = useContext(UserContext)
+  useEffect(() => {
+    const fetchFeedPosts = async () => {
+      setPosts("");
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/posts/feed/${currentUser.id}/${sortCondition}`
+      );
+      setPosts(data);
+    };
+    fetchFeedPosts().catch((err) => console.log(err));
+    setOpenSort(!openSort)
+  }, [sortCondition]);
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "80%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
+  if (!posts && posts !== []) {
+    return (
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
+  } else if (posts.length === 0) {
+    return (
+      <div className="mx-auto my-16 text-2xl w-full h-full text-center">
+        Nothing To Show
+      </div>
+    );
+  }
     return (
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        {/* <input
-          type="text"
-          className="block p-3 md:rounded-3xl w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-800 dark:text-white border border-gray-300"
-                placeholder="Write your thoughts here"
-                readOnly
-          onClick={() => {
-            setShowModal(true)
-          }}
-        /> */}
-        <div className="w-full flex justify-end">
+        <div className="w-full flex justify-between">
           <button
             class="text-gray-400  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center "
             type="button"
@@ -93,7 +125,9 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
             </svg>
           </button>
           <div
-            class={`${openSort? 'block fixed translate-y-10' : 'hidden'} z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
+            class={`${
+              openSort ? "block fixed translate-y-10" : "hidden"
+            } z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
           >
             <ul
               class="py-2 text-sm text-gray-700 dark:text-gray-200"
@@ -101,41 +135,68 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
             >
               <li>
                 <a
+                  onClick={() => {
+                    setSortCondition("-like_count");
+                    setSortText("Likes (Decending)");
+                  }}
                   href="#"
                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  Likes
+                  Likes (Decending)
                 </a>
               </li>
               <li>
                 <a
+                  onClick={() => {
+                    setSortCondition("+like_count");
+                    setSortText("Likes (Ascending)");
+                  }}
                   href="#"
                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-                  Comments
+                  Likes (Ascending)
                 </a>
               </li>
               <li>
                 <a
+                  onClick={() => {
+                    setSortCondition("+date_of_creation");
+                    setSortText("Least Recent");
+                  }}
+                  href="#"
+                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                >
+                  Least Recent
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => {
+                    setSortCondition("-date_of_creation");
+                    setSortText("Most Recent");
+                  }}
                   href="#"
                   class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
                   Most Recent
                 </a>
               </li>
-          
             </ul>
           </div>
+          <button class="text-gray-400  font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center ">
+            Current Sorting : {sortText}
+          </button>
         </div>
-        {TempData.map((data) => (
+        {posts?.map((data) => (
           <ContentCard
-            id={data.id}
-            heading={data.heading}
-            imageUrl={data.imageUrl}
-            date={data.date}
-            text={data.text}
-            tags={data.tags}
-            author={data.author}
+            id={data?.id}
+            heading={data?.title}
+            imageUrl={data?.post_photo}
+            date={data?.date_of_creation}
+            tags={data?.tags}
+            author={data?.author}
+            like_count={data?.like_count}
+            comment_count={data?.comment_count}
             showModal={showModal}
             setShowModal={setShowModal}
             setModalData={setModalData}

@@ -4,6 +4,9 @@ import { TempData } from "../TempData";
 import MDEditor from "@uiw/react-md-editor";
 import { useState, useEffect } from "react";
 import moment from "moment";
+import { BounceLoader } from "react-spinners";
+import { topics } from "../constants/Interests";
+import axios from "axios";
 
 export default function SinglePost({colorTheme}) {
     const { postId } = useParams();
@@ -11,15 +14,36 @@ export default function SinglePost({colorTheme}) {
     // var post = TempData.filter(function (x) {
     //   x.id == postId;
     // });
-    useEffect(
-      () =>
-        setPost(TempData.find(post => post.id==postId)
-        ),
-      [postId]
-    );
-    // console.log(TempData.find(post => post.id==postId))
+   useEffect(() => {
+     const fetchSinglePost = async () => {
+       const { data } = await axios.get(
+         `${process.env.REACT_APP_BASE_URL}/post/${postId}`
+       );
+       setPost(data);
+     };
+     
+     fetchSinglePost().catch((err) => console.log(err));
+     
+   }, [postId]);
+    const override = {
+      display: "block",
+      position: "fixed",
+      top: "80%",
+      left: "50%",
+      margin: "auto auto",
+      transform: "translate(-50%,-50%)",
+    };
     if (!post) {
-        return <div>Loading</div>;
+        return (
+          <BounceLoader
+            color={"#59B2A2"}
+            loading={true}
+            cssOverride={override}
+            size={100}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        );
     } else {
         return (
           <div className="relative z-0 font-body">
@@ -40,33 +64,26 @@ export default function SinglePost({colorTheme}) {
             >
               <div className="w-full mb-10 md:mt-10 mt-16 flex flex-col gap-2 md:px-2">
                 <div className="font-bold font-header text-3xl md:text-4xl px-3 md:px-0">
-                  {post.heading}
+                  {post?.title}
                 </div>
-                {/* <div class="items-center space-x-4 md:hidden flex">
-                  <div class="flex-1 min-w-0 flex flex-row gap-4">
-                    <span className="font-light text-sm text-gray-400">
-                      Published on {moment(post.date).format("MMMM Do, YYYY")}
-                    </span>
-                  </div>
-                </div> */}
                 <a class="text-lg truncate">
                   <span className="hover:underline hover:cursor-pointer font-base px-3 md:px-0">
-                    {post.author}
+                    Posted by {post?.author}
                   </span>
                   <span className="ml-3 font-light text-sm text-gray-400">
-                    {moment(post.date).format("DD MMMM YYYY")}
+                    {moment(post?.date_of_creation).format("DD MMMM YYYY")}
                   </span>
                 </a>
 
                 <div className="flex md:flex-row justify-between mb-5 px-3 md:px-0">
                   <div>
                     <div className="flex flex-row justify-start gap-3">
-                      {post.tags.map((tag, id) => (
+                      {post?.tags.map((tag, id) => (
                         <span
                           key={id}
                           className="rounded-full text-center text-sm bg-secondary_assent text-white p-2"
                         >
-                          {tag}
+                          {topics.find((topic) => topic.id === tag).name}
                         </span>
                       ))}
                     </div>
@@ -82,7 +99,7 @@ export default function SinglePost({colorTheme}) {
                 <div className="">
                   <img
                     className="md:object-contain object-fill left-0 w-full"
-                    src={post.imageUrl}
+                    src={post?.post_photo}
                     alt="classroom"
                   />
                 </div>
@@ -100,25 +117,26 @@ export default function SinglePost({colorTheme}) {
                       marginTop: "20px",
                       backgroundColor: "transparent",
                     }}
-                    source={post.description}
+                    source={post?.content}
                   />
                   <div className="flex flex-row md:justify-normal justify-evenly gap-5 mt-8 px-3 md:px-0 items-center">
-                    <div className="flex flex-row divide-x-2 divide-gray-600 rounded-xl bg-gray-200 dark:bg-gray-800 items-center p-3 ">
+                    <div className="flex flex-row rounded-lg bg-gray-200 dark:bg-gray-800 items-center p-3 ">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-7 h-7 mr-5 hover:cursor-pointer hover:scale-105"
+                        className="w-6 h-6 stroke-current text-red-500 hover:scale-110 cursor-pointer "
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z"
+                          d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                         />
                       </svg>
-                      <span className="text-center pl-5 text-gray-500">123</span>
+                      <span className="text-center pl-5 text-gray-500">
+                        :  {post?.like_count}
+                      </span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +159,7 @@ export default function SinglePost({colorTheme}) {
               <section class="not-format px-3 md:px-0">
                 <div class="flex flex-row justify-between items-center mb-6">
                   <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                    Discussion
+                    Discussion ({post?.comment_count})
                   </h2>
                 </div>
                 <form class="mb-6">

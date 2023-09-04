@@ -1,106 +1,35 @@
 import { motion,AnimatePresence } from "framer-motion";
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState,useRef, useContext } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import PreviewPost from "../pages/PreviewPost";
+import { topics } from "../constants/Interests";
+import { toast } from "react-toastify";
+import { ModelDataContext, UserContext } from "../App";
+import axios from "axios";
 
-const topics = [
-  {
-    id: 1,
-    name: "Science",
-    
-  },
-  {
-    id: 2,
-    name: "Sports",
-    
-  },
-  {
-    id: 3,
-    name: "Music",
-    
-  },
-  {
-    id: 4,
-    name: "Movies",
-    
-  },
-  {
-    id: 5,
-    name: "Computer Science",
-    
-  },
-  {
-    id: 6,
-    name: "AI",
-    
-  },
-  {
-    id: 7,
-    name: "Agriculture",
-    
-  },
-  {
-    id: 8,
-    name: "Medical Science",
-    
-  },
-  {
-    id: 9,
-    name: "Celebrity",
-    
-  },
-  {
-    id: 10,
-    name: "Politics",
-    
-  },
-  {
-    id: 11,
-    name: "Animals",
-    
-  },
-  {
-    id: 12,
-    name: "Natural Disasters",
-    
-  },
-];
-
-// function getBase64Image(img) {
-//   var canvas = document.createElement("canvas");
-//   canvas.width = img.width;
-//   canvas.height = img.height;
-//   var ctx = canvas.getContext("2d");
-//   ctx.drawImage(img, 0, 0);
-//   var dataURL = canvas.toDataURL("image/png");
-//   return dataURL.replace(/^data:image\/?[A-z]*;base64,/);
-// }
-
-const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
-  const [selectedImage, setSelectedImage] = useState();
+const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
+  const [selectedImage, setSelectedImage] = useState('');
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
   const [imgUrl, setImgUrl] = useState('')
-  const [author, setAuthor] = useState('')
-  const [date, setDate] = useState('')
-  const [tags, setTags] = useState()
+  const [tags, setTags] = useState([])
   const [showPreview,setShowPreview] = useState(false)
-  
   const coverImg = useRef(null)
-
+  const { modalData, setModalData } = useContext(ModelDataContext)
+  const { currentUser } = useContext(UserContext)
+  const inputField = useRef(null)
   useEffect(() => {
-    setTitle(modalData?.heading)
-    setContent(modalData?.description)
-    setDescription(modalData?.text)
-    setAuthor(modalData?.author)
-    setDate(modalData?.date)
+    setTitle(modalData?.title)
+    setContent(modalData?.content)
     setTags(modalData?.tags)
   }, [modalData,showModal])
   useEffect(() => {
+    if(showModal)
      setImgUrl(
-       selectedImage ? URL.createObjectURL(selectedImage) : modalData?.imageUrl
-    );
+       selectedImage ? URL.createObjectURL(selectedImage) : modalData?.post_photo
+      );
+    else
+      setImgUrl('')
   },[selectedImage,modalData,showModal])
   // console.log(imgDom)
     // This function will be triggered when the file field change
@@ -109,8 +38,47 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
         setSelectedImage(e.target.files[0]);
       }
   };
-  const handlePublish = () => {
-
+  const handlePublish = async () => {
+    if (selectedImage === '' || content === '' || title === '') {
+      alert('Please fill all the fields')
+    }
+    else if (tags.length === 0) {
+      alert('Please Choose at least one tag')
+    }
+    else {
+      try {
+        const formData = new FormData();
+        formData.append('title', title)
+        formData.append('content', content)
+        formData.append("tags", JSON.stringify(tags));
+        formData.append('post_photo',selectedImage)
+        if (modalData?.status != 'Draft') {
+          const { data } = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+          formData
+          // { withCredentials: true }
+          );
+          setTitle('');
+          setContent('');
+          setTags('');
+          setSelectedImage('');
+          inputField.current.value = null;
+          setImgUrl('')
+        toast.success(data.message, {
+          position: "top-center",
+          hideProgressBar: false,
+          pauseOnHover: true,
+          theme: colorTheme === "dark" ? "light" : "dark",
+        });
+        }
+        else {
+          alert("Draft post publish")
+        }
+      
+    } catch (err) {
+      alert(err.response.data.err)
+    }
+    }
   }
 
   return (
@@ -174,6 +142,7 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                           Post Cover Image
                         </label>
                         <input
+                          ref={inputField}
                           class="appearance-none block w-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-white border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                           id="image"
                           accept="image/*"
@@ -215,7 +184,7 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                       </div>
                     </div>
                     <div className="flex flex-col p-6">
-                      <Interests selectedTags={tags} setTags={setTags} />
+                      <Interests selectedTags={tags} setInterests={setTags} />
                       <button
                         className="text-secondary_assent mt-5 hover:underline underline-offset-2 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
@@ -249,10 +218,8 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
                       className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
-                        setContent("");
-                        setDescription("");
-                        setTitle("");
-                        setSelectedImage("");
+                        setModalData("")
+                        setImgUrl("")
                         setShowModal(false);
                       }}
                     >
@@ -295,8 +262,6 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
         <PreviewPost
           colorTheme={colorTheme}
           heading={title}
-          author={author}
-          date={date}
           tags={tags}
           imageUrl={imgUrl}
           description={content}
@@ -309,24 +274,20 @@ const PoseEditorModal = ({ showModal, setShowModal,modalData,colorTheme }) => {
   );
 };
 
-const Interests = ({selectedTags,setTags}) => {
-  const [selected, setSelected] = useState([]);
-  let selectedIds = []
-  selectedTags?.map(selectedTag => {
-    selectedIds.push(topics.findIndex(topic => topic.name === selectedTag
-    )+1)
-  })
+const Interests = ({selectedTags,setInterests}) => {
+  let selectedIds = [];
+  selectedTags?.map((selectedTag) => {
+    selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
+  });
   useEffect(() => {
-    setSelected(selectedIds)
-  }, [selectedTags])
+    setInterests(selectedIds);
+  }, [selectedTags]);
   // console.log(selected)
-  const toggleClass = (topicId,topicName) => {
-    setTags([...selectedTags, topicName]);
-    if (!selected.includes(topicId) && selected.length < 3) {
-      setSelected([...selected, topicId])
-    }
-    else
-      setSelected((current) =>
+  const toggleClass = (topicId, topicName) => {
+    if (!selectedTags.includes(topicId) && selectedTags.length < 3) {
+      setInterests([...selectedTags, topicId]);
+    } else
+      setInterests((current) =>
         current.filter((id) => {
           return id !== topicId;
         })
@@ -369,7 +330,7 @@ const Interests = ({selectedTags,setTags}) => {
               },
             }}
             whileTap={{
-              scale: selected.length<3? 0.95 : 1,
+              scale: selectedTags?.length<3? 0.95 : 1,
               transition: {
                 type: "spring",
                 stiffness: 250,
@@ -380,12 +341,12 @@ const Interests = ({selectedTags,setTags}) => {
             onClick={() => toggleClass(topic.id,topic.name)}
             key={topic.id}
             className={`md:rounded-lg rounded-full ${
-              selected.includes(topic.id)
+              selectedTags?.includes(topic.id)
                 ? "border-primary border-2 text-primary"
                 : "border-gray-400 border-2 text-gray-400"
             }
               ${
-                selected.length < 3
+                selectedTags?.length < 3
                   ? "md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer"
                   : ""
               }  md:w-auto md:px-1 md:py-2 p-2 md:text-base text-xs fill-none text-center transition-colors duration-300 

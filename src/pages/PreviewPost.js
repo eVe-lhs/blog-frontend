@@ -4,8 +4,9 @@ import { TempData } from "../TempData";
 import MDEditor from "@uiw/react-md-editor";
 import { useState, useEffect } from "react";
 import moment from "moment";
+import { topics } from "../constants/Interests";
 
-export default function PreviewPost({ colorTheme,heading,author,date,tags,imageUrl,description,setShowPreview }) {
+export default function PreviewPost({ colorTheme,heading,tags,imageUrl,description,setShowPreview }) {
   // console.log(TempData.find(post => post.id==postId))
     return (
       <div className="fixed inset-0 overflow-auto z-50 bg-gray-200 dark:bg-gray-800">
@@ -47,10 +48,10 @@ export default function PreviewPost({ colorTheme,heading,author,date,tags,imageU
                 </div> */}
             <a class="text-lg truncate">
               <span className="hover:underline hover:cursor-pointer font-base px-3 md:px-0">
-                {author}
+                By : Author_Name
               </span>
               <span className="ml-3 font-light text-sm text-gray-400">
-                {moment(date).format("DD MMMM YYYY")}
+                {moment(Date.now()).format("DD MMMM YYYY")}
               </span>
             </a>
 
@@ -62,7 +63,7 @@ export default function PreviewPost({ colorTheme,heading,author,date,tags,imageU
                       key={id}
                       className="rounded-full text-center text-sm bg-secondary_assent text-white p-2"
                     >
-                      {tag}
+                      {topics.find(topic => topic.id===tag).name}
                     </span>
                   ))}
                 </div>

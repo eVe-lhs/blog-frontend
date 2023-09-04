@@ -33,7 +33,7 @@ export default function ProfileView({setShowModal,setModalData}) {
       fetchData().catch((err) => console.error(err));
       setSelf(false)
     }
-  }, [currentUser,uid,user])
+  }, [uid])
   const override = {
     display: "block",
     position: "fixed",
@@ -161,14 +161,14 @@ export default function ProfileView({setShowModal,setModalData}) {
                       ({user.profile_info.name})
                     </span>
                   </div>
-                  {!self ? (
+                  {uid !== currentUser?.id ? (
                     <>
                       {/* follow icon */}
                       <div
                         class={`inline-flex items-center text-base font-semibold ${
                           !currentUser?.followings?.includes(user.id)
                             ? "text-primary"
-                            : "text-gray-400"
+                            : "text-red-400"
                         } `}
                       >
                         {!currentUser?.followings?.includes(user.id) ? (
@@ -181,25 +181,6 @@ export default function ProfileView({setShowModal,setModalData}) {
                           </button>
                         )}
                       </div>
-                      {/* <div className="flex flex-row divide-x-2 rounded-lg bg-gray-200 dark:bg-gray-800 items-center p-3">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="currentColor"
-                          className="w-6 h-6 hover:cursor-pointer hover:scale-105"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z"
-                          />
-                        </svg>
-                        <span className="text-center pl-5 text-xs text-gray-500">
-                         Follow
-                        </span>
-                      </div> */}
                     </>
                   ) : (
                     <>
@@ -272,7 +253,9 @@ export default function ProfileView({setShowModal,setModalData}) {
   }
 }
 
-const Tabs = ({activeTab,setActiveTab,self}) => {
+const Tabs = ({ activeTab, setActiveTab, self }) => {
+  const { uid } = useParams()
+  const {currentUser} = useContext(UserContext)
   return (
     <div class="text-xs md:text-lg font-medium font-body text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
       <ul class="flex justify-evenly -mb-px text-center">
@@ -297,7 +280,7 @@ const Tabs = ({activeTab,setActiveTab,self}) => {
               activeTab === "followers"
                 ? "border-primary text-primary hover:text-primary hover:border-primary"
                 : "hover:text-gray-600 border-gray-300 dark:border-gray-700  hover:border-gray-300 dark:hover:text-gray-300"
-            } inline-block p-4  border-b-2  rounded-t-lg`}
+            } inline-block md:p-4 py-4 px-1  border-b-2  rounded-t-lg`}
             aria-current="page"
           >
             Followers
@@ -311,26 +294,28 @@ const Tabs = ({activeTab,setActiveTab,self}) => {
               activeTab === "followings"
                 ? "border-primary text-primary hover:text-primary hover:border-primary"
                 : "hover:text-gray-600  border-gray-300 dark:border-gray-700 hover:border-gray-300 dark:hover:text-gray-300"
-            } inline-block p-4  border-b-2 rounded-t-lg`}
+            } inline-block md:p-4 py-4 px-1  border-b-2 rounded-t-lg`}
           >
             Followings
           </a>
         </li>
-        {self ?
-          (<li class="mr-2">
-          <a
-            href="#"
-            onClick={() => setActiveTab("draft")}
-            class={`${
-              activeTab === "draft"
-                ? "border-primary text-primary hover:text-primary hover:border-primary"
-                : "hover:text-gray-600 border-gray-300 dark:border-gray-700 hover:border-gray-300 dark:hover:text-gray-300"
-            } inline-block p-4  border-b-2  rounded-t-lg`}
-          >
-            Drafts
-          </a>
-        </li> ): <></>}
-        
+        {uid === currentUser?.id ? (
+          <li class="mr-2">
+            <a
+              href="#"
+              onClick={() => setActiveTab("draft")}
+              class={`${
+                activeTab === "draft"
+                  ? "border-primary text-primary hover:text-primary hover:border-primary"
+                  : "hover:text-gray-600 border-gray-300 dark:border-gray-700 hover:border-gray-300 dark:hover:text-gray-300"
+              } inline-block md:p-4 py-4 px-1  border-b-2  rounded-t-lg`}
+            >
+              Drafts
+            </a>
+          </li>
+        ) : (
+          <></>
+        )}
       </ul>
     </div>
   );
@@ -338,9 +323,9 @@ const Tabs = ({activeTab,setActiveTab,self}) => {
 }
 
 const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
-  const {currentUser} = useContext(UserContext)
   const [followers, setFollowers] = useState()
   const [followings, setFollowings] = useState()
+  const [posts,setPosts] = useState()
   const uid = useParams()
 
   useEffect(() => {
@@ -360,7 +345,18 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     };
     fetchFollowerData().catch((err) => console.log(err))
     fetchFollowingData().catch((err) => console.log(err));
-  }, [ uid,userId])
+  }, [uid, userId])
+  
+  useEffect(() => {
+    const fetchPostsOfCurrentUser = async () => {
+      setPosts("");
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/user/${userId}/posts`
+      );
+      setPosts(data);
+    };
+    fetchPostsOfCurrentUser().catch((err) => console.log(err));
+  }, [uid, userId]);
 
   const override = {
     display: "block",
@@ -370,7 +366,42 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     margin: "auto auto",
     transform: "translate(-50%,-50%)",
   };
-  if (!followers && followers !== []) {
+  if (activeTab === 'articles') {
+    if (!posts && posts !== []) {
+      return (
+        <BounceLoader
+          color={"#59B2A2"}
+          loading={true}
+          cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      );
+    }
+    else if (posts.length === 0) {
+      return <div className="mx-auto my-16 text-2xl w-full h-full text-center">Nothing To Show</div>
+    }
+    else {
+      return (
+        posts?.map((data) => (
+          <ContentCard
+            id={data.id}
+            heading={data.title}
+            imageUrl={data.post_photo}
+            date={data.date_of_creation}
+            tags={data.tags}
+            like_count={data.like_count}
+            comment_count={data.comment_count}
+            profile={true}
+            self={true}
+          />
+        )))
+    } 
+  }
+  else if (activeTab === 'followers')
+  {
+    if (!followers && followers !== []) {
     return (
       <BounceLoader
         color={"#59B2A2"}
@@ -382,27 +413,6 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
       />
     );
   }
-  
-  if (activeTab === 'articles') {
-    {
-      return (
-      TempData.map((data) => (
-        <ContentCard
-          id={data.id}
-          heading={data.heading}
-          imageUrl={data.imageUrl}
-          date={data.date}
-          text={data.text}
-          tags={data.tags}
-          author={data.author}
-          profile={true}
-          self = {true}
-        />
-      )))
-    }
-  }
-  else if (activeTab === 'followers')
-  {
     if(followers)
     return (
       <div className="mt-5">
@@ -411,14 +421,30 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     );
   }
   else if (activeTab === 'followings')
-    if(followings)
+  {if (!followings && followings !== []) {
     return (
-      <div className="mt-5">
-        <SmallProfile users={followings} />
-      </div>
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     );
-  else if(activeTab === 'draft')
-    return <DraftPosts setShowModal={setShowModal} setModalData={setModalData} />
+  }
+    if (followings)
+      return (
+        <div className="mt-5">
+          <SmallProfile users={followings} />
+        </div>
+      );
+  }
+    else if (activeTab === 'draft') {
+      return (
+        <DraftPosts setShowModal={setShowModal} setModalData={setModalData} />
+      );
+  }
 }
 
 

@@ -7,7 +7,7 @@ export const TempData = [
     imageUrl:
       "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: [1,2],
     author: "Author1",
     description: `# Lycormas at
 
@@ -101,7 +101,7 @@ pectus; Charybdin sedulitas.`,
       "https://images.idgesg.net/images/article/2019/05/cso_best_security_software_best_ideas_best_technology_lightbulb_on_horizon_of_circuit_board_landscape_with_abstract_digital_connective_technology_atmosphere_ideas_innovation_creativity_by_peshkov_gettyimages-965785212_3x2_2400x1600-100797318-large.jpg?auto=webp&quality=85,70",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: [2,3],
     author: "Author2",
     description: `# Est felix
 
@@ -173,7 +173,7 @@ quondam metalla artus, cum, contulerat indicii citra. Saepe pluvialibus manus
       "https://upload.wikimedia.org/wikipedia/commons/a/ad/Football_in_Bloomington%2C_Indiana%2C_1996.jpg",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: [5,3],
     author: "Author3",
     desription: `# Inani illa hospes velox ventorum mentisque lumine
 
@@ -236,7 +236,7 @@ crimine meorum.`,
       "https://img.freepik.com/free-vector/isometric-people-working-with-technology_52683-19078.jpg",
     text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet massa vitae tortor condimentum.",
     date: "Mar 20,2023",
-    tags: ["Technology", "Webdevelopment"],
+    tags: [5,7],
     author: "Author4",
     description: `# Inani illa hospes velox ventorum mentisque lumine
 

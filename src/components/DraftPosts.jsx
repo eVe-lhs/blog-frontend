@@ -1,4 +1,8 @@
+import axios from "axios";
 import moment from "moment";
+import { useContext, useEffect, useState } from "react";
+import { ModelDataContext, UserContext } from "../App";
+import { BounceLoader } from "react-spinners";
 
 const DraftTemp = [
   {
@@ -95,11 +99,43 @@ crimine meorum.`,
   },
 ];
 
-export const DraftPosts = ({setShowModal,setModalData}) => {
+export const DraftPosts = ({ setShowModal }) => {
+  const { currentUser } = useContext(UserContext)
+  const {setModalData} = useContext(ModelDataContext)
+  const [drafts,setDrafts] = useState()
+  useEffect(() => {
+    const fetchPostsOfCurrentUser = async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/user/${currentUser?.id}/posts/draft`
+      );
+      setDrafts(data);
+    };
+    fetchPostsOfCurrentUser().catch((err) => console.log(err));
+  }, []);
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "80%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
+  if (!currentUser) {
+    return (
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
+  }
   return (
     <div class="flow-root w-4/5 md:w-3/4 mx-auto">
       <ul class="divide-y divide-gray-300 dark:divide-gray-700">
-        {DraftTemp.map((post) => (
+        {drafts?.map((post) => (
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-1 min-w-0">
@@ -107,21 +143,17 @@ export const DraftPosts = ({setShowModal,setModalData}) => {
                   (Draft)
                 </p>
                 <p class="text-sm font-semibold text-gray-500 italic truncate dark:text-red-400">
-                  {moment(post.date).fromNow()}
+                  {moment(post?.date_of_creation).fromNow()}
                 </p>
                 <p class="text-sm text-gray-900 truncate dark:text-gray-50">
-                  {post.heading ? post.heading : <>(No headings)</>}
+                  {post?.title ? post?.title : <>(No titles)</>}
                 </p>
-                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                  {post.text ? post.text : <>(No text)</>}
-                        </p>
-                        <div className="w-40">{post.imageUrl? <img src={post.imageUrl} className="w-full" /> : <span className="font-bold">(No images selected)</span>}</div>
+                <div className="w-40">{post?.post_photo? <img src={post?.post_photo} className="w-full" /> : <span className="font-bold">(No images selected)</span>}</div>
                 
               </div>
               <div class="inline-flex items-center text-sm font-semibold">
                 <button className="py-2 px-4 bg-primary rounded-md text-gray-50" onClick={async () => {
                   await setModalData(post)
-                  // console.log(post)
                   setShowModal(true)
                 }
                 }>

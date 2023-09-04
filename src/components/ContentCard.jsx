@@ -2,8 +2,9 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { topics } from "../constants/Interests";
 
-export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, profile, setModalData, self, bookmarked }) => {
+export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, text, tags, id, author, profile, setModalData, self, bookmarked }) => {
   const [openBookmarks, setOpenbookmarks] = useState(false)
   return (
     <motion.div
@@ -18,11 +19,16 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, p
         <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
           {heading}
         </span>
+        {profile ? (
+          <></>
+        ) : (
+          <div className="text-gray-400 text-sm">By {author}</div>
+        )}
         <div className="flex flex-row justify-between mt-2">
           <div className="flex flex-row gap-2 justify-start">
-            {tags.map((tag) => (
+            {tags?.map((tag) => (
               <div className="p-2 text-white font-normal bg-primary rounded-lg text-xs md:m-auto">
-                #{tag}
+                {topics.find((topic) => topic.id === tag).name}
               </div>
             ))}
           </div>
@@ -232,7 +238,7 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, p
                   d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                 />
               </svg>
-              <span className="text-gray-400 text-sm">2345</span>
+              <span className="text-gray-400 text-sm">{like_count}</span>
             </div>
             <div className="flex flex-row gap-1">
               <svg
@@ -249,7 +255,7 @@ export const ContentCard = ({ heading, imageUrl, date, text, tags, id, author, p
                   d="M2.25 12.76c0 1.6 1.123 2.994 2.707 3.227 1.068.157 2.148.279 3.238.364.466.037.893.281 1.153.671L12 21l2.652-3.978c.26-.39.687-.634 1.153-.67 1.09-.086 2.17-.208 3.238-.365 1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z"
                 />
               </svg>
-              <span className="text-gray-400 text-sm">12345</span>
+              <span className="text-gray-400 text-sm">{comment_count}</span>
             </div>
           </div>
           <Link
