@@ -141,7 +141,7 @@ const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData
   //  const { currentUser, setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate()
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
+    if (!localStorage.getItem("token") ) {
       navigate("/auth/login");
     }
   }, [localStorage.getItem("token")]);

@@ -59,7 +59,7 @@ export default function Login() {
       localStorage.removeItem("token");
       logout().catch((err) => console.log(err));
       window.location.reload();
-      }, 1 * 60 * 60 * 1000);
+      }, 2 * 60 * 60 * 1000);
       await setCurrentUser(data.user)
       toast.success(data.message, {
         position: "top-center",

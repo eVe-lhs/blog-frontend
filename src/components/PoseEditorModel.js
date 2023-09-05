@@ -22,7 +22,12 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
     setTitle(modalData?.title)
     setContent(modalData?.content)
     setTags(modalData?.tags)
-  }, [modalData,showModal])
+  }, [modalData, showModal])
+  
+  useEffect(() => {
+    setTags(modalData?.tags)
+  },[modalData])
+
   useEffect(() => {
     if(showModal)
      setImgUrl(
@@ -39,7 +44,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
       }
   };
   const handlePublish = async () => {
-    if (selectedImage === '' || content === '' || title === '') {
+    if ((modalData?.status !== 'Draft' && selectedImage === '') || content === '' || title === '') {
       alert('Please fill all the fields')
     }
     else if (tags.length === 0) {
@@ -51,10 +56,31 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
         formData.append('title', title)
         formData.append('content', content)
         formData.append("tags", JSON.stringify(tags));
-        formData.append('post_photo',selectedImage)
+        formData.append('post_photo', selectedImage)
+        formData.append('status', 'Posted')
         if (modalData?.status != 'Draft') {
           const { data } = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+            `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+            formData
+            // { withCredentials: true }
+          );
+          setTitle('');
+          setContent('');
+          setTags('');
+          setSelectedImage('');
+          inputField.current.value = null;
+          setImgUrl('')
+          toast.success(data.message, {
+            position: "top-center",
+            hideProgressBar: false,
+            pauseOnHover: true,
+            theme: colorTheme === "dark" ? "light" : "dark",
+          });
+          setShowModal(false)
+        }
+        else {
+          const { data } = await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
           formData
           // { withCredentials: true }
           );
@@ -64,22 +90,74 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
           setSelectedImage('');
           inputField.current.value = null;
           setImgUrl('')
-        toast.success(data.message, {
+        toast.success("Published the draft post", {
           position: "top-center",
           hideProgressBar: false,
           pauseOnHover: true,
           theme: colorTheme === "dark" ? "light" : "dark",
-        });
-        }
-        else {
-          alert("Draft post publish")
-        }
-      
-    } catch (err) {
+        })
+      setShowModal(false)
+    } 
+      }
+      catch (err) {
       alert(err.response.data.err)
     }
     }
   }
+  const handleSaveDraft = async () => {
+     if (content === "" && title === "" && selectedImage === "") {
+       alert("Please fill at least one field");
+     }
+       try {
+         const formData = new FormData();
+         formData.append("title", title);
+         formData.append("content", content);
+         formData.append("tags", JSON.stringify(tags));
+         formData.append("post_photo", selectedImage);
+         formData.append("status", "Draft");
+         if (modalData?.status != "Draft") {
+           const { data } = await axios.post(
+             `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+             formData
+             // { withCredentials: true }
+           );
+           setTitle("");
+           setContent("");
+           setTags("");
+           setSelectedImage("");
+           inputField.current.value = null;
+           setImgUrl("");
+           toast.success("Saved To drafts", {
+             position: "top-center",
+             hideProgressBar: false,
+             pauseOnHover: true,
+             theme: colorTheme === "dark" ? "light" : "dark",
+           });
+           setShowModal(!showModal)
+         } else {
+           const { data } = await axios.put(
+             `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+             formData
+             // { withCredentials: true }
+           );
+           setTitle("");
+           setContent("");
+           setTags("");
+           setSelectedImage("");
+           inputField.current.value = null;
+           setImgUrl("");
+           toast.success("Updated the draft", {
+             position: "top-center",
+             hideProgressBar: false,
+             pauseOnHover: true,
+             theme: colorTheme === "dark" ? "light" : "dark",
+           });
+           setShowModal(false);
+         }
+       } catch (err) {
+         alert(err.response.data.err);
+       }
+     }
 
   return (
     <>
@@ -184,7 +262,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
                       </div>
                     </div>
                     <div className="flex flex-col p-6">
-                      <Interests selectedTags={tags} setInterests={setTags} />
+                      <Interests selectedTags={tags} setInterests={setTags} /> 
                       <button
                         className="text-secondary_assent mt-5 hover:underline underline-offset-2 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
@@ -220,6 +298,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
                       onClick={() => {
                         setModalData("")
                         setImgUrl("")
+                        inputField.current.value = null;
                         setShowModal(false);
                       }}
                     >
@@ -229,7 +308,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
                       <button
                         className="text-primary border-2 border-primary rounded  background-transparent font-bold uppercase px-2 md:px-6 py-2 text-sm outline-none focus:outline-none mr-2 mb-1 ease-linear transition-all duration-150"
                         type="button"
-                        onClick={() => setShowModal(false)}
+                        onClick={handleSaveDraft}
                       >
                         Save to Draft
                       </button>
@@ -274,90 +353,90 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
   );
 };
 
-const Interests = ({selectedTags,setInterests}) => {
-  let selectedIds = [];
-  selectedTags?.map((selectedTag) => {
-    selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
-  });
-  useEffect(() => {
-    setInterests(selectedIds);
-  }, [selectedTags]);
-  // console.log(selected)
-  const toggleClass = (topicId, topicName) => {
-    if (!selectedTags.includes(topicId) && selectedTags.length < 3) {
-      setInterests([...selectedTags, topicId]);
-    } else
-      setInterests((current) =>
-        current.filter((id) => {
-          return id !== topicId;
-        })
-      );
-  };
-  return (
-    <div className="p-3 grid items-center">
-      <label
-        class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
-        htmlFor="content"
-      >
-        Your Tags (Select Up to 3):
-      </label>
-      <motion.div
-        transition={{ duration: 0.3 }}
-        className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto"
-        exit={{ opacity: 0 }}
-      >
-        {topics.map((topic) => (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              transition: {
-                type: "tween",
-                stiffness: 200,
-                damping: 20,
-                delay: topic.id * 0.15,
-              },
-            }}
-            exit={{
-              opacity: 0,
-              y: 10,
-              transition: {
-                type: "tween",
-                stiffness: 200,
-                damping: 20,
-                delay: topic.id * 0.15,
-              },
-            }}
-            whileTap={{
-              scale: selectedTags?.length<3? 0.95 : 1,
-              transition: {
-                type: "spring",
-                stiffness: 250,
-                damping: 10,
-                duration: 0.2,
-              },
-            }}
-            onClick={() => toggleClass(topic.id,topic.name)}
-            key={topic.id}
-            className={`md:rounded-lg rounded-full ${
-              selectedTags?.includes(topic.id)
-                ? "border-primary border-2 text-primary"
-                : "border-gray-400 border-2 text-gray-400"
-            }
-              ${
-                selectedTags?.length < 3
+const Interests = ({ selectedTags,setInterests }) => {
+  const { modalData } = useContext(ModelDataContext)
+    let selectedIds = [];
+    modalData?.tags?.map((selectedTag) => {
+      selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
+    });
+    useEffect(() => {
+      setInterests(selectedIds);
+    }, [modalData]);
+    // console.log(selected)
+    const toggleClass = (topicId, topicName) => {
+      if (!selectedTags.includes(topicId) && selectedTags.length < 3) {
+        setInterests([...selectedTags, topicId]);
+      } else
+        setInterests((current) =>
+          current.filter((id) => {
+            return id !== topicId;
+          })
+        );
+    };
+    return (
+      <div className="p-3 grid items-center">
+        <label
+          class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
+          htmlFor="content"
+        >
+          Your Tags (Select Up to 3):
+        </label>
+        <motion.div
+          transition={{ duration: 0.3 }}
+          className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto"
+          exit={{ opacity: 0 }}
+        >
+          {topics.map((topic) => (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{
+                opacity: 1,
+                y: 0,
+                transition: {
+                  type: "tween",
+                  stiffness: 200,
+                  damping: 20,
+                  delay: topic.id * 0.15,
+                },
+              }}
+              exit={{
+                opacity: 0,
+                y: 10,
+                transition: {
+                  type: "tween",
+                  stiffness: 200,
+                  damping: 20,
+                  delay: topic.id * 0.15,
+                },
+              }}
+              whileTap={{
+                scale: selectedTags?.length < 3 ? 0.95 : 1,
+                transition: {
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 10,
+                  duration: 0.2,
+                },
+              }}
+              onClick={() => toggleClass(topic.id, topic.name)}
+              key={topic.id}
+              className={`md:rounded-lg rounded-full ${selectedTags?.includes(topic.id)
+                  ? "border-primary border-2 text-primary"
+                  : "border-gray-400 border-2 text-gray-400"
+                }
+              ${selectedTags?.length < 3
                   ? "md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer"
                   : ""
-              }  md:w-auto md:px-1 md:py-2 p-2 md:text-base text-xs fill-none text-center transition-colors duration-300 
+                }  md:w-auto md:px-1 md:py-2 p-2 md:text-base text-xs fill-none text-center transition-colors duration-300 
              grid items-center justify-center `}
-          >
-            {topic.name}
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  );
+            >
+              {topic.name}
+            </motion.div>
+          ))}
+        </motion.div>
+      </div>
+    );
+  
 };
 
 

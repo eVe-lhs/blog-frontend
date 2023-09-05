@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { topics } from "../constants/Interests";
+import { UserContext } from "../App";
 
 export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, text, tags, id, author, profile, setModalData, self, bookmarked }) => {
   const [openBookmarks, setOpenbookmarks] = useState(false)
+  const {currentUser} = useContext(UserContext)
   return (
     <motion.div
       className={`${
@@ -33,7 +35,7 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
             ))}
           </div>
           <div className="flex flex-row gap-3">
-            {self ? (
+            {author === currentUser?.username ? (
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

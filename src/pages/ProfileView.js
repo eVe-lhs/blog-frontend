@@ -394,7 +394,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
             like_count={data.like_count}
             comment_count={data.comment_count}
             profile={true}
-            self={true}
+            self={self}
           />
         )))
     } 
@@ -402,17 +402,23 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
   else if (activeTab === 'followers')
   {
     if (!followers && followers !== []) {
-    return (
-      <BounceLoader
-        color={"#59B2A2"}
-        loading={true}
-        cssOverride={override}
-        size={100}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
-    );
-  }
+      return (
+        <BounceLoader
+          color={"#59B2A2"}
+          loading={true}
+          cssOverride={override}
+          size={100}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      );
+    } else if (followers.length === 0) {
+      return (
+        <div className="mx-auto my-16 text-2xl w-full h-full text-center">
+          Nothing To Show
+        </div>
+      );
+    }
     if(followers)
     return (
       <div className="mt-5">
@@ -431,6 +437,12 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
         aria-label="Loading Spinner"
         data-testid="loader"
       />
+    );
+  } else if (followings.length === 0) {
+    return (
+      <div className="mx-auto my-16 text-2xl w-full h-full text-center">
+        Nothing To Show
+      </div>
     );
   }
     if (followings)

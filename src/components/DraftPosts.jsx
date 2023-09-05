@@ -1,8 +1,9 @@
 import axios from "axios";
 import moment from "moment";
 import { useContext, useEffect, useState } from "react";
-import { ModelDataContext, UserContext } from "../App";
+import { ModelDataContext, ThemeContext, UserContext } from "../App";
 import { BounceLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const DraftTemp = [
   {
@@ -101,7 +102,8 @@ crimine meorum.`,
 
 export const DraftPosts = ({ setShowModal }) => {
   const { currentUser } = useContext(UserContext)
-  const {setModalData} = useContext(ModelDataContext)
+  const { setModalData } = useContext(ModelDataContext)
+  const {colorTheme} = useContext(ThemeContext)
   const [drafts,setDrafts] = useState()
   useEffect(() => {
     const fetchPostsOfCurrentUser = async () => {
@@ -112,6 +114,27 @@ export const DraftPosts = ({ setShowModal }) => {
     };
     fetchPostsOfCurrentUser().catch((err) => console.log(err));
   }, []);
+  const handleDelete =async (postId) => {
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/posts/${postId}`,
+      {
+        data: {
+          'access_token': localStorage.getItem('token')
+        },
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem('token'),
+        },
+      }
+    );
+    toast.success(data.message, {
+      position: "top-center",
+      hideProgressBar: false,
+      pauseOnHover: true,
+      theme: colorTheme === "dark" ? "light" : "dark",
+    });
+    setTimeout(() => window.location.reload(),5000);
+    
+  }
   const override = {
     display: "block",
     position: "fixed",
@@ -148,16 +171,31 @@ export const DraftPosts = ({ setShowModal }) => {
                 <p class="text-sm text-gray-900 truncate dark:text-gray-50">
                   {post?.title ? post?.title : <>(No titles)</>}
                 </p>
-                <div className="w-40">{post?.post_photo? <img src={post?.post_photo} className="w-full" /> : <span className="font-bold">(No images selected)</span>}</div>
-                
+                <div className="w-40">
+                  {post?.post_photo ? (
+                    <img src={post?.post_photo} className="w-full" />
+                  ) : (
+                    <span className="font-bold">(No images selected)</span>
+                  )}
+                </div>
               </div>
-              <div class="inline-flex items-center text-sm font-semibold">
-                <button className="py-2 px-4 bg-primary rounded-md text-gray-50" onClick={async () => {
-                  await setModalData(post)
-                  setShowModal(true)
-                }
-                }>
+              <div class="inline-flex gap-3 items-center text-sm font-semibold">
+                <button
+                  className="py-2 px-4 bg-primary rounded-md text-gray-50"
+                  onClick={async () => {
+                    await setModalData(post);
+                    setShowModal(true);
+                  }}
+                >
                   Edit
+                </button>
+                <button
+                  className="py-2 px-4 bg-red-400 rounded-md text-gray-50"
+                  onClick={() => {
+                    handleDelete(post?.id)
+                  }}
+                >
+                  Delete
                 </button>
               </div>
             </div>
