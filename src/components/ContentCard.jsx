@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useContext, useState } from "react";
+import { Suspense, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { topics } from "../constants/Interests";
 import { UserContext } from "../App";
@@ -17,7 +17,18 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
       animate={{ opacity: 1 }}
     >
       <div className="flex flex-col gap-2">
-        <img className="w-full rounded-md mx-auto" alt="" src={imageUrl} />
+        <Suspense
+          fallback={
+            <img
+              className="w-full rounded-md mx-auto"
+              alt="post_img"
+              src="/no_cover_img.jpg"
+            />
+          }
+        >
+          <img className="w-full rounded-md mx-auto" alt="post_img" src={imageUrl} />
+        </Suspense>
+
         <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
           {heading}
         </span>

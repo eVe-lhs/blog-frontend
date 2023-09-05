@@ -56,19 +56,43 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
   const [openSort, setOpenSort] = useState(true)
   const [sortCondition, setSortCondition] = useState("-date_of_creation")
   const [sortText, setSortText] = useState('Most Recent')
-  const [posts, setPosts] = useState()
-  const {currentUser} = useContext(UserContext)
+  const [isFetching,setIsFetching] = useState(false)
+  const [posts, setPosts] = useState([])
+  const { currentUser } = useContext(UserContext)
+  const [page, setPage] = useState(1)
   useEffect(() => {
-    const fetchFeedPosts = async () => {
-      setPosts("");
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/posts/feed/${currentUser.id}/${sortCondition}`
-      );
-      setPosts(data);
-    };
+    
+    // setPosts([]);
     fetchFeedPosts().catch((err) => console.log(err));
+    window.addEventListener("scroll", handleScroll);
     setOpenSort(!openSort)
+    
   }, [sortCondition]);
+
+  const handleScroll = () => {
+    if (Math.ceil(window.innerHeight + document.documentElement.scrollTop) < document.documentElement.offsetHeight || isFetching)
+      return;
+    setIsFetching(true)
+    console.log("scroll")
+  }
+  const fetchFeedPosts = async () => {
+    setTimeout(async () => { 
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/posts/feed/${currentUser.id}/${sortCondition}/${page}`
+      );
+      setPage(page+1)
+      setPosts(() => {
+      return [...posts,...data]
+    });},1000)
+  };
+  useEffect(() => {
+    if (!isFetching) return;
+    fetchMoreListItems()
+  }, [isFetching])
+  const fetchMoreListItems = () => {
+    fetchFeedPosts()
+    setIsFetching(false)
+  }
   const override = {
     display: "block",
     position: "fixed",
@@ -136,6 +160,8 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
+                    setPage(1);
+                    setPosts([]);
                     setSortCondition("-like_count");
                     setSortText("Likes (Decending)");
                   }}
@@ -148,6 +174,8 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
+                    setPage(1);
+                    setPosts([]);
                     setSortCondition("+like_count");
                     setSortText("Likes (Ascending)");
                   }}
@@ -160,6 +188,8 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
+                    setPage(1);
+                    setPosts([]);
                     setSortCondition("+date_of_creation");
                     setSortText("Least Recent");
                   }}
@@ -172,6 +202,8 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
+                    setPage(1);
+                    setPosts([]);
                     setSortCondition("-date_of_creation");
                     setSortText("Most Recent");
                   }}
@@ -187,7 +219,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
             Current Sorting : {sortText}
           </button>
         </div>
-        {posts?.map((data) => (
+        {posts.map((data) => (
           <ContentCard
             id={data?.id}
             heading={data?.title}
@@ -202,6 +234,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
             setModalData={setModalData}
           />
         ))}
+        
       </motion.div>
     );
 }
