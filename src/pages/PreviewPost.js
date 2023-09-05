@@ -8,6 +8,9 @@ import { topics } from "../constants/Interests";
 
 export default function PreviewPost({ colorTheme,heading,tags,imageUrl,description,setShowPreview }) {
   // console.log(TempData.find(post => post.id==postId))
+  useEffect(() => {
+    document.title = "Leaflet | Preview";
+  }, []);
     return (
       <div className="fixed inset-0 overflow-auto z-50 bg-gray-200 dark:bg-gray-800">
         <div className= "w-full h-20 bg-gray-300 flex flex-row justify-between">

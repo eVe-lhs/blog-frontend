@@ -17,7 +17,10 @@ export default function ProfileView({setShowModal,setModalData}) {
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [self,setSelf] = useState(false)
   const [user,setUser] = useState()
-  const {uid} = useParams()
+  const { uid } = useParams()
+  useEffect(() => {
+    document.title = "Leaflet | Profile";
+  }, []);
   useEffect(() => {
     if (currentUser?.id === uid) {
       setUser(currentUser)

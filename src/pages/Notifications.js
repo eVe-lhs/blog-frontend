@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const TempNoti = [
   {
@@ -71,6 +71,9 @@ const TempNoti = [
 
 export default function Notifications() {
   const [notiTab, setNotiTab] = useState('all')
+  useEffect(() => {
+    document.title = "Leaflet | Notifications";
+  }, []);
   return (
     <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div

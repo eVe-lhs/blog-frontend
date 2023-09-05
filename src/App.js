@@ -24,6 +24,7 @@ import SinglePost from "./pages/SinglePost";
 import Notifications from "./pages/Notifications";
 import { EditProfile } from "./pages/EditProfile";
 import { BounceLoader } from "react-spinners";
+import SearchResults from "./pages/SearchResults";
 
 export const UserContext = createContext();
 export const ThemeContext = createContext()
@@ -117,6 +118,7 @@ useEffect(() => {
                 </Route>
                 <Route path="Bookmarks" element={<Bookmarks />} />
                 <Route path="Notifications" element={<Notifications />} />
+                <Route path= "searchresults/:query" element={<SearchResults />} />
               </Route>
 
               {/* <Route path="*" element={<div>No Route</div>} /> */}

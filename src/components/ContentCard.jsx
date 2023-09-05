@@ -26,7 +26,11 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
             />
           }
         >
-          <img className="w-full rounded-md mx-auto" alt="post_img" src={imageUrl} />
+          <img
+            className="w-full rounded-md mx-auto"
+            alt="post_img"
+            src={imageUrl}
+          />
         </Suspense>
 
         <span class="line-clamp-2 text-ellipsis visible md:text-justify font-header font-bold text-lg md:text-xl">
@@ -35,7 +39,10 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
         {profile ? (
           <></>
         ) : (
-          <div className="text-gray-400 text-sm">By {author}</div>
+          <div className="text-gray-400 text-sm">
+            By
+            <span className="hover:underline font-bold">&nbsp;{author}</span>
+          </div>
         )}
         <div className="flex flex-row justify-between mt-2">
           <div className="flex flex-row gap-2 justify-start">

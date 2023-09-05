@@ -8,7 +8,10 @@ import { BounceLoader } from "react-spinners";
 import { topics } from "../constants/Interests";
 import axios from "axios";
 
-export default function SinglePost({colorTheme}) {
+export default function SinglePost({ colorTheme }) {
+  useEffect(() => {
+  document.title = "Leaflet | Post";
+}, []);
     const { postId } = useParams();
     const [post, setPost] = useState()
     // var post = TempData.filter(function (x) {

@@ -20,6 +20,9 @@ export default function Feed({ showModal, setShowModal, setModalData }) {
   const { currentUser } = useContext(UserContext);
   const navigate = useNavigate();
   useEffect(() => {
+    document.title = "Leaflet | Home";
+  }, []);
+  useEffect(() => {
     if (!localStorage.getItem('token')) {
       navigate("/auth/login");
     }
@@ -53,7 +56,7 @@ export default function Feed({ showModal, setShowModal, setModalData }) {
 
 
 const Content = ({ showModal, setShowModal, setModalData }) => {
-  const [openSort, setOpenSort] = useState(true)
+  const [openSort, setOpenSort] = useState(false)
   const [sortCondition, setSortCondition] = useState("-date_of_creation")
   const [sortText, setSortText] = useState('Most Recent')
   const [isFetching,setIsFetching] = useState(false)
@@ -65,7 +68,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
     // setPosts([]);
     fetchFeedPosts().catch((err) => console.log(err));
     window.addEventListener("scroll", handleScroll);
-    setOpenSort(!openSort)
+    setOpenSort(false)
     
   }, [sortCondition]);
 
@@ -401,6 +404,8 @@ const RightBar = () => {
 }
 
 const SearchBar = () => {
+  const navigate = useNavigate()
+  const [searchQuery,setSearchQuery] = useState('')
     return (
       <motion.div
         className="md:w-5/12 w-screen px-1 mx-auto border-gray-300 border-b-2 pb-5"
@@ -433,20 +438,29 @@ const SearchBar = () => {
               </svg>
             </div>
             <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               type="search"
               id="default-search"
               className="block w-full py-4 px-4 md:pl-10 text-sm text-gray-900 border border-gray-300 md:rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Search Mockups, Logos..."
+              placeholder="Search Posts and Users"
               required
             />
             <button
-              type="submit"
+              onClick={() => {
+                if (searchQuery === "") alert("Search String is Empty");
+                else navigate(`/home/searchresults/${searchQuery}`);
+              }}
               className="md:block hidden text-white absolute right-2.5 bottom-2.5 bg-secondary_assent hover:bg-primary_assent focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Search
             </button>
             <div
               className="md:hidden block text-primary_assent absolute right-0 bottom-2.5 font-medium text-sm p-2 dark:text-blue-500"
+              onClick={() => {
+                if (searchQuery === "") alert("Search String is Empty");
+                else navigate(`/home/searchresults/${searchQuery}`);
+              }}
             >
               <svg
                 className="w-4 h-4 text-whitedark:text-gray-400"

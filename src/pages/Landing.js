@@ -71,7 +71,7 @@ export default function Landing() {
               },
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit
+            Crafting Conversations Through Content.
           </motion.div>
           <motion.div
             className="md:block hidden text-lg font-bold text-green-700 font-body md:text-left text-center"
@@ -87,9 +87,9 @@ export default function Landing() {
               },
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Porta
-            nibh venenatis cras sed.
+            At <span className="text-primary">leaflet</span>, we're passionate about sharing knowledges.
+            Our blog is your portal to a world of insights, expertise, and
+            captivating stories.
           </motion.div>
           <motion.div className="flex flex-row gap-3 text-lg text-white md:justify-normal justify-center">
             <motion.button

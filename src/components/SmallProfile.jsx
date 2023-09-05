@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-export const SmallProfile = ({ users }) => {
+export const SmallProfile = ({ users,search }) => {
   const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const { colorTheme } = useContext(ThemeContext);
@@ -86,9 +86,9 @@ export const SmallProfile = ({ users }) => {
     </div>
   }
   return (
-    <div class="flow-root w-4/5 md:w-3/4 mx-auto">
+    <div class={`flow-root ${search ? "w-full" : "w-4/5 md:w-3/4"} mx-auto`}>
       <ul class="divide-y divide-gray-300 dark:divide-gray-700">
-        {users.map((user) => (
+        {users?.map((user) => (
           <li class="py-3 sm:py-4">
             <div class="flex items-center space-x-4">
               <div class="flex-shrink-0">
@@ -113,22 +113,27 @@ export const SmallProfile = ({ users }) => {
                   {user.email}
                 </p>
               </div>
-              {user.id != currentUser.id ? <div
-                class={`inline-flex items-center text-base font-semibold ${
-                  !currentUser?.followings?.includes(user.id)
-                    ? "text-primary"
-                    : "text-gray-400"
-                } `}
-              >
-                {!currentUser?.followings?.includes(user.id) ? (
-                  <button onClick={() => handleFollow(user.id)}>Follow</button>
-                ) : (
-                  <button onClick={() => handleUnfollow(user.id)}>
-                    Unfollow
-                  </button>
-                )}
-              </div> : <div></div>}
-              
+              {user.id != currentUser.id ? (
+                <div
+                  class={`inline-flex items-center text-base font-semibold ${
+                    !currentUser?.followings?.includes(user.id)
+                      ? "text-primary"
+                      : "text-gray-400"
+                  } `}
+                >
+                  {!currentUser?.followings?.includes(user.id) ? (
+                    <button onClick={() => handleFollow(user.id)}>
+                      Follow
+                    </button>
+                  ) : (
+                    <button onClick={() => handleUnfollow(user.id)}>
+                      Unfollow
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div></div>
+              )}
             </div>
           </li>
         ))}

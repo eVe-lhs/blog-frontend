@@ -1,12 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { TempData } from "../TempData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ContentCard } from "../components/ContentCard";
 
 export default function Bookmarks() {
   const [collection, setCollection] = useState('All Saved Items')
   const [addNewClicked, setAddNewClicked] = useState(false)
-  const [collectionName,setCollectionName] = useState('')
+  const [collectionName, setCollectionName] = useState('')
+  useEffect(() => {
+    document.title = "Leaflet | Bookmarks";
+  }, []);
   return (
     <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div
