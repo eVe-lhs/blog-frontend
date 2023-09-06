@@ -92,7 +92,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     margin: "auto auto",
     transform: "translate(-50%,-50%)",
     };
-    if ((!users && users !== []) || !posts && posts !== []) {
+    if ((!users && users !== []) && (!posts && posts !== [])) {
       return (
         <BounceLoader
           color={"#59B2A2"}
