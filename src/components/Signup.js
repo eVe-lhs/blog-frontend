@@ -5,6 +5,7 @@ import Input from "./Input";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const fields = signupFields;
 let fieldsState = {};
@@ -57,12 +58,26 @@ export default function Signup() {
         password: signupState["password"],
         email:signupState["email"]
       };
-      const {data} = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/register`,
-        userData,
-        // { withCredentials: true }
+      const response = toast.promise(
+        await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/register`,
+          userData
+          // { withCredentials: true }
+        ),
+        {
+          pending: "Processing, Please Wait...",
+          success: "Registered Successfully",
+          error: "Something Went Wrong",
+        },
+        {
+          position: "top-center",
+          autoClose: 3000,
+          pauseOnHover: false,
+          hideProgressBar: true,
+          theme: colorTheme === "dark" ? "dark" : "light",
+        }
       );
-      alert(data.message)
+      // alert(data.message)
       const login_data  = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/login`,
         {

@@ -57,6 +57,7 @@ export const SmallProfile = ({ users,search }) => {
         hideProgressBar: false,
         pauseOnHover: true,
         theme: colorTheme === "dark" ? "light" : "dark",
+        autoClose:3000
       });
     } catch (err) {
       toast.error(err.response.data.message, {
@@ -65,6 +66,7 @@ export const SmallProfile = ({ users,search }) => {
         pauseOnHover: true,
         hideProgressBar: true,
         theme: colorTheme === "dark" ? "dark" : "light",
+        autoClose: 3000,
       });
     }
   };
@@ -85,59 +87,61 @@ export const SmallProfile = ({ users,search }) => {
       Nothing to show
     </div>
   }
-  return (
-    <div class={`flow-root ${search ? "w-full" : "w-4/5 md:w-3/4"} mx-auto`}>
-      <ul class="divide-y divide-gray-300 dark:divide-gray-700">
-        {users?.map((user) => (
-          <li class="py-3 sm:py-4">
-            <div class="flex items-center space-x-4">
-              <div class="flex-shrink-0">
-                <img
-                  class="w-10 h-10 rounded-lg object-cover object-center"
-                  src={
-                    user.profile_info.profile_picture !== ""
-                      ? user.profile_info.profile_picture
-                      : "/no_image.jpg"
-                  }
-                  alt=""
-                />
-              </div>
-              <div class="flex-1 min-w-0">
-                <p
-                  class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
-                  onClick={() => navigate(`/home/Profile/${user.id}`)}
-                >
-                  {user.username}
-                </p>
-                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                  {user.email}
-                </p>
-              </div>
-              {user.id != currentUser.id ? (
-                <div
-                  class={`inline-flex items-center text-base font-semibold ${
-                    !currentUser?.followings?.includes(user.id)
-                      ? "text-primary"
-                      : "text-gray-400"
-                  } `}
-                >
-                  {!currentUser?.followings?.includes(user.id) ? (
-                    <button onClick={() => handleFollow(user.id)}>
-                      Follow
-                    </button>
-                  ) : (
-                    <button onClick={() => handleUnfollow(user.id)}>
-                      Unfollow
-                    </button>
-                  )}
+  if(users){
+    return (
+      <div class={`flow-root ${search ? "w-full" : "w-4/5 md:w-3/4"} mx-auto`}>
+        <ul class="divide-y divide-gray-300 dark:divide-gray-700">
+          {users?.map((user) => (
+            <li class="py-3 sm:py-4">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                  <img
+                    class="w-10 h-10 rounded-lg object-cover object-center"
+                    src={
+                      user.profile_info.profile_picture !== ""
+                        ? user.profile_info.profile_picture
+                        : "/no_image.jpg"
+                    }
+                    alt=""
+                  />
                 </div>
-              ) : (
-                <div></div>
-              )}
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+                <div class="flex-1 min-w-0">
+                  <p
+                    class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
+                    onClick={() => navigate(`/home/Profile/${user.id}`)}
+                  >
+                    {user.username}
+                  </p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    {user.email}
+                  </p>
+                </div>
+                {user.userId != currentUser.id ? (
+                  <div
+                    class={`inline-flex items-center text-base font-semibold ${
+                      !currentUser?.followings?.includes(user.userId)
+                        ? "text-primary"
+                        : "text-gray-400"
+                    } `}
+                  >
+                    {!currentUser?.followings?.includes(user.userId) ? (
+                      <button onClick={() => handleFollow(user.userId)}>
+                        Follow
+                      </button>
+                    ) : (
+                      <button onClick={() => handleUnfollow(user.userId)}>
+                        Unfollow
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
 };

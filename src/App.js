@@ -50,12 +50,11 @@ useEffect(() => {
       },
     );
       setCurrentUser(data);
-    } if (!localStorage.getItem('token')) {
-       navigate("/auth/login");
-     }
+    }
   };
   fetchData().catch((err) => {
     localStorage.removeItem('token')
+    setCurrentUser('')
     // window.location.reload()
   });
 }, [localStorage.getItem('token')]);

@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import moment from "moment";
 import { useEffect, useState } from "react";
+import { RightBar } from "../components/RightBar";
 
 const TempNoti = [
   {
@@ -160,68 +161,3 @@ const NotificationCard = ({ type, user, profileImg, postImg }) => {
   );
   
 }
-
-const suggestions = [
-  {
-    name: "John",
-    email: "john@email.com",
-    imageUrl: "",
-  },
-  {
-    name: "ken",
-    email: "ken@email.com",
-    imageUrl: "",
-  },
-  {
-    name: "anwar",
-    email: "anwar@email.com",
-    imageUrl: "",
-  },
-  {
-    name: "John",
-    email: "john@email.com",
-    imageUrl: "",
-  },
-];
-
-const RightBar = () => {
-  return (
-    <div
-      className={`right-0 fixed lg:w-80 md:w-1/4 md:block hidden pt-5 px-4 inset-y-0 transform lg:h-screen overflow-y-autolg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
-    >
-      <div class="flex items-center justify-between mb-4">
-        <h5 class="text-normal font-bold leading-none text-gray-900 dark:text-white">
-          Bloggers you may like
-        </h5>
-      </div>
-      <div class="flow-root">
-        <ul class="divide-y divide-gray-300 dark:divide-gray-700">
-          {suggestions.map((suggestion) => (
-            <li class="py-3 sm:py-4">
-              <div class="flex items-center space-x-4">
-                <div class="flex-shrink-0">
-                  <img
-                    class="w-9 h-9 rounded-lg"
-                    src="https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg"
-                    alt=""
-                  />
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                    {suggestion.name}
-                  </p>
-                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                    {suggestion.email}
-                  </p>
-                </div>
-                <div class="inline-flex items-center text-base font-semibold text-primary dark:text-white">
-                  <button>Follow</button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-};
