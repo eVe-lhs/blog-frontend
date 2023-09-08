@@ -58,13 +58,14 @@ const SideBar = ({ showModal, setShowModal,
       };
       toast.success('User logged out', {
         position: "top-center",
-        hideProgressBar:false,
+        hideProgressBar: false,
+        autoClose:2000,
         pauseOnHover: true,
         theme: colorTheme === "dark" ? "light" : "dark",
       });
       localStorage.removeItem("token");
       logout().catch((err) => console.log(err));
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 3000);
     }
   };
   // if (loading) {
@@ -80,14 +81,6 @@ const SideBar = ({ showModal, setShowModal,
   };
   if (currentUser === "") return (
     <div>
-      <BounceLoader
-        color={"#59B2A2"}
-        loading={true}
-        cssOverride={override}
-        size={100}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
     </div>
   );
   else
@@ -362,11 +355,11 @@ const SideBar = ({ showModal, setShowModal,
             </motion.div>
           </div>
           <motion.div
-            className="flex flex-row gap-2"
+            className="flex flex-row gap-1"
             variants={navChildVariant}
           >
             <div
-              className="md:block hidden shadow-lg mt-5 md:my-auto text-md text-white font-medium rounded bg-primary hover:bg-emerald-500 transition duration-200 mx-auto cursor-pointer text-center px-2 md:px-1.5 py-1.5"
+              className="md:block hidden shadow-lg mt-5 md:my-auto text-md text-white font-medium rounded bg-primary hover:bg-emerald-500 transition duration-200 mx-auto cursor-pointer text-center px-3  py-1.5"
               onClick={() => setShowModal(true)}
             >
               New Post

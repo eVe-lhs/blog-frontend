@@ -82,7 +82,7 @@ export const SmallProfile = ({ users,search }) => {
       />
     );
   }
-  if (users === []) {
+  if (users.length === 0) {
     return <div>
       Nothing to show
     </div>

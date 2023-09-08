@@ -1,15 +1,43 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { TempData } from "../TempData";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ContentCard } from "../components/ContentCard";
 import { RightBar } from "../components/RightBar";
+import axios from "axios";
+import { UserContext } from "../App";
+import { BounceLoader } from "react-spinners";
 
 export default function Bookmarks() {
-  const [openSort, setOpenSort] = useState(false);
+  // const [openSort, setOpenSort] = useState(false);
   const [sortText, setSortText] = useState("Most Recent");
+  const [bookmarks, setBookmarks] = useState();
+
+  const { currentUser } = useContext(UserContext);
+
   useEffect(() => {
     document.title = "Leaflet | Bookmarks";
   }, []);
+
+  useEffect(() => {
+    const fetchBookmarkPosts = async () => {
+      setBookmarks("");
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/bookmarks/${currentUser?.id}`
+      );
+      setBookmarks(data.reverse());
+    };
+    if (currentUser) {
+      fetchBookmarkPosts().catch((err) => console.log(err));
+    }
+  }, [currentUser]);
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "80%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
   return (
     <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div
@@ -33,7 +61,12 @@ export default function Bookmarks() {
           <button
             class="text-gray-400  font-medium rounded-lg text-sm md:px-0 px-5  py-2.5 text-center inline-flex items-center "
             type="button"
-            onClick={() => setOpenSort(!openSort)}
+            onClick={() => {
+              bookmarks?.reverse();
+              setSortText(
+                sortText === "Most Recent" ? "Lease Recent" : "Most Recent"
+              );
+            }}
           >
             Sort
             <svg
@@ -52,41 +85,8 @@ export default function Bookmarks() {
               />
             </svg>
           </button>
-          <div
-            class={`${
-              openSort ? "block fixed translate-y-10" : "hidden"
-            } z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700`}
-          >
-            <ul
-              class="py-2 text-sm text-gray-700 dark:text-gray-200"
-              aria-labelledby="sortButton"
-            >
-              <li>
-                <a
-                  onClick={() => {
-                    setSortText("Least Recent");
-                  }}
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Least Recent
-                </a>
-              </li>
-              <li>
-                <a
-                  onClick={() => {
-                    setSortText("Most Recent");
-                  }}
-                  href="#"
-                  class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                >
-                  Most Recent
-                </a>
-              </li>
-            </ul>
-          </div>
           <button class="text-gray-400  font-medium rounded-lg text-sm md:px-0 px-5 py-2.5 text-center inline-flex items-center ">
-            Current Sorting : {sortText}
+            Current Sorting : {sortText} Saved
           </button>
         </div>
 
@@ -166,18 +166,39 @@ export default function Bookmarks() {
             </motion.div>
           )}
         </div> */}
-        {TempData.map((data) => (
-          <ContentCard
-            id={data.id}
-            heading={data.heading}
-            imageUrl={data.imageUrl}
-            date={data.date}
-            text={data.text}
-            tags={data.tags}
-            author={data.author}
-            bookmarked={true}
+        {bookmarks ? (
+          bookmarks.length === 0 ? (
+            <>
+              <div className="mx-auto my-16 text-2xl w-full h-full text-center">
+                Nothing To Show
+              </div>
+            </>
+          ) : (
+            bookmarks.map((data) => (
+              <ContentCard
+                id={data.post_id}
+                heading={data.title}
+                imageUrl={data.post_photo}
+                date={data.date_of_creation}
+                tags={data.tags}
+                like_count={data?.like_count}
+                comment_count={data?.comment_count}
+                author={data.author}
+                uid={data.uid}
+                bookmarked={true}
+              />
+            ))
+          )
+        ) : (
+          <BounceLoader
+            color={"#59B2A2"}
+            loading={true}
+            cssOverride={override}
+            size={100}
+            aria-label="Loading Spinner"
+            data-testid="loader"
           />
-        ))}
+        )}
       </motion.div>
       <RightBar />
     </div>

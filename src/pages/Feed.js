@@ -77,7 +77,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
     if (Math.ceil(window.innerHeight + document.documentElement.scrollTop) < document.documentElement.offsetHeight || isFetching)
       return;
     setIsFetching(true)
-    console.log("scroll")
+    // console.log("scroll")
   }
   const fetchFeedPosts = async () => {
     setTimeout(async () => { 
@@ -233,9 +233,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
             author={data?.author}
             like_count={data?.like_count}
             comment_count={data?.comment_count}
-            showModal={showModal}
-            setShowModal={setShowModal}
-            setModalData={setModalData}
+            uid={data?.uid}
           />
         ))}
         

@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { RightBar } from "../components/RightBar";
+import { UserContext } from "../App";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { BounceLoader } from "react-spinners";
 
 const TempNoti = [
   {
@@ -71,10 +75,45 @@ const TempNoti = [
 ];
 
 export default function Notifications() {
-  const [notiTab, setNotiTab] = useState('all')
+  const [notiTab, setNotiTab] = useState("all");
+  const [notifications, setNotifications] = useState();
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   useEffect(() => {
     document.title = "Leaflet | Notifications";
   }, []);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/notifications_user/${currentUser?.id}`
+      );
+      setNotifications(data);
+    };
+    if (currentUser) {
+      fetchNotifications().catch((err) => console.log(err));
+    }
+  }, [currentUser]);
+
+  const override = {
+    display: "block",
+    position: "fixed",
+    top: "80%",
+    left: "50%",
+    margin: "auto auto",
+    transform: "translate(-50%,-50%)",
+  };
+  if (!notifications || !currentUser) {
+    return (
+      <BounceLoader
+        color={"#59B2A2"}
+        loading={true}
+        cssOverride={override}
+        size={100}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
+  }
   return (
     <div className="md:mt-5 mt-20 relative z-0 font-body ">
       <motion.div
@@ -91,73 +130,95 @@ export default function Notifications() {
           },
         }}
       >
-        <div className="text-3xl font-bold font-body md:px-0 md:mt-0 mt-5 px-4">Notifications</div>
-        <div className="flex flex-row md:gap-10 gap-4 text-lg font-body mt-10 md:px-0 px-4">
-          <div
-            className={`${notiTab === "all" && "underline"} cursor-pointer`}
-            onClick={() => setNotiTab("all")}
-          >
-            All
-          </div>
-          <div
-            className={`${notiTab === "comment" && "underline"} cursor-pointer`}
-            onClick={() => setNotiTab("comment")}
-          >
-            Comments
-          </div>
-          <div
-            className={`${
-              notiTab === "followers" && "underline"
-            } cursor-pointer`}
-            onClick={() => setNotiTab("followers")}
-          >
-            Followers
-          </div>
-          <div
-            className={`${notiTab === "likes" && "underline"} cursor-pointer`}
-            onClick={() => setNotiTab("likes")}
-          >
-            Likes
-          </div>
+        <div className="text-3xl font-bold font-body md:px-0 md:mt-0 mt-5 px-4">
+          Notifications
         </div>
-        <div className="mt-5 w-full flex flex-col gap-4 md:px-0 px-2">
-          {TempNoti.map((notification) => (
-            <NotificationCard
-              type={notification.type}
-              user={notification.user}
-              profileImg={notification.profileImg}
-              postImg={notification.postImg}
-            />
-          ))}
-        </div>
+        {notifications.length === 0 ? (
+          <div className="mx-auto my-16 text-2xl w-full h-full text-center">
+            Nothing To Show
+          </div>
+        ) : (
+          <div className="mt-5 w-full flex flex-col gap-4 md:px-0 px-2">
+            {notifications.map((notification) => (
+              <NotificationCard notification={notification} />
+            ))}
+          </div>
+        )}
       </motion.div>
       <RightBar />
     </div>
   );
 }
 
-const NotificationCard = ({ type, user, profileImg, postImg }) => {
-  let notiString = ''
-  if (type === 'follow') notiString = 'has followed you.'
-  else if (type === 'like') notiString = 'has liked your post.'
-  else notiString = 'has commented on your post.'
-  return (
-    <div className="bg-white w-full px-4 py-4 rounded border dark:bg-gray-800 shadow-lg hover:brightness-95 cursor-pointer">
-      <div className="flex flex-row justify-between">
-        <div className="flex flex-row justify-start gap-4">
-          <img src={profileImg} className="w-12 h-12 rounded-full" />
-          <div className="flex flex-col justify-between">
-            <span className="text-gray-400 text-xs">
-              {moment("22 June, 2023").fromNow()}
-            </span>
-            <span>
-              {user} {notiString}
-            </span>
+const NotificationCard = ({ notification }) => {
+  const navigate = useNavigate();
+  const markRead = async () => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/mark_notification_as_read/${notification.id}`
+      );
+    } catch (err) {
+      console.error(err.response.data.error);
+    }
+  };
+  if (notification.post) {
+    return (
+      <div
+        onClick={async () => {
+          markRead();
+          navigate(`/home/posts/${notification.post}`);
+        }}
+        className={`${
+          !notification.is_read
+            ? "bg-white dark:bg-gray-700"
+            : "bg-gray-200 dark:bg-gray-800"
+        } w-full px-4 py-4 rounded border shadow-lg hover:brightness-95 cursor-pointer`}
+      >
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-start gap-4">
+            <img
+              src={notification.profile_photo}
+              className="w-12 h-12 rounded-full"
+            />
+            <div className="flex flex-col justify-between">
+              <span className="text-gray-400 text-xs">
+                {moment(notification.created_at).fromNow()}
+              </span>
+              <span>{notification.message}</span>
+            </div>
+          </div>
+          <img src={notification.post_photo} className="h-12 w-12" />
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        onClick={() => {
+          markRead();
+          navigate(`/home/Profile/${notification.sender}`);
+        }}
+        className={`${
+          !notification.is_read
+            ? "bg-white dark:bg-gray-700"
+            : "bg-gray-200 dark:bg-gray-800"
+        } w-full px-4 py-4 rounded border shadow-lg hover:brightness-95 cursor-pointer`}
+      >
+        <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-start gap-4">
+            <img
+              src={notification.profile_photo}
+              className="w-12 h-12 rounded-full"
+            />
+            <div className="flex flex-col justify-between">
+              <span className="text-gray-400 text-xs">
+                {moment(notification.created_at).fromNow()}
+              </span>
+              <span>{notification.message}</span>
+            </div>
           </div>
         </div>
-        <img src={postImg} className="h-12 w-12"/>
       </div>
-    </div>
-  );
-  
-}
+    );
+  }
+};

@@ -9,7 +9,7 @@ import { BounceLoader } from "react-spinners";
 export const RightBar = () => {
   const navigate = useNavigate();
   const [suggestions, setSuggestions] = useState();
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser,token } = useContext(UserContext);
     const { colorTheme } = useContext(ThemeContext);
     const override = {
       display: "block",
@@ -29,7 +29,7 @@ export const RightBar = () => {
       };
       fetchData().catch((err) => console.log(err));
     }
-  }, []);
+  }, [token]);
   const handleFollow = async (suggestionId) => {
     const username = currentUser?.username;
     try {

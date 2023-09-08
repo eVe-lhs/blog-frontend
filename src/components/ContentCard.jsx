@@ -1,13 +1,103 @@
-import { motion } from "framer-motion";
+import { color, motion } from "framer-motion";
 import moment from "moment";
 import { Suspense, useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { topics } from "../constants/Interests";
-import { UserContext } from "../App";
+import { ModelDataContext, ThemeContext, UserContext } from "../App";
+import { toast } from "react-toastify";
+import axios from "axios";
 
-export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, text, tags, id, author, profile, setModalData, self, bookmarked }) => {
+export const ContentCard = ({like_count,comment_count, heading, imageUrl, date,  tags, uid,id, author, profile}) => {
   const [openBookmarks, setOpenbookmarks] = useState(false)
-  const {currentUser} = useContext(UserContext)
+  const { currentUser,setCurrentUser } = useContext(UserContext)
+  const { colorTheme } = useContext(ThemeContext)
+  const { setModalData } = useContext(ModelDataContext);
+  const navigate = useNavigate()
+  const addBookmarks = async (suggestionId) => {
+    const username = currentUser?.username;
+    try {
+      setCurrentUser({
+        ...currentUser,
+        bookmarks: [...currentUser.bookmarks, suggestionId],
+      });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/bookmark/${suggestionId}`,
+        {
+          username: username,
+        }
+      );
+      toast.success(data?.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: false,
+        autoClose: 2000,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
+    } catch (err) {
+      toast.error("something went wrong", {
+        position: "top-center",
+        autoClose: 2000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+        theme: colorTheme === "dark" ? "dark" : "light",
+      });
+    }
+  };
+
+  const removeBookmarks = async (suggestionId) => {
+    const username = currentUser?.username;
+    try {
+     setCurrentUser((current) => {
+       const { bookmarks, ...currentUser } = current;
+       const removedBookmarks = bookmarks.filter(
+         (bookmark) => bookmark != suggestionId
+       );
+       return { bookmarks: removedBookmarks, ...currentUser };
+     });
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/remove-bookmark/${suggestionId}`,
+        {
+          username: username,
+        }
+      );
+      toast.success(data?.message, {
+        position: "top-center",
+        hideProgressBar: false,
+        pauseOnHover: false,
+        autoClose: 2000,
+        theme: colorTheme === "dark" ? "light" : "dark",
+      });
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        position: "top-center",
+        autoClose: 2000,
+        pauseOnHover: true,
+        hideProgressBar: true,
+        theme: colorTheme === "dark" ? "dark" : "light",
+      });
+    }
+  };
+const handleDelete = async (postId) => {
+  const { data } = await axios.delete(
+    `${process.env.REACT_APP_BASE_URL}/posts/${postId}`,
+    {
+      data: {
+        access_token: localStorage.getItem("token"),
+      },
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    }
+  );
+  toast.success(data.message, {
+    position: "top-center",
+    hideProgressBar: false,
+    autoClose:2000,
+    pauseOnHover: true,
+    theme: colorTheme === "dark" ? "light" : "dark",
+  });
+  setTimeout(() => window.location.reload(), 3000);
+};
   return (
     <motion.div
       className={`${
@@ -40,8 +130,13 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
           <></>
         ) : (
           <div className="text-gray-400 text-sm">
-            By
-            <span className="hover:underline font-bold">&nbsp;{author}</span>
+            By&nbsp;
+            <span
+              className="hover:underline font-bold cursor-pointer"
+              onClick={() => navigate(`Profile/${uid}`)}
+            >
+              {author}
+            </span>
           </div>
         )}
         <div className="flex flex-row justify-between mt-2">
@@ -61,7 +156,14 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  className="w-6 h-6 stroke-current text-red-500 cursor-pointer hover:scale-105"
+                  onClick={() => {
+                    if (
+                      confirm("Are you sure you want to delete this post?") ==
+                      true
+                    )
+                      handleDelete(id);
+                  }}
                 >
                   <path
                     strokeLinecap="round"
@@ -69,57 +171,18 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
                     d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
                   />
                 </svg>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
-                  />
-                </svg>
+                
               </>
             ) : (
               <>
-                {/* <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${
-                    bookmarked ? "fill-current" : "fill-none"
-                  }`}
-                  onClick={() => setOpenbookmarks(!openBookmarks)}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z"
-                  />
-                </svg> */}
-                {/* <select
-                  id="underline_select"
-                  class="block font-body py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
-                  // onChange={(e) => setCollection(e.target.value)}
-                >
-                  <option selected></option>
-                  <option value="Politics">Politics</option>
-                  <option value="Science">Science</option>
-                  <option value="AI">AI</option>
-                </select> */}
-
                 <div class="flex">
                   <button
-                    // id={`bookmarkBtn${id}`}
-                    // data-dropdown-toggle={`dropdownBookmarks${id}`}
-                    // class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-500 bg-gray-100 border border-gray-300 rounded-l-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                     type="button"
-                    onClick={() => setOpenbookmarks(!openBookmarks)}
+                    onClick={() => {
+                      if (!currentUser?.bookmarks.includes(id))
+                        addBookmarks(id);
+                      else removeBookmarks(id);
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -127,7 +190,9 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
                       strokeWidth={1.5}
                       stroke="currentColor"
                       className={`w-6 h-6 stroke-current text-secondary_assent hover:scale-110 cursor-pointer ${
-                        bookmarked ? "fill-current" : "fill-none"
+                        currentUser?.bookmarks.includes(id)
+                          ? "fill-current"
+                          : "fill-none"
                       }`}
                       // onClick={() => setOpenbookmarks(!openBookmarks)}
                     >
@@ -185,60 +250,11 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
                 </div>
               </>
             )}
-            {!profile ? (
-              <>
-                {/* <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  id={`dropdownBtn${id}`}
-                  className="w-6 h-6 hover:scale-110 cursor-pointer"
-                  data-dropdown-toggle={`dropdown${id}`}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-                  />
-                </svg> */}
-                {/* dropdown menu */}
-                {/* <div
-                  id={`dropdown${id}`}
-                  class="z-10 hidden bg-white  rounded-md shadow w-44 dark:bg-gray-700"
-                >
-                  <ul
-                    class="py-2 text-sm text-gray-700 divide-y divide-gray-200 dark:text-gray-200"
-                    aria-labelledby={`dropdownBtn${id}`}
-                  >
-                    <li>
-                      <a
-                        onClick={() => alert(`delete post:${id}`)}
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                      >
-                        Delete
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer"
-                        onClick={() => {
-                          alert(`edit post: ${id}`)
-                        }}
-                      >
-                        Edit
-                      </a>
-                    </li>
-                  </ul>
-                </div> */}
-              </>
-            ) : (
-              <></>
-            )}
           </div>
         </div>
-        <div className="text-gray-400 text-xs">{moment(date).fromNow()}</div>
+        <div className="text-gray-400 text-xs">
+          Post Uploaded {moment(date).fromNow()}
+        </div>
         {/* <span class="line-clamp-4 text-ellipsis visible text-justify font-body font-normal text-sm">
           {text}
         </span> */}
@@ -250,7 +266,7 @@ export const ContentCard = ({like_count,comment_count, heading, imageUrl, date, 
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
-                className="w-6 h-6 stroke-current text-red-500 hover:scale-110 cursor-pointer "
+                className="w-6 h-6 fill-red-500 hover:scale-110 cursor-pointer "
               >
                 <path
                   strokeLinecap="round"

@@ -35,9 +35,10 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
   const [currentUser, setCurrentUser] = useState('');
+  const [token,setToken] = useState(localStorage.getItem('token'))
 useEffect(() => {
   const fetchData = async () => {
-    const jwt = localStorage.getItem('token')
+    const jwt = token
     if (jwt) {
       const { data } = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/currentuser`,
@@ -54,19 +55,20 @@ useEffect(() => {
   };
   fetchData().catch((err) => {
     localStorage.removeItem('token')
+    setToken()
     setCurrentUser('')
     // window.location.reload()
   });
-}, [localStorage.getItem('token')]);
+}, [token]);
   return (
     <BrowserRouter>
       <ToastContainer
         position="top-center"
         theme={`${colorTheme === "dark" ? "light" : "dark"}`}
       />
-      <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser,token }}>
         <ThemeContext.Provider value={{ setTheme, colorTheme }}>
-          <ModelDataContext.Provider value={{ modalData, setModalData }}>
+          <ModelDataContext.Provider value={{ modalData, setModalData,setShowModal }}>
             <Routes>
               <Route path="/auth" element={<AuthLayout />}>
                 <Route path="login" element={<LoginPage />} />
@@ -139,13 +141,13 @@ const AuthLayout = () => {
 }
 
 const OutletLayout = ({ showModal, setShowModal, colorTheme, setTheme, modalData }) => {
-  //  const { currentUser, setCurrentUser } = useContext(UserContext);
+   const { token } = useContext(UserContext);
   const navigate = useNavigate()
   useEffect(() => {
     if (!localStorage.getItem("token") ) {
       navigate("/auth/login");
     }
-  }, [localStorage.getItem("token")]);
+  }, [token]);
   const changeThemeHandler = (e) => {
     e.preventDefault();
     setTheme(colorTheme);

@@ -124,6 +124,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
             tags={data.tags}
             like_count={data.like_count}
             comment_count={data.comment_count}
+            uid={data.uid}
             //   self={self}
           />
         ));

@@ -58,7 +58,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
         formData.append("tags", JSON.stringify(tags));
         formData.append('post_photo', selectedImage)
         formData.append('status', 'Posted')
-        if (modalData?.status != 'Draft') {
+        if (modalData?.status != 'Draft' && modalData?.status != 'Posted') {
           const { data } = await axios.post(
             `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
             formData
@@ -90,7 +90,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
           setSelectedImage('');
           inputField.current.value = null;
           setImgUrl('')
-        toast.success("Published the draft post", {
+        toast.success("Published the post", {
           position: "top-center",
           hideProgressBar: false,
           pauseOnHover: true,
@@ -104,7 +104,9 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
     }
     }
   }
+  // console.log(modalData.status)
   const handleSaveDraft = async () => {
+    
      if (content === "" && title === "" && selectedImage === "") {
        alert("Please fill at least one field");
      }
@@ -115,7 +117,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
          formData.append("tags", JSON.stringify(tags));
          formData.append("post_photo", selectedImage);
          formData.append("status", "Draft");
-         if (modalData?.status != "Draft") {
+         if (modalData?.status != "Draft" && modalData?.status != "Posted") {
            const { data } = await axios.post(
              `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
              formData
@@ -146,7 +148,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
            setSelectedImage("");
            inputField.current.value = null;
            setImgUrl("");
-           toast.success("Updated the draft", {
+           toast.success("Updated", {
              position: "top-center",
              hideProgressBar: false,
              pauseOnHover: true,
