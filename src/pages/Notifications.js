@@ -177,7 +177,7 @@ const NotificationCard = ({ notification }) => {
         <div className="flex flex-row justify-between">
           <div className="flex flex-row justify-start gap-4">
             <img
-              src={notification.profile_photo}
+              src={notification.profile_photo !== "" ? notification.profile_photo: "/no_image.jpg"}
               className="w-12 h-12 rounded-full"
             />
             <div className="flex flex-col justify-between">
@@ -187,7 +187,7 @@ const NotificationCard = ({ notification }) => {
               <span>{notification.message}</span>
             </div>
           </div>
-          <img src={notification.post_photo} className="h-12 w-12" />
+          <img src={notification.post_photo !== "" ? notification.post_photo: "/no_cover_img.jpg"} className="h-12 w-12" />
         </div>
       </div>
     );
