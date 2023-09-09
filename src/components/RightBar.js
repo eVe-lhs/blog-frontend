@@ -109,7 +109,7 @@ export const RightBar = () => {
               {suggestions?.map((suggestion) =>
                 suggestion.id !== currentUser.id ? (
                   <li class="py-3 sm:py-4 md:w-auto w-64 px-3  ">
-                    <div class="flex md:items-center item-start md:space-x-4 md:bg-transparent md:p-0 p-4 md:rounded-none rounded-lg md:shadow-none shadow-lg dark:bg-gray-600 bg-gray-100 md:space-y-0 space-y-4 md:flex-row flex-col md:gap-0">
+                    <div class="flex md:items-center item-start md:space-x-4 md:bg-transparent md:dark:bg-transparent md:p-0 p-4 md:rounded-none rounded-lg md:shadow-none shadow-lg dark:bg-gray-600 bg-gray-100 md:space-y-0 space-y-4 md:flex-row flex-col md:gap-0">
                       <div class="md:flex-shrink-0">
                         <img
                           class="md:w-9 md:h-9 w-14 h-14 object-cover object-center rounded-lg"
