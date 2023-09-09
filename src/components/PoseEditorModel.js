@@ -108,7 +108,7 @@ const PoseEditorModal = ({ showModal, setShowModal, colorTheme }) => {
           // // { withCredentials: true }
           // );
           const response = await toast.promise(
-            axios.post(
+            axios.put(
               `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
               formData
               // { withCredentials: true }
