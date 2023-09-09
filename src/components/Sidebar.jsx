@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ThemeContext, UserContext } from "../App";
 import { toast } from "react-toastify";
 import { BounceLoader } from "react-spinners";
+import axios from "axios";
 
 
 const variant = {

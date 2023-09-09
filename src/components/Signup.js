@@ -3,7 +3,7 @@ import { signupFields } from "../constants/formFields";
 import FormAction from "./FormAction";
 import Input from "./Input";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { ThemeContext, UserContext } from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -22,6 +22,7 @@ export default function Signup() {
   const [signupState, setSignupState] = useState(fieldsState);
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext)
+  const {colorTheme} = useContext(ThemeContext)
   useEffect(() => {
 
       if (goodPassword.test(signupState["password"]) === true) {
