@@ -112,7 +112,7 @@ export const RightBar = () => {
                       <div class="flex-1 min-w-0">
                         <p
                           class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
-                          onClick={() => navigate(`Profile/${suggestion.id}`)}
+                          onClick={() => navigate(`/home/Profile/${suggestion.id}`)}
                         >
                           {suggestion.username}
                         </p>
