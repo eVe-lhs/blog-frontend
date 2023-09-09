@@ -93,11 +93,11 @@ export const RightBar = () => {
       {suggestions ? (
         <>
           <div class="flow-root">
-            <ul class="md:divide-y md:divide-x-0 divide-gray-300 dark:divide-gray-700 flex md:flex-col flex-row md:gap-0 gap-10 divide-x ">
+            <ul class="md:divide-y md:divide-x-0 divide-gray-300 dark:divide-gray-700 flex md:flex-col flex-row md:gap-0 divide-x">
               {suggestions?.map((suggestion) =>
                 suggestion.id !== currentUser.id ? (
-                  <li class="py-3 sm:py-4 md:w-auto w-64 px-3  ">
-                    <div class="flex md:items-center item-start md:space-x-4 md:bg-transparent md:dark:bg-transparent md:p-0 p-4 md:rounded-none rounded-lg md:shadow-none shadow-lg dark:bg-gray-600 bg-gray-100 md:space-y-0 space-y-4 md:flex-row flex-col md:gap-0">
+                  <li class="py-3 sm:py-4 md:w-auto w-64 md:px-0 px-5 md:mx-0 ">
+                    <div class="flex items-center md:space-x-4 md:bg-transparent md:dark:bg-transparent md:p-0 p-4 md:rounded-none rounded-lg md:shadow-none shadow-lg dark:bg-gray-600 bg-gray-100 md:space-y-0 space-y-4 md:flex-row flex-col md:gap-0">
                       <div class="md:flex-shrink-0">
                         <img
                           class="md:w-9 md:h-9 w-14 h-14 object-cover object-center rounded-lg"
@@ -111,7 +111,7 @@ export const RightBar = () => {
                       </div>
                       <div class="flex-1 min-w-0">
                         <p
-                          class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
+                          class="md:text-left text-center text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
                           onClick={() => navigate(`/home/Profile/${suggestion.id}`)}
                         >
                           {suggestion.username}
