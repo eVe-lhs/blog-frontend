@@ -54,8 +54,7 @@ export default function Login() {
         // { withCredentials: true }
       ), {
         pending: "Processing, Please Wait...",
-        success: "Login Successful"
-        ,error:"Something Went Wrong"
+        success: "Login Successful",
       }, {
         position: "top-center",
         autoClose: 3000,
