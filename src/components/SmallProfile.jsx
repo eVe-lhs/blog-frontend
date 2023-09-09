@@ -124,7 +124,7 @@ export const SmallProfile = ({ users,search }) => {
                         : "text-gray-400"
                     } `}
                   >
-                    {!currentUser?.followings?.includes(user.id) ? (
+                    {currentUser.id !== user.id? !currentUser?.followings?.includes(user.id) ? (
                       <button onClick={() => handleFollow(user.id)}>
                         Follow
                       </button>
@@ -132,7 +132,7 @@ export const SmallProfile = ({ users,search }) => {
                       <button onClick={() => handleUnfollow(user.id)}>
                         Unfollow
                       </button>
-                    )}
+                    ) : <></>}
                   </div>
                 ) : (
                   <div></div>
