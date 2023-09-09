@@ -433,7 +433,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
   );
 };
 
-const Interests = ({ selectedTags,setInterests }) => {
+const Interests = ({ selectedTags=[],setInterests }) => {
   const { modalData } = useContext(ModelDataContext)
     let selectedIds = [];
     modalData?.tags?.map((selectedTag) => {
