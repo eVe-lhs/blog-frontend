@@ -439,6 +439,7 @@ const Interests = ({ selectedTags,setInterests }) => {
     modalData?.tags?.map((selectedTag) => {
       selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
     });
+  console.log(modalData?.tags)
     useEffect(() => {
       setInterests(selectedIds);
     }, [modalData]);
