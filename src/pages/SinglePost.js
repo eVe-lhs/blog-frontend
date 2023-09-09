@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { TempData } from "../TempData";
 import MDEditor from "@uiw/react-md-editor";
 import { useState, useEffect, useContext } from "react";
@@ -198,6 +198,7 @@ export default function SinglePost() {
     );
     setTimeout(() => window.location.reload(), 2000);
   };
+  const navigate = useNavigate()
   const override = {
     display: "block",
     position: "fixed",
@@ -269,14 +270,14 @@ export default function SinglePost() {
             <div className="font-bold font-header text-3xl md:text-4xl px-3 md:px-0">
               {post?.title}
             </div>
-            <a class="text-lg truncate">
-              <span className="hover:underline hover:cursor-pointer font-base px-3 md:px-0">
+            <div class="text-lg truncate md:block flex md:flex-none flex-col">
+              <span className="hover:underline hover:cursor-pointer font-base px-3 md:px-0" onClick={() => navigate(`/home/Profile/${post.uid}`)}>
                 Posted by {post?.author}
               </span>
               <span className="ml-3 font-light text-sm text-gray-400">
                 {moment(post?.date_of_creation).format("DD MMMM YYYY")}
               </span>
-            </a>
+            </div>
 
             <div className="flex md:flex-row justify-between mb-5 px-3 md:px-0">
               <div className="flex flex-row justify-between w-full">

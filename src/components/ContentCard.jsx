@@ -133,7 +133,7 @@ const handleDelete = async (postId) => {
             By&nbsp;
             <span
               className="hover:underline font-bold cursor-pointer"
-              onClick={() => navigate(`Profile/${uid}`)}
+              onClick={() => navigate(`/home/Profile/${uid}`)}
             >
               {author}
             </span>

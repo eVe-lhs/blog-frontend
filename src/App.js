@@ -35,7 +35,8 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalData, setModalData] = useState();
   const [currentUser, setCurrentUser] = useState('');
-  const [token,setToken] = useState(localStorage.getItem('token'))
+  const [token, setToken] = useState(localStorage.getItem('token'))
+  const [suggestions, setSuggestions] = useState();
 useEffect(() => {
   const fetchData = async () => {
     const jwt = token
@@ -60,13 +61,24 @@ useEffect(() => {
     // window.location.reload()
   });
 }, [token]);
+    useEffect(() => {
+      {
+        const fetchData = async () => {
+          const { data } = await axios.get(
+            `${process.env.REACT_APP_BASE_URL}/suggestedUsers`
+          );
+          setSuggestions(data);
+        };
+        fetchData().catch((err) => console.log(err));
+      }
+    }, [token]);
   return (
     <BrowserRouter>
       <ToastContainer
         position="top-center"
         theme={`${colorTheme === "dark" ? "light" : "dark"}`}
       />
-      <UserContext.Provider value={{ currentUser, setCurrentUser,token }}>
+      <UserContext.Provider value={{ currentUser, setCurrentUser,token,suggestions,setSuggestions }}>
         <ThemeContext.Provider value={{ setTheme, colorTheme }}>
           <ModelDataContext.Provider value={{ modalData, setModalData,setShowModal }}>
             <Routes>
