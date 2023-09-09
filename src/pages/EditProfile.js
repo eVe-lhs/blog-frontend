@@ -110,6 +110,7 @@ export const EditProfile = () => {
   const handleUpdateInfo = async () => {
     try {
       const formData = new FormData();
+      formData.append("username",username)
       formData.append("bio", bio);
       formData.append("name", name);
       formData.append("profile_img", profileFile);
@@ -140,7 +141,7 @@ export const EditProfile = () => {
       fetchData().catch((err) => console.log(err));
       // window.location.reload();
     } catch (err) {
-      alert(err.response.data.error);
+      alert(err.response.data.message);
     }
   };
   let goodPassword = new RegExp(
