@@ -40,6 +40,7 @@ export default function Bookmarks() {
   };
   return (
     <div className="md:mt-5 mt-20 relative z-0 font-body ">
+      <RightBar />
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10 md:px-0 px-5"
         initial={{ opacity: 0, y: 10 }}
@@ -57,6 +58,7 @@ export default function Bookmarks() {
         <div className="text-3xl font-bold font-body md:px-0 md:mt-0 mt-5 px-4">
           Bookmarks
         </div>
+
         <div className="w-full flex justify-between mt-10">
           <button
             class="text-gray-400  font-medium rounded-lg text-sm md:px-0 px-5  py-2.5 text-center inline-flex items-center "
@@ -200,7 +202,6 @@ export default function Bookmarks() {
           />
         )}
       </motion.div>
-      <RightBar />
     </div>
   );
 }

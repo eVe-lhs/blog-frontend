@@ -95,7 +95,7 @@ export const RightBar = () => {
   };
   return (
     <div
-      className={`right-0 fixed lg:w-80 md:w-1/4 md:block hidden pt-5 px-4 inset-y-0 transform lg:h-screen overflow-y-autolg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
+      className={`md:right-0 md:top-0 md:mt-0 mt-5 md:fixed  lg:w-80 md:w-1/4 w-screen pt-5 px-4 inset-y-0 transform lg:h-screen overflow-x-auto overflow-y-auto lg:translate-x-0  transition duration-500 ease-out bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-white shadow-xl border-r border-r-gray-300`}
     >
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-normal font-bold leading-none text-gray-900 dark:text-white">
@@ -105,14 +105,14 @@ export const RightBar = () => {
       {suggestions ? (
         <>
           <div class="flow-root">
-            <ul class="divide-y divide-gray-300 dark:divide-gray-700">
+            <ul class="md:divide-y md:divide-x-0 divide-gray-300 dark:divide-gray-700 flex md:flex-col flex-row md:gap-0 gap-10 divide-x ">
               {suggestions?.map((suggestion) =>
                 suggestion.id !== currentUser.id ? (
-                  <li class="py-3 sm:py-4">
-                    <div class="flex items-center space-x-4">
-                      <div class="flex-shrink-0">
+                  <li class="py-3 sm:py-4 md:w-auto w-64 px-3  ">
+                    <div class="flex md:items-center item-start md:space-x-4 md:bg-transparent md:p-0 p-4 md:rounded-none rounded-lg md:shadow-none shadow-lg dark:bg-gray-600 bg-gray-100 md:space-y-0 space-y-4 md:flex-row flex-col md:gap-0">
+                      <div class="md:flex-shrink-0">
                         <img
-                          class="w-9 h-9 object-cover object-center rounded-lg"
+                          class="md:w-9 md:h-9 w-14 h-14 object-cover object-center rounded-lg"
                           src={
                             suggestion?.profile_info.profile_picture === ""
                               ? "/no_image.jpg"

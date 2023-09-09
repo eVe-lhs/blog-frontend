@@ -16,8 +16,9 @@ export default function SearchResults() {
     document.title = "Leaflet | Search Result";
   }, []);
   return (
-      <div className="md:mt-5 mt-20 relative z-0 font-body ">
-          <SearchBar />
+    <div className="md:mt-5 mt-20 relative z-0 font-body ">
+      <SearchBar />
+      <RightBar />
       <motion.div
         className="md:w-5/12 w-full mx-auto mt-10"
         initial={{ opacity: 0, y: 10 }}
@@ -53,7 +54,6 @@ export default function SearchResults() {
           <TabContents activeTab={notiTab} />
         </div>
       </motion.div>
-      <RightBar />
     </div>
   );
 }

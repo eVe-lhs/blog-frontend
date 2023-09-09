@@ -47,8 +47,12 @@ export default function Feed({ showModal, setShowModal, setModalData }) {
       <>
         <div className="md:mt-5 mt-20 relative z-0 font-body">
           <SearchBar />
-          <Content showModal={showModal} setShowModal={setShowModal} setModalData={setModalData} />
           <RightBar />
+          <Content
+            showModal={showModal}
+            setShowModal={setShowModal}
+            setModalData={setModalData}
+          />
         </div>
       </>
     );

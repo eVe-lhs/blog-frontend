@@ -53,7 +53,8 @@ code {
 
 /* width */
 ::-webkit-scrollbar {
-    width: 5px;
+  display: none;
+    width: 0px;
 }
   
 /* Track */
