@@ -370,7 +370,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     transform: "translate(-50%,-50%)",
   };
   if (activeTab === 'articles') {
-    if (!posts && posts !== []) {
+    if (!posts) {
       return (
         <BounceLoader
           color={"#59B2A2"}
@@ -397,6 +397,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
             like_count={data.like_count}
             comment_count={data.comment_count}
             profile={true}
+            author={data.author}
             self={self}
           />
         )))
@@ -404,7 +405,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
   }
   else if (activeTab === 'followers')
   {
-    if (!followers && followers !== []) {
+    if (!followers) {
       return (
         <BounceLoader
           color={"#59B2A2"}
@@ -430,7 +431,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
     );
   }
   else if (activeTab === 'followings')
-  {if (!followings && followings !== []) {
+  {if (!followings) {
     return (
       <BounceLoader
         color={"#59B2A2"}

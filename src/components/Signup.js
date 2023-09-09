@@ -59,8 +59,8 @@ export default function Signup() {
         password: signupState["password"],
         email:signupState["email"]
       };
-      const response = toast.promise(
-        await axios.post(
+      const response =await toast.promise(
+        axios.post(
           `${process.env.REACT_APP_BASE_URL}/register`,
           userData
           // { withCredentials: true }

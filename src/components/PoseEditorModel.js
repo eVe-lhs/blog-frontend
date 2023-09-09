@@ -59,43 +59,82 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
         formData.append('post_photo', selectedImage)
         formData.append('status', 'Posted')
         if (modalData?.status != 'Draft' && modalData?.status != 'Posted') {
-          const { data } = await axios.post(
-            `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-            formData
-            // { withCredentials: true }
+          const response = await toast.promise(
+            axios.post(
+              `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+              formData
+              // { withCredentials: true }
+            ),
+            {
+              pending: "Processing, Please Wait...",
+              success: "Published Successfully",
+              error: "Something Went Wrong",
+            },
+            {
+              position: "top-center",
+              autoClose: 3000,
+              pauseOnHover: false,
+              hideProgressBar: true,
+              theme: colorTheme === "dark" ? "light" : "dark",
+            }
           );
+          // const { data } = await axios.post(
+          //   `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+          //   formData
+          //   // { withCredentials: true }
+          // );
           setTitle('');
           setContent('');
           setTags('');
           setSelectedImage('');
           inputField.current.value = null;
           setImgUrl('')
-          toast.success(data.message, {
-            position: "top-center",
-            hideProgressBar: false,
-            pauseOnHover: true,
-            theme: colorTheme === "dark" ? "light" : "dark",
-          });
+          // toast.success(response.data.message, {
+          //   position: "top-center",
+          //   hideProgressBar: false,
+          //   pauseOnHover: true,
+          //   theme: colorTheme === "dark" ? "light" : "dark",
+          // });
           setShowModal(false)
         }
         else {
-          const { data } = await axios.put(
-          `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-          formData
-          // { withCredentials: true }
+          // const { data } = await axios.put(
+          // `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+          // formData
+          // // { withCredentials: true }
+          // );
+          const response = await toast.promise(
+            axios.post(
+              `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+              formData
+              // { withCredentials: true }
+            ),
+            {
+              pending: "Processing, Please Wait...",
+              success: "Published Successfully",
+              error: "Something Went Wrong",
+            },
+            {
+              position: "top-center",
+              autoClose: 3000,
+              pauseOnHover: false,
+              hideProgressBar: true,
+              theme: colorTheme === "dark" ? "light" : "dark",
+            }
           );
+          
           setTitle('');
           setContent('');
           setTags('');
           setSelectedImage('');
           inputField.current.value = null;
           setImgUrl('')
-        toast.success("Published the post", {
-          position: "top-center",
-          hideProgressBar: false,
-          pauseOnHover: true,
-          theme: colorTheme === "dark" ? "light" : "dark",
-        })
+        // toast.success("Published the post", {
+        //   position: "top-center",
+        //   hideProgressBar: false,
+        //   pauseOnHover: true,
+        //   theme: colorTheme === "dark" ? "light" : "dark",
+        // })
       setShowModal(false)
     } 
       }
@@ -118,29 +157,68 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
          formData.append("post_photo", selectedImage);
          formData.append("status", "Draft");
          if (modalData?.status != "Draft" && modalData?.status != "Posted") {
-           const { data } = await axios.post(
-             `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-             formData
-             // { withCredentials: true }
+          //  const { data } = await axios.post(
+          //    `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+          //    formData
+          //    // { withCredentials: true }
+          //  );
+           const response = await toast.promise(
+             axios.post(
+               `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+               formData
+               // { withCredentials: true }
+             ),
+             {
+               pending: "Processing, Please Wait...",
+               success: "Saved To Drafts",
+               error: "Something Went Wrong",
+             },
+             {
+               position: "top-center",
+               autoClose: 3000,
+               pauseOnHover: false,
+               hideProgressBar: true,
+               theme: colorTheme === "dark" ? "light" : "dark",
+             }
            );
+
            setTitle("");
            setContent("");
            setTags("");
            setSelectedImage("");
            inputField.current.value = null;
            setImgUrl("");
-           toast.success("Saved To drafts", {
-             position: "top-center",
-             hideProgressBar: false,
-             pauseOnHover: true,
-             theme: colorTheme === "dark" ? "light" : "dark",
-           });
+          //  toast.success("Saved To drafts", {
+          //    position: "top-center",
+          //    hideProgressBar: false,
+          //    pauseOnHover: true,
+          //    theme: colorTheme === "dark" ? "light" : "dark",
+          //  });
            setShowModal(!showModal)
          } else {
-           const { data } = await axios.put(
-             `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-             formData
-             // { withCredentials: true }
+          //  const { data } = await axios.put(
+          //    `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+          //    formData
+          //    // { withCredentials: true }
+          //  );
+           const response = await toast.promise(
+             axios.post(
+               `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+               formData
+               // { withCredentials: true }
+             ),
+             {
+               pending: "Processing, Please Wait...",
+               success: "Updated the draft",
+               error: "Something Went Wrong",
+             },
+             {
+               position: "top-center",
+               autoClose: 3000,
+               pauseOnHover: false,
+               hideProgressBar: true,
+               theme: colorTheme === "dark" ? "light" : "dark",
+             }
            );
            setTitle("");
            setContent("");
@@ -148,12 +226,12 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
            setSelectedImage("");
            inputField.current.value = null;
            setImgUrl("");
-           toast.success("Updated", {
-             position: "top-center",
-             hideProgressBar: false,
-             pauseOnHover: true,
-             theme: colorTheme === "dark" ? "light" : "dark",
-           });
+          //  toast.success("Updated", {
+          //    position: "top-center",
+          //    hideProgressBar: false,
+          //    pauseOnHover: true,
+          //    theme: colorTheme === "dark" ? "light" : "dark",
+          //  });
            setShowModal(false);
          }
        } catch (err) {
