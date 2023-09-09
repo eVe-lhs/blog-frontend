@@ -108,7 +108,7 @@ export const SmallProfile = ({ users,search }) => {
                 <div class="flex-1 min-w-0">
                   <p
                     class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
-                    onClick={() => navigate(`/home/Profile/${user.id}`)}
+                    onClick={() => navigate(`/home/Profile/${user.userId}`)}
                   >
                     {user.username}
                   </p>

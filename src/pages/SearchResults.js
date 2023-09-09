@@ -116,7 +116,7 @@ const TabContents = ({ activeTab, setShowModal, setModalData, userId }) => {
       } else {
         return posts?.map((data) => (
           <ContentCard
-            id={data.id}
+            id={data.post_id}
             heading={data.title}
             imageUrl={data.post_photo}
             author={data.author}

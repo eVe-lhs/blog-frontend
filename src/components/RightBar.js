@@ -8,8 +8,7 @@ import { BounceLoader } from "react-spinners";
 
 export const RightBar = () => {
   const navigate = useNavigate();
-  const [suggestions, setSuggestions] = useState();
-  const { currentUser, setCurrentUser,token } = useContext(UserContext);
+  const { currentUser, setCurrentUser,token,suggestions,setSuggestions } = useContext(UserContext);
     const { colorTheme } = useContext(ThemeContext);
     const override = {
       display: "block",
@@ -19,17 +18,6 @@ export const RightBar = () => {
       margin: "auto auto",
       transform: "translate(-50%,-50%)",
     };
-  useEffect(() => {
-    {
-      const fetchData = async () => {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_URL}/suggestedUsers`
-        );
-        setSuggestions(data);
-      };
-      fetchData().catch((err) => console.log(err));
-    }
-  }, [token]);
   const handleFollow = async (suggestionId) => {
     const username = currentUser?.username;
     try {
