@@ -1,5 +1,5 @@
-import { motion,AnimatePresence } from "framer-motion";
-import { useEffect, useState,useRef, useContext } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState, useRef, useContext } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import PreviewPost from "../pages/PreviewPost";
 import { topics } from "../constants/Interests";
@@ -7,58 +7,63 @@ import { toast } from "react-toastify";
 import { ModelDataContext, UserContext } from "../App";
 import axios from "axios";
 
-const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
-  const [selectedImage, setSelectedImage] = useState('');
-  const [content, setContent] = useState('');
-  const [title, setTitle] = useState('')
-  const [imgUrl, setImgUrl] = useState('')
-  const [tags, setTags] = useState([])
-  const [showPreview,setShowPreview] = useState(false)
-  const coverImg = useRef(null)
-  const { modalData, setModalData } = useContext(ModelDataContext)
-  const { currentUser } = useContext(UserContext)
-  const inputField = useRef(null)
+const PoseEditorModal = ({ showModal, setShowModal, colorTheme }) => {
+  const [selectedImage, setSelectedImage] = useState("");
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
+  const [tags, setTags] = useState([]);
+  const [showPreview, setShowPreview] = useState(false);
+  const coverImg = useRef(null);
+  const { modalData, setModalData } = useContext(ModelDataContext);
+  const { currentUser } = useContext(UserContext);
+  const inputField = useRef(null);
   useEffect(() => {
-    setTitle(modalData?.title)
-    setContent(modalData?.content)
-    setTags(modalData?.tags)
-  }, [modalData, showModal])
-  
-  useEffect(() => {
-    setTags(modalData?.tags)
-  },[modalData])
+    if (modalData) {
+      setTitle(modalData?.title);
+      setContent(modalData?.content);
+      setTags(modalData?.tags);
+    }
+  }, [modalData, showModal]);
 
   useEffect(() => {
-    if(showModal)
-     setImgUrl(
-       selectedImage ? URL.createObjectURL(selectedImage) : modalData?.post_photo
+    setTags(modalData?.tags);
+  }, [modalData]);
+
+  useEffect(() => {
+    if (showModal)
+      setImgUrl(
+        selectedImage
+          ? URL.createObjectURL(selectedImage)
+          : modalData?.post_photo
       );
-    else
-      setImgUrl('')
-  },[selectedImage,modalData,showModal])
+    else setImgUrl("");
+  }, [selectedImage, modalData, showModal]);
   // console.log(imgDom)
-    // This function will be triggered when the file field change
-    const imageChange = (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        setSelectedImage(e.target.files[0]);
-      }
+  // This function will be triggered when the file field change
+  const imageChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedImage(e.target.files[0]);
+    }
   };
   const handlePublish = async () => {
-    if ((modalData?.status !== 'Draft' && selectedImage === '') || content === '' || title === '') {
-      alert('Please fill all the fields')
-    }
-    else if (tags.length === 0) {
-      alert('Please Choose at least one tag')
-    }
-    else {
+    if (
+      (modalData?.status !== "Draft" && selectedImage === "") ||
+      content === "" ||
+      title === ""
+    ) {
+      alert("Please fill all the fields");
+    } else if (tags.length === 0) {
+      alert("Please Choose at least one tag");
+    } else {
       try {
         const formData = new FormData();
-        formData.append('title', title)
-        formData.append('content', content)
+        formData.append("title", title);
+        formData.append("content", content);
         formData.append("tags", JSON.stringify(tags));
-        formData.append('post_photo', selectedImage)
-        formData.append('status', 'Posted')
-        if (modalData?.status != 'Draft' && modalData?.status != 'Posted') {
+        formData.append("post_photo", selectedImage);
+        formData.append("status", "Posted");
+        if (modalData?.status != "Draft" && modalData?.status != "Posted") {
           const response = await toast.promise(
             axios.post(
               `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
@@ -83,21 +88,20 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
           //   formData
           //   // { withCredentials: true }
           // );
-          setTitle('');
-          setContent('');
-          setTags('');
-          setSelectedImage('');
+          setTitle("");
+          setContent("");
+          setTags("");
+          setSelectedImage("");
           inputField.current.value = null;
-          setImgUrl('')
+          setImgUrl("");
           // toast.success(response.data.message, {
           //   position: "top-center",
           //   hideProgressBar: false,
           //   pauseOnHover: true,
           //   theme: colorTheme === "dark" ? "light" : "dark",
           // });
-          setShowModal(false)
-        }
-        else {
+          setShowModal(false);
+        } else {
           // const { data } = await axios.put(
           // `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
           // formData
@@ -122,122 +126,120 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
               theme: colorTheme === "dark" ? "light" : "dark",
             }
           );
-          
-          setTitle('');
-          setContent('');
-          setTags('');
-          setSelectedImage('');
+
+          setTitle("");
+          setContent("");
+          setTags("");
+          setSelectedImage("");
           inputField.current.value = null;
-          setImgUrl('')
-        // toast.success("Published the post", {
-        //   position: "top-center",
-        //   hideProgressBar: false,
-        //   pauseOnHover: true,
-        //   theme: colorTheme === "dark" ? "light" : "dark",
-        // })
-      setShowModal(false)
-    } 
+          setImgUrl("");
+          // toast.success("Published the post", {
+          //   position: "top-center",
+          //   hideProgressBar: false,
+          //   pauseOnHover: true,
+          //   theme: colorTheme === "dark" ? "light" : "dark",
+          // })
+          setShowModal(false);
+        }
+      } catch (err) {
+        alert(err.response.data.err);
       }
-      catch (err) {
-      alert(err.response.data.err)
     }
-    }
-  }
+  };
   // console.log(modalData.status)
   const handleSaveDraft = async () => {
-    
-     if (content === "" && title === "" && selectedImage === "") {
-       alert("Please fill at least one field");
-     }
-       try {
-         const formData = new FormData();
-         formData.append("title", title);
-         formData.append("content", content);
-         formData.append("tags", JSON.stringify(tags));
-         formData.append("post_photo", selectedImage);
-         formData.append("status", "Draft");
-         if (modalData?.status != "Draft" && modalData?.status != "Posted") {
-          //  const { data } = await axios.post(
-          //    `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-          //    formData
-          //    // { withCredentials: true }
-          //  );
-           const response = await toast.promise(
-             axios.post(
-               `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-               formData
-               // { withCredentials: true }
-             ),
-             {
-               pending: "Processing, Please Wait...",
-               success: "Saved To Drafts",
-               error: "Something Went Wrong",
-             },
-             {
-               position: "top-center",
-               autoClose: 3000,
-               pauseOnHover: false,
-               hideProgressBar: true,
-               theme: colorTheme === "dark" ? "light" : "dark",
-             }
-           );
+    if (content === "" && title === "" && selectedImage === "") {
+      alert("Please fill at least one field");
+    }
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("content", content);
+      formData.append("tags", JSON.stringify(tags));
+      formData.append("post_photo", selectedImage);
+      formData.append("status", "Draft");
+      if (modalData?.status != "Draft" && modalData?.status != "Posted") {
+        //  const { data } = await axios.post(
+        //    `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+        //    formData
+        //    // { withCredentials: true }
+        //  );
+        const response = await toast.promise(
+          axios.post(
+            `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+            formData
+            // { withCredentials: true }
+          ),
+          {
+            pending: "Processing, Please Wait...",
+            success: "Saved To Drafts",
+            error: "Something Went Wrong",
+          },
+          {
+            position: "top-center",
+            autoClose: 3000,
+            pauseOnHover: false,
+            hideProgressBar: true,
+            theme: colorTheme === "dark" ? "light" : "dark",
+          }
+        );
 
-           setTitle("");
-           setContent("");
-           setTags("");
-           setSelectedImage("");
-           inputField.current.value = null;
-           setImgUrl("");
-          //  toast.success("Saved To drafts", {
-          //    position: "top-center",
-          //    hideProgressBar: false,
-          //    pauseOnHover: true,
-          //    theme: colorTheme === "dark" ? "light" : "dark",
-          //  });
-           setShowModal(!showModal)
-         } else {
-          //  const { data } = await axios.put(
-          //    `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-          //    formData
-          //    // { withCredentials: true }
-          //  );
-           const response = await toast.promise(
-             axios.post(
-               `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-               formData
-               // { withCredentials: true }
-             ),
-             {
-               pending: "Processing, Please Wait...",
-               success: "Updated the draft",
-               error: "Something Went Wrong",
-             },
-             {
-               position: "top-center",
-               autoClose: 3000,
-               pauseOnHover: false,
-               hideProgressBar: true,
-               theme: colorTheme === "dark" ? "light" : "dark",
-             }
-           );
-           setTitle("");
-           setContent("");
-           setTags("");
-           setSelectedImage("");
-           inputField.current.value = null;
-           setImgUrl("");
-          //  toast.success("Updated", {
-          //    position: "top-center",
-          //    hideProgressBar: false,
-          //    pauseOnHover: true,
-          //    theme: colorTheme === "dark" ? "light" : "dark",
-          //  });
-           setShowModal(false);
-         }
-       } catch (err) {
-         alert(err.response.data.err);
-       }
-     }
+        setTitle("");
+        setContent("");
+        setTags("");
+        setSelectedImage("");
+        inputField.current.value = null;
+        setImgUrl("");
+        //  toast.success("Saved To drafts", {
+        //    position: "top-center",
+        //    hideProgressBar: false,
+        //    pauseOnHover: true,
+        //    theme: colorTheme === "dark" ? "light" : "dark",
+        //  });
+        setShowModal(!showModal);
+      } else {
+        //  const { data } = await axios.put(
+        //    `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+        //    formData
+        //    // { withCredentials: true }
+        //  );
+        const response = await toast.promise(
+          axios.post(
+            `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+            formData
+            // { withCredentials: true }
+          ),
+          {
+            pending: "Processing, Please Wait...",
+            success: "Updated the draft",
+            error: "Something Went Wrong",
+          },
+          {
+            position: "top-center",
+            autoClose: 3000,
+            pauseOnHover: false,
+            hideProgressBar: true,
+            theme: colorTheme === "dark" ? "light" : "dark",
+          }
+        );
+        setTitle("");
+        setContent("");
+        setTags("");
+        setSelectedImage("");
+        inputField.current.value = null;
+        setImgUrl("");
+        //  toast.success("Updated", {
+        //    position: "top-center",
+        //    hideProgressBar: false,
+        //    pauseOnHover: true,
+        //    theme: colorTheme === "dark" ? "light" : "dark",
+        //  });
+        setShowModal(false);
+      }
+    } catch (err) {
+      alert(err.response.data.err);
+    }
+  };
 
   return (
     <>
@@ -342,7 +344,7 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
                       </div>
                     </div>
                     <div className="flex flex-col p-6">
-                      <Interests selectedTags={tags} setInterests={setTags} /> 
+                      <Interests selectedTags={tags} setInterests={setTags} />
                       <button
                         className="text-secondary_assent mt-5 hover:underline underline-offset-2 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
@@ -376,8 +378,8 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
                       className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => {
-                        setModalData("")
-                        setImgUrl("")
+                        setModalData("");
+                        setImgUrl("");
                         inputField.current.value = null;
                         setShowModal(false);
                       }}
@@ -433,92 +435,92 @@ const PoseEditorModal = ({ showModal, setShowModal,colorTheme }) => {
   );
 };
 
-const Interests = ({ selectedTags=[],setInterests }) => {
-  const { modalData } = useContext(ModelDataContext)
-    let selectedIds = [];
-    modalData?.tags?.map((selectedTag) => {
-      selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
-    });
-  console.log(selectedTags)
-    useEffect(() => {
-      setInterests(selectedIds);
-    }, [modalData]);
-    // console.log(selected)
-    const toggleClass = (topicId, topicName) => {
-      if (!selectedTags.includes(topicId) && selectedTags.length < 3) {
-        setInterests([...selectedTags, topicId]);
-      } else
-        setInterests((current) =>
-          current.filter((id) => {
-            return id !== topicId;
-          })
-        );
-    };
-    return (
-      <div className="p-3 grid items-center">
-        <label
-          class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
-          htmlFor="content"
-        >
-          Your Tags (Select Up to 3):
-        </label>
-        <motion.div
-          transition={{ duration: 0.3 }}
-          className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto"
-          exit={{ opacity: 0 }}
-        >
-          {topics.map((topic) => (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{
-                opacity: 1,
-                y: 0,
-                transition: {
-                  type: "tween",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: topic.id * 0.15,
-                },
-              }}
-              exit={{
-                opacity: 0,
-                y: 10,
-                transition: {
-                  type: "tween",
-                  stiffness: 200,
-                  damping: 20,
-                  delay: topic.id * 0.15,
-                },
-              }}
-              whileTap={{
-                scale: selectedTags?.length < 3 ? 0.95 : 1,
-                transition: {
-                  type: "spring",
-                  stiffness: 250,
-                  damping: 10,
-                  duration: 0.2,
-                },
-              }}
-              onClick={() => toggleClass(topic.id, topic.name)}
-              key={topic.id}
-              className={`md:rounded-lg rounded-full ${selectedTags?.includes(topic.id)
-                  ? "border-primary border-2 text-primary"
-                  : "border-gray-400 border-2 text-gray-400"
-                }
-              ${selectedTags?.length < 3
+const Interests = ({ selectedTags = [], setInterests }) => {
+  const { modalData } = useContext(ModelDataContext);
+  let selectedIds = [];
+  modalData?.tags?.map((selectedTag) => {
+    selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
+  });
+  console.log(selectedTags);
+  useEffect(() => {
+    setInterests(selectedIds);
+  }, [modalData]);
+  // console.log(selected)
+  const toggleClass = (topicId, topicName) => {
+    if (!selectedTags.includes(topicId) && selectedTags.length < 3) {
+      setInterests([...selectedTags, topicId]);
+    } else
+      setInterests((current) =>
+        current.filter((id) => {
+          return id !== topicId;
+        })
+      );
+  };
+  return (
+    <div className="p-3 grid items-center">
+      <label
+        class="block uppercase tracking-wide dark:text-white text-gray-700 text-xs font-bold mb-2"
+        htmlFor="content"
+      >
+        Your Tags (Select Up to 3):
+      </label>
+      <motion.div
+        transition={{ duration: 0.3 }}
+        className="md:grid md:grid-flow-row md:gap-2 gap-3 md:grid-cols-3 flex flex-wrap justify-start md:justify-center md:mt-0 my-auto"
+        exit={{ opacity: 0 }}
+      >
+        {topics.map((topic) => (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              transition: {
+                type: "tween",
+                stiffness: 200,
+                damping: 20,
+                delay: topic.id * 0.15,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              y: 10,
+              transition: {
+                type: "tween",
+                stiffness: 200,
+                damping: 20,
+                delay: topic.id * 0.15,
+              },
+            }}
+            whileTap={{
+              scale: selectedTags?.length < 3 ? 0.95 : 1,
+              transition: {
+                type: "spring",
+                stiffness: 250,
+                damping: 10,
+                duration: 0.2,
+              },
+            }}
+            onClick={() => toggleClass(topic.id, topic.name)}
+            key={topic.id}
+            className={`md:rounded-lg rounded-full ${
+              selectedTags?.includes(topic.id)
+                ? "border-primary border-2 text-primary"
+                : "border-gray-400 border-2 text-gray-400"
+            }
+              ${
+                selectedTags?.length < 3
                   ? "md:hover:bg-primary md:hover:border-primary md:hover:text-white hover:cursor-pointer"
                   : ""
-                }  md:w-auto md:px-1 md:py-2 p-2 md:text-base text-xs fill-none text-center transition-colors duration-300 
+              }  md:w-auto md:px-1 md:py-2 p-2 md:text-base text-xs fill-none text-center transition-colors duration-300 
              grid items-center justify-center `}
-            >
-              {topic.name}
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    );
-  
+          >
+            {topic.name}
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  );
 };
 
-
-export default PoseEditorModal
+export default PoseEditorModal;
