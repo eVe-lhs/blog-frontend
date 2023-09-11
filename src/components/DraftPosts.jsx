@@ -154,13 +154,15 @@ export const DraftPosts = ({ setShowModal }) => {
         data-testid="loader"
       />
     );
-  } if (drafts.length === 0) {
+  }
+  else if (drafts?.length === 0) {
     return (
       <div className="mx-auto my-16 text-2xl w-full h-full text-center">
         Nothing To Show
       </div>
     );
   }
+  else
   return (
     <div class="flow-root w-4/5 md:w-3/4 mx-auto">
       <ul class="divide-y divide-gray-300 dark:divide-gray-700">
