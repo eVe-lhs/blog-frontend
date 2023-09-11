@@ -170,8 +170,8 @@ const NotificationCard = ({ notification }) => {
         }}
         className={`${
           !notification.is_read
-            ? "bg-white dark:bg-gray-700"
-            : "bg-gray-200 dark:bg-gray-800"
+            ? "bg-white dark:bg-gray-800"
+            : "bg-gray-200 dark:bg-gray-900"
         } w-full px-4 py-4 rounded border shadow-lg hover:brightness-95 cursor-pointer`}
       >
         <div className="flex flex-row justify-between">
@@ -201,7 +201,7 @@ const NotificationCard = ({ notification }) => {
         className={`${
           !notification.is_read
             ? "bg-white dark:bg-gray-800"
-            : "bg-gray-200 dark:bg-gray-700"
+            : "bg-gray-200 dark:bg-gray-900"
         } w-full px-4 py-4 rounded border shadow-lg hover:brightness-95 cursor-pointer`}
       >
         <div className="flex flex-row justify-between">
