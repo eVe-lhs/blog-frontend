@@ -151,7 +151,7 @@ export const RightBar = () => {
           color={"#59B2A2"}
           loading={true}
           cssOverride={override}
-          size={100}
+          size={50}
           aria-label="Loading Spinner"
           data-testid="loader"
         />
