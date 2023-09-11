@@ -15,7 +15,7 @@ export default function Landing() {
     <div className="h-screen relative bg-gray-100 ">
       <img
         src="/logo.png"
-        className="fixed object-contain md:mx-52 mx-8 my-5 w-24 md:w-32 drop-shadow-lg dark:shadow-white"
+        className="fixed object-contain md:mx-52 mx-8 my-5 w-24 md:w-32 drop-shadow-lg dark:shadow-white "
       />
       <div class="custom-shape-divider-bottom-1690780652">
         <svg
@@ -58,7 +58,7 @@ export default function Landing() {
       <div className="h-screen flex flex-row justify-between md:mx-52 items-center">
         <div className="text-3xl flex flex-col gap-5 mx-auto md:w-2/3 w-4/5">
           <motion.div
-            className="md:text-5xl text-5xl font-bold text-green-900 font-header md:text-left text-center"
+            className="md:text-5xl text-3xl font-bold text-green-900 font-header md:text-left text-center"
             initial={{ opacity: 0, y: 10 }}
             animate={{
               opacity: 1,
@@ -71,7 +71,7 @@ export default function Landing() {
               },
             }}
           >
-            Crafting Conversations Through Content.
+            Crafting Conversations Through Content
           </motion.div>
           <motion.div
             className="md:block hidden text-lg font-bold text-green-700 font-body md:text-left text-center"

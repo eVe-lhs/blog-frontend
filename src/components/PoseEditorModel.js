@@ -108,7 +108,7 @@ const PoseEditorModal = ({ showModal, setShowModal, colorTheme }) => {
           // // { withCredentials: true }
           // );
           const response = await toast.promise(
-            axios.post(
+            axios.put(
               `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
               formData
               // { withCredentials: true }
@@ -151,93 +151,95 @@ const PoseEditorModal = ({ showModal, setShowModal, colorTheme }) => {
     if (content === "" && title === "" && selectedImage === "") {
       alert("Please fill at least one field");
     }
-    try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
-      formData.append("tags", JSON.stringify(tags));
-      formData.append("post_photo", selectedImage);
-      formData.append("status", "Draft");
-      if (modalData?.status != "Draft" && modalData?.status != "Posted") {
-        //  const { data } = await axios.post(
-        //    `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-        //    formData
-        //    // { withCredentials: true }
-        //  );
-        const response = await toast.promise(
-          axios.post(
-            `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
-            formData
-            // { withCredentials: true }
-          ),
-          {
-            pending: "Processing, Please Wait...",
-            success: "Saved To Drafts",
-            error: "Something Went Wrong",
-          },
-          {
-            position: "top-center",
-            autoClose: 3000,
-            pauseOnHover: false,
-            hideProgressBar: true,
-            theme: colorTheme === "dark" ? "light" : "dark",
-          }
-        );
+    else {
+      try {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("content", content);
+        formData.append("tags", JSON.stringify(tags));
+        formData.append("post_photo", selectedImage);
+        formData.append("status", "Draft");
+        if (modalData?.status != "Draft" && modalData?.status != "Posted") {
+          //  const { data } = await axios.post(
+          //    `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+          //    formData
+          //    // { withCredentials: true }
+          //  );
+          const response = await toast.promise(
+            axios.post(
+              `${process.env.REACT_APP_BASE_URL}/posts/${currentUser.id}`,
+              formData
+              // { withCredentials: true }
+            ),
+            {
+              pending: "Processing, Please Wait...",
+              success: "Saved To Drafts",
+              error: "Something Went Wrong",
+            },
+            {
+              position: "top-center",
+              autoClose: 3000,
+              pauseOnHover: false,
+              hideProgressBar: true,
+              theme: colorTheme === "dark" ? "light" : "dark",
+            }
+          );
 
-        setTitle("");
-        setContent("");
-        setTags("");
-        setSelectedImage("");
-        inputField.current.value = null;
-        setImgUrl("");
-        //  toast.success("Saved To drafts", {
-        //    position: "top-center",
-        //    hideProgressBar: false,
-        //    pauseOnHover: true,
-        //    theme: colorTheme === "dark" ? "light" : "dark",
-        //  });
-        setShowModal(!showModal);
-      } else {
-        //  const { data } = await axios.put(
-        //    `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-        //    formData
-        //    // { withCredentials: true }
-        //  );
-        const response = await toast.promise(
-          axios.post(
-            `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
-            formData
-            // { withCredentials: true }
-          ),
-          {
-            pending: "Processing, Please Wait...",
-            success: "Updated the draft",
-            error: "Something Went Wrong",
-          },
-          {
-            position: "top-center",
-            autoClose: 3000,
-            pauseOnHover: false,
-            hideProgressBar: true,
-            theme: colorTheme === "dark" ? "light" : "dark",
-          }
-        );
-        setTitle("");
-        setContent("");
-        setTags("");
-        setSelectedImage("");
-        inputField.current.value = null;
-        setImgUrl("");
-        //  toast.success("Updated", {
-        //    position: "top-center",
-        //    hideProgressBar: false,
-        //    pauseOnHover: true,
-        //    theme: colorTheme === "dark" ? "light" : "dark",
-        //  });
-        setShowModal(false);
+          setTitle("");
+          setContent("");
+          setTags("");
+          setSelectedImage("");
+          inputField.current.value = null;
+          setImgUrl("");
+          //  toast.success("Saved To drafts", {
+          //    position: "top-center",
+          //    hideProgressBar: false,
+          //    pauseOnHover: true,
+          //    theme: colorTheme === "dark" ? "light" : "dark",
+          //  });
+          setShowModal(!showModal);
+        } else {
+          //  const { data } = await axios.put(
+          //    `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+          //    formData
+          //    // { withCredentials: true }
+          //  );
+          const response = await toast.promise(
+            axios.post(
+              `${process.env.REACT_APP_BASE_URL}/update_post/${modalData?.id}`,
+              formData
+              // { withCredentials: true }
+            ),
+            {
+              pending: "Processing, Please Wait...",
+              success: "Updated the draft",
+              error: "Something Went Wrong",
+            },
+            {
+              position: "top-center",
+              autoClose: 3000,
+              pauseOnHover: false,
+              hideProgressBar: true,
+              theme: colorTheme === "dark" ? "light" : "dark",
+            }
+          );
+          setTitle("");
+          setContent("");
+          setTags("");
+          setSelectedImage("");
+          inputField.current.value = null;
+          setImgUrl("");
+          //  toast.success("Updated", {
+          //    position: "top-center",
+          //    hideProgressBar: false,
+          //    pauseOnHover: true,
+          //    theme: colorTheme === "dark" ? "light" : "dark",
+          //  });
+          setShowModal(false);
+        }
+      } catch (err) {
+        alert(err.response.data.err);
       }
-    } catch (err) {
-      alert(err.response.data.err);
     }
   };
 
@@ -441,7 +443,7 @@ const Interests = ({ selectedTags = [], setInterests }) => {
   modalData?.tags?.map((selectedTag) => {
     selectedIds.push(topics.findIndex((topic) => topic.id === selectedTag) + 1);
   });
-  console.log(selectedTags);
+  // console.log(selectedTags);
   useEffect(() => {
     setInterests(selectedIds);
   }, [modalData]);

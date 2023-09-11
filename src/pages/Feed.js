@@ -67,7 +67,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
   const [isFetching,setIsFetching] = useState(false)
   const [posts, setPosts] = useState([])
   const { currentUser } = useContext(UserContext)
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   useEffect(() => {
     
     // setPosts([]);
@@ -168,7 +168,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
-                    setPage(1);
+                    setPage(0);
                     setPosts([]);
                     setSortCondition("-like_count");
                     setSortText("Likes (Decending)");
@@ -182,7 +182,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
-                    setPage(1);
+                    setPage(0);
                     setPosts([]);
                     setSortCondition("+like_count");
                     setSortText("Likes (Ascending)");
@@ -196,7 +196,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
-                    setPage(1);
+                    setPage(0);
                     setPosts([]);
                     setSortCondition("+date_of_creation");
                     setSortText("Least Recent");
@@ -210,7 +210,7 @@ const Content = ({ showModal, setShowModal, setModalData }) => {
               <li>
                 <a
                   onClick={() => {
-                    setPage(1);
+                    setPage(0);
                     setPosts([]);
                     setSortCondition("-date_of_creation");
                     setSortText("Most Recent");

@@ -108,7 +108,7 @@ export const SmallProfile = ({ users,search }) => {
                 <div class="flex-1 min-w-0">
                   <p
                     class="text-sm cursor-pointer font-medium text-gray-900 truncate dark:text-white hover:underline"
-                    onClick={() => navigate(`/home/Profile/${user.userId}`)}
+                    onClick={() => navigate(`/home/Profile/${user.id}`)}
                   >
                     {user.username}
                   </p>
@@ -119,20 +119,20 @@ export const SmallProfile = ({ users,search }) => {
                 {user.userId != currentUser.id ? (
                   <div
                     class={`inline-flex items-center text-base font-semibold ${
-                      !currentUser?.followings?.includes(user.userId)
+                      !currentUser?.followings?.includes(user.id)
                         ? "text-primary"
                         : "text-gray-400"
                     } `}
                   >
-                    {!currentUser?.followings?.includes(user.userId) ? (
-                      <button onClick={() => handleFollow(user.userId)}>
+                    {currentUser.id !== user.id? !currentUser?.followings?.includes(user.id) ? (
+                      <button onClick={() => handleFollow(user.id)}>
                         Follow
                       </button>
                     ) : (
-                      <button onClick={() => handleUnfollow(user.userId)}>
+                      <button onClick={() => handleUnfollow(user.id)}>
                         Unfollow
                       </button>
-                    )}
+                    ) : <></>}
                   </div>
                 ) : (
                   <div></div>
